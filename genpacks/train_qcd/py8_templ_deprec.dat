@@ -1,0 +1,48 @@
+! General settings
+Beams:idA = 2212                   ! first beam, p = 2212, pbar = -2212
+Beams:idB = 2212                   ! second beam, p = 2212, pbar = -2212
+Beams:eCM = 13000.                 ! CM energy of collision
+
+! CMSSW: pythia8CommonSettings
+! https://github.com/cms-sw/cmssw/blob/CMSSW_10_6_X/Configuration/Generator/python/Pythia8CommonSettings_cfi.py
+Tune:preferLHAPDF = 2
+Main:timesAllowErrors = 10000
+Check:epTolErr = 0.01
+Beams:setProductionScalesFromLHEF = off
+!SLHA:keepSM = on
+!SLHA:minMassSM = 1000.
+!! the followings are not set by default pythia, so we turn them off
+!ParticleDecays:limitTau0 = on !
+!ParticleDecays:tau0Max = 10
+!ParticleDecays:allowPhotonRadiation = on
+
+! CMSSW: pythia8CP5Settings
+! https://github.com/cms-sw/cmssw/blob/CMSSW_10_6_X/Configuration/Generator/python/MCTunes2017/PythiaCP5Settings_cfi.py
+!! let's not apply them..
+!Tune:pp 14
+!Tune:ee 7
+!MultipartonInteractions:ecmPow=0.03344
+!MultipartonInteractions:bProfile=2
+!MultipartonInteractions:pT0Ref=1.41
+!MultipartonInteractions:coreRadius=0.7634
+!MultipartonInteractions:coreFraction=0.63
+!ColourReconnection:range=5.176
+!SigmaTotal:zeroAXB=off
+!SpaceShower:alphaSorder=2
+!SpaceShower:alphaSvalue=0.118
+!SigmaProcess:alphaSvalue=0.118
+!SigmaProcess:alphaSorder=2
+!MultipartonInteractions:alphaSvalue=0.118
+!MultipartonInteractions:alphaSorder=2
+!TimeShower:alphaSorder=2
+!TimeShower:alphaSvalue=0.118
+!SigmaTotal:mode = 0
+!SigmaTotal:sigmaEl = 21.89
+!SigmaTotal:sigmaTot = 100.309
+PDF:pSet=LHAPDF6:NNPDF31_nnlo_as_0118_mc_hessian_pdfas
+
+! Custom hard-process settings
+Main:numberOfEvents = 100
+HardQCD:all = on
+PhaseSpace:pTHatMin = 5000.
+

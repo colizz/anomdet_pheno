@@ -1,0 +1,15 @@
+Universe   = vanilla
+Executable = run.sh
+
+MDIR = higgs2p
+NEVENT = 100000
+
+Arguments  = $(MDIR) $(NEVENT) $(JOBNUM)
+Log        = ../log/$(Cluster).$(Process).log
+Output     = ../log/$(Cluster).$(Process).out
+Error      = ../log/$(Cluster).$(Process).err
+
+#Requirements = (OpSysAndVer =?= "SL7") # note that system setting no longer works as we do not have SL7 in condor now
+#Requirements = (machine == "node02.phy.pku.edu.cn")
+
+Queue JOBNUM from seq 1 160 |

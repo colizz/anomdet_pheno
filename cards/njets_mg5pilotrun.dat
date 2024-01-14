@@ -1,0 +1,19 @@
+import model sm-no_b_mass
+define p = p b b~
+define j = j b b~
+generate p p > j j
+add process p p > j j j
+add process p p > j j j j
+output njets
+
+launch njets --name pilotrun
+
+shower=Pythia8
+done
+
+set pdlabel lhapdf
+set lhaid 315000
+set use_syst False
+set nevents 100
+set htjmin 600
+done
