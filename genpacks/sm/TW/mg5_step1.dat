@@ -1,0 +1,11 @@
+set run_mode 0
+
+import model sm-no_b_mass
+
+generate p p > t w- $$ t t~
+add process p p > t w- j $$ t t~
+
+add process p p > t~ w+ $$ t t~
+add process p p > t~ w+ j $$ t t~
+
+output proc

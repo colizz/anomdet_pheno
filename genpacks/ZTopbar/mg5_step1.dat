@@ -1,9 +1,0 @@
-set run_mode 0
-
-import model sm-no_b_mass
-
-generate p p > z t
-add process p p > z t j
-add process p p > z t j j
-
-output proc

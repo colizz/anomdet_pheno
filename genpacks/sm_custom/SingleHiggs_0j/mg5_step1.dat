@@ -1,0 +1,7 @@
+set run_mode 0
+
+import model heft-no_b_mass
+
+generate p p > h
+
+output proc

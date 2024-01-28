@@ -2,11 +2,12 @@
 
 JOBNUM=$1
 JOBBEGIN=$2
-MACHINE=$3
+FILELIST=$3 #samples/train_all_filelist.txt
+REDO_DELPHES=$4
+MACHINE=$5
 
 JOBNUM=$((JOBNUM+JOBBEGIN))
 
-FILELIST=samples/train_all_filelist.txt
 
 # using the jobnum to read the line
 DIR="$( cd "$( dirname "$0" )" && pwd )"
@@ -33,7 +34,8 @@ fi
 echo "Load env"
 source $LOAD_ENV_PATH
 
-WORKDIR=$OUTPUT_PATH/workdir_$(date +%y%m%d-%H%M%S)_$JOBNUM
+RANDSTR=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 10; echo)
+WORKDIR=$OUTPUT_PATH/workdir_$(date +%y%m%d-%H%M%S)_${RANDSTR}_$JOBNUM
 mkdir -p $WORKDIR
 
 cd $WORKDIR
@@ -53,9 +55,11 @@ mkdir -p $dir_path_new
 mkdir -p $dir_path_ntuple
 
 # run delphes
-ln -s $DELPHES_PATH/MinBias_100k.pileup .
-rm -f $dir_path_new/$file_name
-$DELPHES_PATH/DelphesROOT $DELPHES_PATH/cards/$DELPHES_CARD $dir_path_new/$file_name $filein_path || exit $?
+if [[ "$REDO_DELPHES" == "1" ]]; then
+    ln -s $DELPHES_PATH/MinBias_100k.pileup .
+    rm -f $dir_path_new/$file_name
+    $DELPHES_PATH/DelphesROOT $DELPHES_PATH/cards/$DELPHES_CARD $dir_path_new/$file_name $filein_path || exit $?
+fi
 
 # run ntuplizer
 if [[ "$FILEIN" == *"train_qcd"* ]]; then

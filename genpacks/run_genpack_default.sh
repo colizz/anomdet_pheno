@@ -60,9 +60,14 @@ sed -i "s/\$NEVENT/$NEVENT/g" mg5_step2.dat # initialize nevent
 sed -i "s/\$SEED/$RANDOM/g" mg5_step2.dat # initialize seed, important!
 
 ## generate MG events
-rm -rf $MDIR/Events/pilotrun
+rm -rf $MDIR/Events/*
 cat mg5_step2.dat | $MDIR/bin/generate_events pilotrun
-mv -f $MDIR/Events/pilotrun/unweighted_events.lhe.gz .
+if [ -f $MDIR/Events/pilotrun_decayed_1/unweighted_events.lhe.gz ]; then
+    echo "Run MG with MadSpin. Use the MadSpin generated LHE"
+    mv -f $MDIR/Events/pilotrun_decayed_1/unweighted_events.lhe.gz .
+else
+    mv -f $MDIR/Events/pilotrun/unweighted_events.lhe.gz .
+fi
 
 # run pythia
 rm -f events.hepmc

@@ -21,7 +21,7 @@ elif [[ $MACHINE == "ihep" ]]; then
     DELPHES_PATH=/scratchfs/cms/licq/utils/Delphes-3.5.0
     LOAD_ENV_PATH=/scratchfs/cms/licq/utils/load_standalonemg_env.sh
 fi
-DELPHES_CARD=delphes_card_CMS_JetClass_addak15.tcl
+DELPHES_CARD=delphes_card_CMS_JetClassII_onlyFatJet.tcl
 
 ## load environment
 if [ ! -z "${CONDA_PREFIX}" ]; then
@@ -30,7 +30,8 @@ fi
 echo "Load env"
 source $LOAD_ENV_PATH
 
-WORKDIR=$OUTPUT_PATH/workdir_$(date +%y%m%d-%H%M%S)_$JOBNUM
+RANDSTR=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 10; echo)
+WORKDIR=$OUTPUT_PATH/workdir_$(date +%y%m%d-%H%M%S)_${RANDSTR}_$JOBNUM
 mkdir -p $WORKDIR
 
 cd $WORKDIR
@@ -44,6 +45,8 @@ generate_delphes(){
     ./run.sh $NSUBDIVEVENT $MACHINE
 
     # run delphes
+    ln -s $DELPHES_PATH/MinBias_100k.pileup .
+    rm -f events_delphes.root
     $DELPHES_PATH/DelphesHepMC2 $DELPHES_PATH/cards/$DELPHES_CARD events_delphes.root events.hepmc
     return $?
 }
@@ -57,14 +60,15 @@ for ((i=0; i<nbatch; i++)); do
 
     # copy genpack if not exist
     cd $WORKDIR
-    if [ ! -d $PROC ]; then
-        cp -r $GENPACKS_PATH/$PROC .
+    if [ ! -d "proc_base" ]; then
+        mkdir proc_base
+        cp -r $GENPACKS_PATH/$PROC/* proc_base/
         # if genpack does not have a run.sh, use the default
-        if [ ! -f $PROC/run.sh ]; then
-            cp $GENPACKS_PATH/run_genpack_default.sh $PROC/run.sh
+        if [ ! -f "proc_base/run.sh" ]; then
+            cp $GENPACKS_PATH/run_genpack_default.sh proc_base/run.sh
         fi
     fi
-    cd $WORKDIR/$PROC
+    cd $WORKDIR/proc_base
 
     generate_delphes
 
@@ -94,4 +98,4 @@ fi
 mkdir -p $OUTPUT_PATH/$PROC
 
 # transfer the file
-mv events_delphes.root $OUTPUT_PATH/$PROC/events_delphes_$JOBNUM.root
+mv -f events_delphes.root $OUTPUT_PATH/$PROC/events_delphes_$JOBNUM.root
