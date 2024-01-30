@@ -2,7 +2,9 @@ set run_mode 0
 
 import model sm-no_b_mass
 
-generate p p > t t~
-add process p p > t t~ j
+define ferm = j e+ e- mu+ mu- ta+ ta- ve vm vt ve~ vm~ vt~
+
+generate p p > t t~, (t > b w+, w+ > ferm ferm), (t~ > b~ w-, w- > ferm ferm)
+add process p p > t t~ j, (t > b w+, w+ > ferm ferm), (t~ > b~ w-, w- > ferm ferm)
 
 output proc
