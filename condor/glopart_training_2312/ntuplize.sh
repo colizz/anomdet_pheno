@@ -67,4 +67,4 @@ if [[ "$FILEIN" == *"train_qcd"* ]]; then
 else
     assign_qcd=0
 fi
-root -b -q $NTUPLIZER_FILE_PATH'+("'$dir_path_new/$file_name'", "'$dir_path_ntuple/${file_name/events_delphes/ntuples}'", "JetPUPPIAK15", '$assign_qcd')'
+root -b -q $NTUPLIZER_FILE_PATH'+("'$dir_path_new/$file_name'", "'$dir_path_ntuple/${file_name/events_delphes/ntuples}'", "JetPUPPIAK8", '$assign_qcd')'

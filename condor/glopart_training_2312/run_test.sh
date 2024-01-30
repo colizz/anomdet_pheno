@@ -6,6 +6,7 @@ NSUBDIVEVENT=$3
 JOBNUM=$4
 JOBBEGIN=$5
 MACHINE=$6
+DELPHES_CARD=$7
 
 JOBNUM=$((JOBNUM+JOBBEGIN))
 
@@ -21,7 +22,11 @@ elif [[ $MACHINE == "ihep" ]]; then
     DELPHES_PATH=/scratchfs/cms/licq/utils/Delphes-3.5.0
     LOAD_ENV_PATH=/scratchfs/cms/licq/utils/load_standalonemg_env.sh
 fi
-DELPHES_CARD=delphes_card_CMS_JetClassII.tcl
+
+if [[ -z $DELPHES_CARD ]]; then
+    DELPHES_CARD=delphes_card_CMS_JetClassII.tcl
+    # DELPHES_CARD=CMS_PhaseII/CMS_PhaseII_200PU_JetClassII.tcl
+fi
 
 ## load environment
 if [ ! -z "${CONDA_PREFIX}" ]; then
@@ -44,7 +49,7 @@ generate_delphes(){
     rm -f events.hepmc
     ./run.sh $NSUBDIVEVENT $MACHINE
 
-    # run delphes
+    # run delphesc
     ln -s $DELPHES_PATH/MinBias_100k.pileup .
     rm -f events_delphes.root
     $DELPHES_PATH/DelphesHepMC2 $DELPHES_PATH/cards/$DELPHES_CARD events_delphes.root events.hepmc
@@ -99,3 +104,6 @@ mkdir -p $OUTPUT_PATH/$PROC
 
 # transfer the file
 mv -f events_delphes.root $OUTPUT_PATH/$PROC/events_delphes_$JOBNUM.root
+
+# remove workspace
+rm -rf $WORKDIR

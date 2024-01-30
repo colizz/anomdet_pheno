@@ -99,3 +99,6 @@ mkdir -p $OUTPUT_PATH/$PROC
 
 # transfer the file
 mv -f events_delphes.root $OUTPUT_PATH/$PROC/events_delphes_$JOBNUM.root
+
+# remove workspace
+rm -rf $WORKDIR
