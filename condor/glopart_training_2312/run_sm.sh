@@ -1,12 +1,21 @@
 #!/bin/bash -x
 
+## changes w.r.t. run.sh code
+##  1. change delphes card to: delphes_card_CMS_JetClassII_lite.tcl
+##    > onlyFatJet->lite: adding PUPPI AK4 jets and ele/muon/taus
+##    > lite->full version: adding all CHS jets
+##  2. use DelphesHepMC2WithFilter(2) instead of DelphesHepMC2 (add a $7 argu to specify which executable to use)
+
 PROC=$1
 NEVENT=$2
 NSUBDIVEVENT=$3
 JOBNUM=$4
 JOBBEGIN=$5
 MACHINE=$6
-DELPHES_CARD=$7
+DELPHES_CMD=$7
+if [[ -z $DELPHES_CMD ]]; then
+    DELPHES_CMD=DelphesHepMC2WithFilter
+fi
 
 JOBNUM=$((JOBNUM+JOBBEGIN))
 
@@ -22,11 +31,7 @@ elif [[ $MACHINE == "ihep" ]]; then
     DELPHES_PATH=/scratchfs/cms/licq/utils/Delphes-3.5.0
     LOAD_ENV_PATH=/scratchfs/cms/licq/utils/load_standalonemg_env.sh
 fi
-
-if [[ -z $DELPHES_CARD ]]; then
-    DELPHES_CARD=delphes_card_CMS_JetClassII.tcl
-    # DELPHES_CARD=CMS_PhaseII/CMS_PhaseII_200PU_JetClassII.tcl
-fi
+DELPHES_CARD=delphes_card_CMS_JetClassII_lite.tcl
 
 ## load environment
 if [ ! -z "${CONDA_PREFIX}" ]; then
@@ -50,10 +55,10 @@ generate_delphes(){
     ./run.sh $NSUBDIVEVENT $MACHINE
     echo "HepMC event number: " $(grep -c '^E ' events.hepmc)
 
-    # run delphesc
+    # run delphes
     ln -s $DELPHES_PATH/MinBias_100k.pileup .
     rm -f events_delphes.root
-    $DELPHES_PATH/DelphesHepMC2 $DELPHES_PATH/cards/$DELPHES_CARD events_delphes.root events.hepmc
+    $DELPHES_PATH/$DELPHES_CMD $DELPHES_PATH/cards/$DELPHES_CARD events_delphes.root events.hepmc
     return $?
 }
 
