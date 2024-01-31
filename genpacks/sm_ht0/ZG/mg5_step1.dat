@@ -1,0 +1,15 @@
+set run_mode 0
+
+import model sm-no_b_mass
+
+define ell = e+ mu+ ta+ e- mu- ta-
+define vl = ve vm vt ve~ vm~ vt~
+
+generate p p > z > ell ell a
+add process p p > z > ell ell a j
+add process p p > z > vl vl a
+add process p p > z > vl vl a j
+add process p p > z > j j a
+add process p p > z > j j a j
+
+output proc

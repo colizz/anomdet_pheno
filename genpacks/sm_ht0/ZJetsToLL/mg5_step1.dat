@@ -1,0 +1,12 @@
+set run_mode 0
+
+import model sm-no_b_mass
+
+define l+ = e+ mu+ ta+
+define l- = e- mu- ta-
+
+generate p p > l+ l- / h
+add process p p > l+ l- j / h
+add process p p > l+ l- j j / h
+
+output proc
