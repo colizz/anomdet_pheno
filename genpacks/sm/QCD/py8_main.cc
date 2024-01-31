@@ -50,8 +50,8 @@ int main() {
     }
 
     // Event filter
-    bool filtered = false;
-    float genHT = 0;
+    bool pass = false;
+    double genHT = 0;
     for (int i = 0; i < pythia.event.size(); ++i) {
       if (pythia.event[i].isFinal()) {
         genHT += pythia.event[i].pT();
@@ -59,10 +59,10 @@ int main() {
         //      << " GeV/c and eta = " << pythia.event[i].eta() << endl;
       }
     }
-    if (genHT < 600) filtered = true;
+    if (genHT > 850) pass = true;
 
     // Write to HepMC
-    if (!filtered) {
+    if (pass) {
       ++nEventWrite;
       toHepMC.writeNextEvent( pythia );
     }

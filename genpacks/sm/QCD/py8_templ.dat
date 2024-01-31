@@ -16,4 +16,4 @@ Random:setSeed = on
 Random:seed = 0
 Main:numberOfEvents = $NEVENT
 HardQCD:all = on
-PhaseSpace:pTHatMin = 100
+PhaseSpace:pTHatMin = 300

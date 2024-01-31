@@ -51,8 +51,8 @@ fi
 
 ## write py8.dat
 cp -f py8_templ.dat py8.dat
-## if py8.dat exists, replace $1, $2, ... by the customized params
-if [ -f py8.dat ]; then
+## if py8_params.dat exists, replace $1, $2, ... by the customized params
+if [ -f py8_params.dat ]; then
     for i in `seq 1 ${#PARAMS[@]}`; do
         sed -i "s/\$${i}/${PARAMS[$((i-1))]}/g" py8.dat
     done
