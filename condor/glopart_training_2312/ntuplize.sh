@@ -3,8 +3,7 @@
 JOBNUM=$1
 JOBBEGIN=$2
 FILELIST=$3 #samples/train_all_filelist.txt
-REDO_DELPHES=$4
-MACHINE=$5
+MACHINE=$4
 
 JOBNUM=$((JOBNUM+JOBBEGIN))
 
@@ -19,7 +18,7 @@ fi
 
 # basic configuration
 if [[ $MACHINE == "ihep" ]]; then
-    OUTPUT_PATH=/publicfs/cms/user/licq/condor_output
+    OUTPUT_PATH=/publicfs/cms/user/$USER/condor_output
     DELPHES_PATH=/scratchfs/cms/licq/utils/Delphes-3.5.0
     LOAD_ENV_PATH=/scratchfs/cms/licq/utils/load_standalonemg_env.sh
     NTUPLIZER_FILE_PATH=/publicfs/cms/user/licq/pheno/anomdet/gen/delphes_ana/makeNtuples.C
@@ -44,17 +43,24 @@ cd $WORKDIR
 filein_path=$OUTPUT_PATH/$FILEIN
 
 ## extract the dir name
-dir_name=$(basename "$(dirname "$filein_path")")
+dir_path=$(dirname "$filein_path")
 file_name=$(basename "$filein_path")
 
 ## the new delphes path and the ntuple path to be stored
-dir_path_new=$OUTPUT_PATH/${dir_name/_0/}
-dir_path_ntuple=$OUTPUT_PATH/${dir_name/_0/}_ntuple
+## note: if the dir path ends with "_0", if means we should rerun delphes step
+if [[ $dir_path == *"_0" ]]; then
+    REDO_DELPHES=1
+else
+    REDO_DELPHES=0
+fi
+
+dir_path_new=${dir_path%_0}
+dir_path_ntuple=${dir_path%_0}_ntuple
 
 mkdir -p $dir_path_new
 mkdir -p $dir_path_ntuple
 
-# run delphes
+# redo delphes
 if [[ "$REDO_DELPHES" == "1" ]]; then
     ln -s $DELPHES_PATH/MinBias_100k.pileup .
     rm -f $dir_path_new/$file_name

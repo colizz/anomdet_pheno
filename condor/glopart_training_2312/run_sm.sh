@@ -26,7 +26,7 @@ if [[ $MACHINE == "farm" ]]; then
     DELPHES_PATH=/data/pku/home/licq/utils/Delphes-3.5.0
     LOAD_ENV_PATH=/home/pku/licq/utils/load_standalonemg_env.sh
 elif [[ $MACHINE == "ihep" ]]; then
-    OUTPUT_PATH=/publicfs/cms/user/licq/condor_output
+    OUTPUT_PATH=/publicfs/cms/user/$USER/condor_output
     GENPACKS_PATH=/publicfs/cms/user/licq/pheno/anomdet/gen/genpacks
     DELPHES_PATH=/scratchfs/cms/licq/utils/Delphes-3.5.0
     LOAD_ENV_PATH=/scratchfs/cms/licq/utils/load_standalonemg_env.sh

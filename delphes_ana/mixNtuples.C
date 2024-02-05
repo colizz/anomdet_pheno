@@ -1,0 +1,241 @@
+#include <TFile.h>
+#include <TTree.h>
+#include <fstream>
+#include <iostream>
+#include <vector>
+#include <string>
+#include <map>
+#include <random>
+#include <algorithm>
+#include <stdexcept>
+#include "nlohmann/json.hpp"
+
+// Forward declaration
+void mergeROOTFiles(const std::vector<std::string>& filePaths, const std::vector<int>& order, const std::string& outputFilePath);
+
+// Define a struct to hold all branch variables
+struct EventData {
+    std::map<std::string, float> floatVars;
+    std::map<std::string, std::vector<float>*> arrayVars;
+    int event_no = 0; // new file branch
+    int event_class = 0; // new file branch
+
+    EventData() {
+        floatVars["jet_label"] = 0;
+        floatVars["jet_pt"] = 0;
+        floatVars["jet_eta"] = 0;
+        floatVars["jet_phi"] = 0;
+        floatVars["jet_energy"] = 0;
+        floatVars["jet_nparticles"] = 0;
+        floatVars["jet_sdmass"] = 0;
+        floatVars["jet_trmass"] = 0;
+        floatVars["jet_tau1"] = 0;
+        floatVars["jet_tau2"] = 0;
+        floatVars["jet_tau3"] = 0;
+        floatVars["jet_tau4"] = 0;
+
+        arrayVars["part_px"] = nullptr;
+        arrayVars["part_py"] = nullptr;
+        arrayVars["part_pz"] = nullptr;
+        arrayVars["part_energy"] = nullptr;
+        arrayVars["part_pt"] = nullptr;
+        arrayVars["part_deta"] = nullptr;
+        arrayVars["part_dphi"] = nullptr;
+        arrayVars["part_charge"] = nullptr;
+        arrayVars["part_pid"] = nullptr;
+        arrayVars["part_d0val"] = nullptr;
+        arrayVars["part_d0err"] = nullptr;
+        arrayVars["part_dzval"] = nullptr;
+        arrayVars["part_dzerr"] = nullptr;
+        arrayVars["jet_probs"] = nullptr;
+        arrayVars["jet_hidneurons"] = nullptr;
+    }
+    ~EventData() {
+        for (auto& pair : arrayVars) {
+            if (pair.second) {
+                delete pair.second;
+            }
+        }
+    }
+};
+
+void printEventData(const EventData& data) {
+    std::cout << "Event number: " << data.event_no << std::endl;
+    for (auto& pair : data.floatVars) {
+        std::cout << pair.first << ": " << pair.second << std::endl;
+    }
+    for (auto& pair : data.arrayVars) {
+        std::cout << pair.first << ": ";
+        if (pair.second) {
+            for (float val : *pair.second) {
+                std::cout << val << " ";
+            }
+        }
+        std::cout << std::endl;
+    }
+}
+
+// Function to set branch addresses for an input tree
+void SetBranchAddresses(TTree* tree, EventData& data) {
+    for (auto& pair : data.floatVars) {
+        tree->SetBranchAddress(pair.first.c_str(), &pair.second);
+    }
+    for (auto& pair : data.arrayVars) {
+        tree->SetBranchAddress(pair.first.c_str(), &pair.second);
+    }
+}
+
+void SetOutputBranch(TTree* tree, EventData& data) {
+    for (auto& pair : data.floatVars) {
+        tree->Branch(pair.first.c_str(), &pair.second);
+    }
+    for (auto& pair : data.arrayVars) {
+        tree->Branch(pair.first.c_str(), &pair.second, /*bufsize=*/102400);
+    }
+    tree->Branch("event_no", &data.event_no);
+    tree->Branch("event_class", &data.event_class);
+}
+
+void openFile(const std::string& filePath, TFile*& file, TTree*& tree, EventData& data) {
+    file = TFile::Open(filePath.c_str(), "READ");
+    if (!file || file->IsZombie()) {
+        throw std::runtime_error("Failed to open file: " + filePath);
+    }
+
+    tree = nullptr;
+    file->GetObject("tree", tree);
+    if (!tree) {
+        file->Close();
+        throw std::runtime_error("Failed to get TTree from file: " + filePath);
+    }
+    SetBranchAddresses(tree, data);
+}
+
+void closeFile(TFile*& file) {
+    file->Close();
+    file = nullptr;
+}
+
+void createOutputFile(const std::string& filePath, TFile*& file, TTree*& tree, EventData& data) {
+    file = TFile::Open(filePath.c_str(), "RECREATE");
+    if (!file || file->IsZombie()) {
+        throw std::runtime_error("Failed to open file: " + filePath);
+    }
+    tree = new TTree("tree", "tree");
+    SetOutputBranch(tree, data);
+}
+
+void writeOutputFile(TFile*& file) {
+    file->Write();
+    file->Close();
+    file = nullptr;
+}
+
+void mergeROOTFiles(const std::vector<std::vector<std::string>>& filePaths, const std::vector<short>& order, const std::string& inputDirPrefix, const std::string& outputDirPath) {
+
+    EventData data;
+    int output_file_idx = 0;
+    int store_per_event = 500000;
+    bool debug = false;
+
+    TFile* outputFile = nullptr;
+    TTree* outputTree = nullptr;
+    std::vector<TFile*> inputFiles = std::vector<TFile*>(filePaths.size(), nullptr);
+    std::vector<TTree*> inputTrees = std::vector<TTree*>(filePaths.size(), nullptr);
+    std::vector<int> fileCount(filePaths.size(), 0);
+    std::vector<long> eventCount(filePaths.size(), 0);
+    std::vector<long> eventTotalNum(filePaths.size(), 0);
+
+    // Loop through the order list to read and write events accordingly
+    long num_processed = 0;
+    for (int i : order) {
+        if (i < 0 || i >= (short)filePaths.size()) {
+            throw std::runtime_error("Invalid index " + std::to_string(i) + " in order list.");
+        }
+
+        // open the output file if not opened
+        if (outputFile == nullptr) {
+            createOutputFile(outputDirPath + TString::Format("/ntuples_%d.root", output_file_idx).Data(), outputFile, outputTree, data);
+        }
+        // get the data from the corresponding file
+        if (inputFiles[i] == nullptr) {
+            if (fileCount[i] >= (int)filePaths[i].size()) {
+                throw std::runtime_error("No more files to read at index " + std::to_string(fileCount[i]) + ". This should never happen.");
+            }
+            openFile(inputDirPrefix + "/" + filePaths[i][fileCount[i]], inputFiles[i], inputTrees[i], data);
+            eventCount[i] = 0; // reset event count
+            eventTotalNum[i] = inputTrees[i]->GetEntries();
+            std::cout << "Start reading new file at index " << i << ": " << filePaths[i][fileCount[i]] << ", Total events: " << eventTotalNum[i] << std::endl;
+        }
+        
+        // get entry
+        inputTrees[i]->GetEntry(eventCount[i]);
+        eventCount[i]++;
+        data.event_no = num_processed;
+        data.event_class = i;
+
+        if (debug) {
+            std::cout << ">> Reading file at index " << i << ": this is #event " << eventCount[i] - 1 << " from file " << filePaths[i][fileCount[i]] << std::endl;
+            // printEventData(data);
+            // std::cout << data.floatVars["jet_pt"] << " " << data.floatVars["jet_eta"] << " " << data.floatVars["jet_sdmass"] << std::endl;
+        }
+
+        // fill branches
+        outputTree->Fill();
+
+        // check if reach the end of file
+        if (eventCount[i] >= eventTotalNum[i]) {
+            closeFile(inputFiles[i]);
+            inputFiles[i] = nullptr;
+            std::cout << "File " << filePaths[i][fileCount[i]] << " reading completed." << std::endl;
+            fileCount[i]++;
+        }
+
+        // check if we collect enough events to store
+        if ((num_processed + 1) % store_per_event == 0) {
+            std::cout << "Processed " << num_processed << " events." << std::endl;
+            writeOutputFile(outputFile);
+            outputFile = nullptr;
+            output_file_idx++;
+        }
+        num_processed++;
+    }
+
+    // write file
+    if (outputFile != nullptr) {
+        writeOutputFile(outputFile);
+    }
+}
+
+void mixNtuples(std::string inputJson, std::string inputDirPrefix, std::string outputDirPath) {
+
+    // Read the json file to get nevents_target and filelist for each sample
+    std::vector<int> nevents_target;
+    std::vector<std::vector<std::string>> filelist;
+
+    std::ifstream infile(inputJson);
+    nlohmann::json j;
+    infile >> j;
+
+    for (auto& element : j.items()) {
+        nevents_target.push_back(element.value()["nevents_target"]);
+        std::vector<std::string> files;
+        for (auto& file : element.value()["filelist"]) {
+            files.push_back(file);
+        }
+        filelist.push_back(files);
+    }
+
+    // Generate the random list
+    std::vector<short> order;
+
+    for (size_t i = 0; i < nevents_target.size(); ++i) {
+        order.insert(order.end(), nevents_target[i], i);
+    }
+    unsigned seed = 42;
+    std::default_random_engine engine(seed);
+    std::shuffle(order.begin(), order.end(), engine);
+
+    // Merge the ROOT files
+    mergeROOTFiles(filelist, order, inputDirPrefix, outputDirPath);
+}

@@ -1,0 +1,15 @@
+{
+    "class_0": {
+        "nevents_target": 300,
+        "filelist": [
+            "/home/pku/licq/pheno/anomdet/gen/delphes_ana/testroot/ntuples_1000.root"
+        ]
+    },
+    "class_1": {
+        "nevents_target": 120,
+        "filelist": [
+            "/home/pku/licq/pheno/anomdet/gen/delphes_ana/testroot/ntuples_2000.root",
+            "/home/pku/licq/pheno/anomdet/gen/delphes_ana/testroot/ntuples_3000.root"
+        ]
+    }
+}

@@ -4,16 +4,19 @@ rsync /data/pku/home/licq/utils/Delphes-3.5.0/{cards,readers,Makefile} ihep:~/sc
 rsync /home/pku/licq/pheno/anomdet/gen/{genpacks,condor,delphes_ana} ihep:~/publicfs/pheno/anomdet/gen/ --exclude={log,output,*.so,*.d,*.pcm,*.root}
 
 # submit jobs on ihep
-hep_sub run.sh -argu train_higgs2p 100000 100 "%{ProcId}" 0 ihep -n 160
-hep_sub run.sh -argu train_higgs4p 100000 100 "%{ProcId}" 0 ihep -n 1200 # failed, but 
-hep_sub run.sh -argu train_higgs4p 100000 100 "%{ProcId}" 1000 ihep -n 200
-hep_sub run.sh -argu train_higgspm2p 100000 100 "%{ProcId}" 0 ihep -n 120
+hep_sub run.sh -argu tagger/train_higgs2p 100000 100 "%{ProcId}" 0 ihep -n 160
+hep_sub run.sh -argu tagger/train_higgs4p 100000 100 "%{ProcId}" 0 ihep -n 1200 # failed, but 
+hep_sub run.sh -argu tagger/train_higgs4p 100000 100 "%{ProcId}" 1000 ihep -n 200
+hep_sub run.sh -argu tagger/train_higgspm2p 100000 100 "%{ProcId}" 0 ihep -n 120
 
-hep_sub run.sh -argu train_qcd 100000 100 "%{ProcId}" 0 ihep -n 200
+hep_sub run.sh -argu tagger/train_qcd 100000 100 "%{ProcId}" 0 ihep -n 200
 
-hep_sub run.sh -argu train_hbs 100000 100 "%{ProcId}" 0 ihep -n 20
+hep_sub run.sh -argu tagger/train_hbs 100000 100 "%{ProcId}" 0 ihep -n 20
 
-# submit ntuplizer
+hep_sub run.sh -argu tagger/train_higgspm2p 100000 100 "%{ProcId}" 0 ihep -n 37
+hep_sub run0.sh -argu tagger/train_higgs4p 100000 100 "%{ProcId}" 1199 ihep -n 1
+
+# submit ntuplizer (note: REDO_DELPHES has been removed!)
 
 hep_sub ntuplize.sh -argu "%{ProcId}" 0 samples/train_all_filelist.txt 1 ihep -n 600
 hep_sub ntuplize.sh -argu "%{ProcId}" 600 samples/train_all_filelist.txt 1 ihep -n 1043
@@ -25,6 +28,7 @@ hep_sub ntuplize.sh -argu "%{ProcId}" 0 samples/train_hbs_filelist.txt 0 ihep -n
 hep_sub ntuplize.sh -argu "%{ProcId}" 0 samples/train_all_filelist.txt 1 ihep -n 600
 hep_sub ntuplize.sh -argu "%{ProcId}" 600 samples/train_all_filelist.txt 1 ihep -n 1043
 hep_sub ntuplize.sh -argu "%{ProcId}" 0 samples/train_hbs_filelist.txt 1 ihep -n 20
+hep_sub ntuplize.sh -argu "%{ProcId}" 0 samples/train_recover.txt 0 ihep -n 38
 
 ## merging file (first achieved 24.02.01)
 source merge_submit.sh /publicfs/cms/user/licq/condor_output/train_hbs_ntuple 10
@@ -112,8 +116,6 @@ for i in ${samlist[@]}; do for ht in 200 250 300 350 400 450 500 550 600; do hep
 
 # 24.02.01 submit all SM events!
 
-// test
-
 i=WJetsToQQ; N=54; start=0; hep_sub run_sm.sh -argu sm/$i 100000 10000 "%{ProcId}" $start ihep -n $N -o logs_240201_run_sm/$i.%{ProcId}.out -e logs_240201_run_sm/$i.%{ProcId}.err
 i=WJetsToLNu; N=20; start=0; hep_sub run_sm.sh -argu sm/$i 100000 10000 "%{ProcId}" $start ihep -n $N -o logs_240201_run_sm/$i.%{ProcId}.out -e logs_240201_run_sm/$i.%{ProcId}.err
 i=ZJetsToQQ; N=45; start=0; hep_sub run_sm.sh -argu sm/$i 100000 10000 "%{ProcId}" $start ihep -n $N -o logs_240201_run_sm/$i.%{ProcId}.out -e logs_240201_run_sm/$i.%{ProcId}.err
@@ -133,3 +135,28 @@ i=TTbarH; N=1; start=0; hep_sub run_sm.sh -argu sm/$i 100000 10000 "%{ProcId}" $
 i=TTbarW; N=1; start=0; hep_sub run_sm.sh -argu sm/$i 100000 10000 "%{ProcId}" $start ihep -n $N -o logs_240201_run_sm/$i.%{ProcId}.out -e logs_240201_run_sm/$i.%{ProcId}.err
 i=TTbarZ; N=1; start=0; hep_sub run_sm.sh -argu sm/$i 100000 10000 "%{ProcId}" $start ihep -n $N -o logs_240201_run_sm/$i.%{ProcId}.out -e logs_240201_run_sm/$i.%{ProcId}.err
 
+// for QCD: need to specify DelphesHepMC2WithFilter2!
+
+i=QCD; N=1; start=0; hep_sub run_sm.sh -argu sm/$i 300000 10000 "%{ProcId}" $start ihep DelphesHepMC2WithFilter2 -n $N -o logs_240201_run_sm/$i.%{ProcId}.out -e logs_240201_run_sm/$i.%{ProcId}.err
+
+hep_sub run_sm.sh -argu sm/QCD 200000 10000 "%{ProcId}" 2000 ihep DelphesHepMC2WithFilter2 -n 2600 -o logs_240201_run_sm/QCD.%{ProcId}.out -e logs_240201_run_sm/QCD.%{ProcId}.err
+
+// recover jobs
+hep_sub run_sm_recover.sh -argu sm/QCD 200000 10000 "%{ProcId}" 2000 ihep DelphesHepMC2WithFilter2 -n 2600 -o logs_240201_run_sm/QCD.recover.%{ProcId}.out -e logs_240201_run_sm/QCD.recover.%{ProcId}.err
+hep_sub run_sm_recover_licq.sh -argu sm/QCD 200000 10000 "%{ProcId}" 2000 ihep DelphesHepMC2WithFilter2 -n 17 -o logs_240201_run_sm/QCD.recover2.%{ProcId}.out -e logs_240201_run_sm/QCD.recover2.%{ProcId}.err
+
+./run_sm_recover.sh sm/QCD 2000 100 0 8888 ihep DelphesHepMC2WithFilter2
+
+## Xbb and Xbs
+i=Xbb; N=1; start=0; hep_sub run_sm.sh -argu sm_ext/$i 100000 10000 "%{ProcId}" $start ihep -n $N -o logs_240201_run_sm/$i.%{ProcId}.out -e logs_240201_run_sm/$i.%{ProcId}.err
+i=Xbs; N=1; start=0; hep_sub run_sm.sh -argu sm_ext/$i 100000 10000 "%{ProcId}" $start ihep -n $N -o logs_240201_run_sm/$i.%{ProcId}.out -e logs_240201_run_sm/$i.%{ProcId}.err
+
+# 24.02.05 ntuplize SM events!
+
+./ntuplize_sm.sh 6750 0 samples/sm_all_filelist.txt ihep
+hep_sub ntuplize_sm.sh -argu "%{ProcId}" 0 samples/sm_all_filelist.txt ihep -n 6751 -o logs_240205_ntuplize_sm/%{ProcId}.out -e logs_240205_ntuplize_sm/%{ProcId}.err
+hep_sub ntuplize_sm.sh -argu "%{ProcId}" 6751 samples/sm_all_filelist.txt ihep -n 2 -o logs_240205_ntuplize_sm/ext.%{ProcId}.out -e logs_240205_ntuplize_sm/ext.%{ProcId}.err
+
+# 24.02.06 run mixer
+./mix_sm.sh samples/sm_all_ntuple_filelist.json sm/mixed_ntuple ihep
+hep_sub mix_sm.sh -argu samples/sm_all_ntuple_filelist.json sm/mixed_ntuple ihep -o logs_240205_ntuplize_sm/mix.out -e logs_240205_ntuplize_sm/mix.err
