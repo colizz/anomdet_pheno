@@ -10,9 +10,6 @@
 #include <stdexcept>
 #include "nlohmann/json.hpp"
 
-// Forward declaration
-void mergeROOTFiles(const std::vector<std::string>& filePaths, const std::vector<int>& order, const std::string& outputFilePath);
-
 // Define a struct to hold all branch variables
 struct EventData {
     std::map<std::string, float> floatVars;
@@ -85,6 +82,7 @@ void SetBranchAddresses(TTree* tree, EventData& data) {
     }
 }
 
+// Function to link the output branches to the output tree
 void SetOutputBranch(TTree* tree, EventData& data) {
     for (auto& pair : data.floatVars) {
         tree->Branch(pair.first.c_str(), &pair.second);
@@ -131,7 +129,23 @@ void writeOutputFile(TFile*& file) {
     file = nullptr;
 }
 
-void mergeROOTFiles(const std::vector<std::vector<std::string>>& filePaths, const std::vector<short>& order, const std::string& inputDirPrefix, const std::string& outputDirPath) {
+bool passSection(const EventData& data, const std::string& selectionMode) {
+    if (selectionMode == "all") {
+        return true;
+    } else if (selectionMode == "msdgt130") {
+        return data.floatVars.at("jet_sdmass") > 130;
+    } else if (selectionMode == "qcdlt0p1") {
+        float probs = 0;
+        for (int i=161; i<188; i++) {
+            probs += data.arrayVars.at("jet_probs")->at(i);
+        }
+        return probs < 0.1;
+    } else {
+        throw std::runtime_error("Invalid selection mode: " + selectionMode);
+    }
+}
+
+void mergeROOTFiles(const std::vector<std::vector<std::string>>& filePaths, const std::vector<short>& index, const std::vector<short>& order, const std::string& inputDirPrefix, const std::string& outputDirPath, const std::string& selectionMode) {
 
     EventData data;
     int output_file_idx = 0;
@@ -172,7 +186,7 @@ void mergeROOTFiles(const std::vector<std::vector<std::string>>& filePaths, cons
         inputTrees[i]->GetEntry(eventCount[i]);
         eventCount[i]++;
         data.event_no = num_processed;
-        data.event_class = i;
+        data.event_class = index[i];
 
         if (debug) {
             std::cout << ">> Reading file at index " << i << ": this is #event " << eventCount[i] - 1 << " from file " << filePaths[i][fileCount[i]] << std::endl;
@@ -181,7 +195,9 @@ void mergeROOTFiles(const std::vector<std::vector<std::string>>& filePaths, cons
         }
 
         // fill branches
-        outputTree->Fill();
+        if (passSection(data, selectionMode)) {
+            outputTree->Fill();
+        }
 
         // check if reach the end of file
         if (eventCount[i] >= eventTotalNum[i]) {
@@ -207,9 +223,10 @@ void mergeROOTFiles(const std::vector<std::vector<std::string>>& filePaths, cons
     }
 }
 
-void mixNtuples(std::string inputJson, std::string inputDirPrefix, std::string outputDirPath) {
+void mixNtuples(std::string inputJson, std::string inputDirPrefix, std::string outputDirPath, std::string selectionMode="all") {
 
     // Read the json file to get nevents_target and filelist for each sample
+    std::vector<short> index;
     std::vector<int> nevents_target;
     std::vector<std::vector<std::string>> filelist;
 
@@ -218,6 +235,8 @@ void mixNtuples(std::string inputJson, std::string inputDirPrefix, std::string o
     infile >> j;
 
     for (auto& element : j.items()) {
+        std::cout << element.key() << " : nevents_target = " << element.value()["nevents_target"] << std::endl;
+        index.push_back(element.value()["index"]);
         nevents_target.push_back(element.value()["nevents_target"]);
         std::vector<std::string> files;
         for (auto& file : element.value()["filelist"]) {
@@ -237,5 +256,5 @@ void mixNtuples(std::string inputJson, std::string inputDirPrefix, std::string o
     std::shuffle(order.begin(), order.end(), engine);
 
     // Merge the ROOT files
-    mergeROOTFiles(filelist, order, inputDirPrefix, outputDirPath);
+    mergeROOTFiles(filelist, index, order, inputDirPrefix, outputDirPath, selectionMode);
 }

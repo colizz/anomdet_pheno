@@ -1,5 +1,6 @@
 {
     "QCD": {
+        "index": 0,
         "nevents_target": 51400000,
         "filelist": [
             "sm/QCD_LG_ntuple/ntuples_0.root",
@@ -6574,6 +6575,7 @@
         ]
     },
     "WJetsToQQ": {
+        "index": 1,
         "nevents_target": 571000,
         "filelist": [
             "sm/WJetsToQQ_ntuple/ntuples_0.root",
@@ -6633,6 +6635,7 @@
         ]
     },
     "WJetsToLNu": {
+        "index": 2,
         "nevents_target": 128000,
         "filelist": [
             "sm/WJetsToLNu_ntuple/ntuples_0.root",
@@ -6658,6 +6661,7 @@
         ]
     },
     "ZJetsToQQ": {
+        "index": 3,
         "nevents_target": 225000,
         "filelist": [
             "sm/ZJetsToQQ_ntuple/ntuples_0.root",
@@ -6708,6 +6712,7 @@
         ]
     },
     "ZJetsToLL": {
+        "index": 4,
         "nevents_target": 25800,
         "filelist": [
             "sm/ZJetsToLL_ntuple/ntuples_0.root",
@@ -6719,6 +6724,7 @@
         ]
     },
     "ZJetsToNuNu": {
+        "index": 5,
         "nevents_target": 22600,
         "filelist": [
             "sm/ZJetsToNuNu_ntuple/ntuples_0.root",
@@ -6728,6 +6734,7 @@
         ]
     },
     "TTbar": {
+        "index": 6,
         "nevents_target": 246000,
         "filelist": [
             "sm/TTbar_ntuple/ntuples_0.root",
@@ -6763,6 +6770,7 @@
         ]
     },
     "SingleTop": {
+        "index": 7,
         "nevents_target": 19300,
         "filelist": [
             "sm/SingleTop_ntuple/ntuples_0.root",
@@ -6772,6 +6780,7 @@
         ]
     },
     "WW": {
+        "index": 8,
         "nevents_target": 14000,
         "filelist": [
             "sm/WW_ntuple/ntuples_0.root",
@@ -6781,6 +6790,7 @@
         ]
     },
     "TW": {
+        "index": 9,
         "nevents_target": 24900,
         "filelist": [
             "sm/TW_ntuple/ntuples_0.root",
@@ -6790,6 +6800,7 @@
         ]
     },
     "ZW": {
+        "index": 10,
         "nevents_target": 10400,
         "filelist": [
             "sm/ZW_ntuple/ntuples_0.root",
@@ -6798,60 +6809,70 @@
         ]
     },
     "ZZ": {
+        "index": 11,
         "nevents_target": 1250,
         "filelist": [
             "sm/ZZ_ntuple/ntuples_0.root"
         ]
     },
     "TZ": {
+        "index": 12,
         "nevents_target": 486,
         "filelist": [
             "sm/TZ_ntuple/ntuples_0.root"
         ]
     },
     "SingleHiggs": {
+        "index": 13,
         "nevents_target": 1630,
         "filelist": [
             "sm/SingleHiggs_ntuple/ntuples_0.root"
         ]
     },
     "WH": {
+        "index": 14,
         "nevents_target": 289,
         "filelist": [
             "sm/WH_ntuple/ntuples_0.root"
         ]
     },
     "ZH": {
+        "index": 15,
         "nevents_target": 151,
         "filelist": [
             "sm/ZH_ntuple/ntuples_0.root"
         ]
     },
     "TTbarH": {
+        "index": 16,
         "nevents_target": 862,
         "filelist": [
             "sm/TTbarH_ntuple/ntuples_0.root"
         ]
     },
     "TTbarW": {
+        "index": 17,
         "nevents_target": 655,
         "filelist": [
             "sm/TTbarW_ntuple/ntuples_0.root"
         ]
     },
     "TTbarZ": {
+        "index": 18,
         "nevents_target": 1390,
         "filelist": [
             "sm/TTbarZ_ntuple/ntuples_0.root"
         ]
     },
     "Xbb": {
+        "index": 19,
         "nevents_target": 2000,
         "filelist": [
             "sm_ext/Xbb_ntuple/ntuples_0.root"
         ]
     },
     "Xbs": {
+        "index": 20,
         "nevents_target": 2000,
         "filelist": [
             "sm_ext/Xbs_ntuple/ntuples_0.root"

@@ -3,6 +3,10 @@
 JSONFILE=$1 # samples/sm_all_ntuple_filelist.json
 OUTPUT_PREFIX=$2 # sm/mixed_ntuple
 MACHINE=$3
+SELECTION_MODE=$4
+if [[ -z $SELECTION_MODE ]]; then
+    SELECTION_MODE="all"
+fi
 
 JOBNUM=0
 DIR=$( cd "$( dirname "$0" )" && pwd )
@@ -35,7 +39,7 @@ input_file_prefix=$OUTPUT_PATH
 output_file_dir=$OUTPUT_PATH/$OUTPUT_PREFIX
 mkdir -p $output_file_dir
 
-root -b -q $NTUPLIZER_FILE_PATH'+("'$json_file_path'", "'$input_file_prefix'", "'$output_file_dir'")'
+root -b -q $NTUPLIZER_FILE_PATH'+("'$json_file_path'", "'$input_file_prefix'", "'$output_file_dir'", "'$SELECTION_MODE'")'
 
 # remove workspace
 rm -rf $WORKDIR

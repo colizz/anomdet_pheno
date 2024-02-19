@@ -159,4 +159,6 @@ hep_sub ntuplize_sm.sh -argu "%{ProcId}" 6751 samples/sm_all_filelist.txt ihep -
 
 # 24.02.06 run mixer
 ./mix_sm.sh samples/sm_all_ntuple_filelist.json sm/mixed_ntuple ihep
-hep_sub mix_sm.sh -argu samples/sm_all_ntuple_filelist.json sm/mixed_ntuple ihep -o logs_240205_ntuplize_sm/mix.out -e logs_240205_ntuplize_sm/mix.err
+hep_sub mix_sm.sh -argu samples/sm_all_ntuple_filelist.json sm/mixed_ntuple ihep all -o logs_240205_ntuplize_sm/mix2.out -e logs_240205_ntuplize_sm/mix2.err
+hep_sub mix_sm.sh -argu samples/sm_all_ntuple_filelist.json sm/mixed_msdgt130_ntuple ihep msdgt130 -o logs_240205_ntuplize_sm/mix.msdgt130.out -e logs_240205_ntuplize_sm/mix.msdgt130.err
+hep_sub mix_sm.sh -argu samples/sm_all_ntuple_filelist.json sm/mixed_qcdlt0p1_ntuple ihep qcdlt0p1 -o logs_240205_ntuplize_sm/mix.qcdlt0p1.out -e logs_240205_ntuplize_sm/mix.qcdlt0p1.err
