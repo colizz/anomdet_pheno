@@ -1,0 +1,8 @@
+set run_mode 0
+
+import model Radion_EW_all
+
+generate p p > wkk+ > w+ r , r > w+ w-
+add process p p > wkk- > w- r , r > w+ w-
+
+output proc
