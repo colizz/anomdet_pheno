@@ -52,7 +52,7 @@ fi
 # found the unfinished workdir
 # check if the filepath matches $OUTPUT_PATH/workdir_*_$JOBNUM has only one match. 
 # If not, exit; If true, specify is as WORKDIR
-WORKDIRS=$(ls -d $OUTPUT_PATH/workdir_*_$JOBNUM)
+WORKDIRS=$(ls -d $OUTPUT_PATH/workdir_*_$(echo "$PROC" | sed 's/\//_/g')_$JOBNUM)
 if [ $(echo $WORKDIRS | wc -w) -ne 1 ]; then
     echo "Multiple workdirs found, exit"
     exit 1
@@ -61,14 +61,38 @@ WORKDIR=$(echo $WORKDIRS)
 
 cd $WORKDIR
 
-## check at which batch the previous job halts
-nbatch=$((NEVENT / NSUBDIVEVENT))
-for ((i=0; i<nbatch; i++)); do
-    if [[ ! -f $WORKDIR/events_delphes_$i.root ]]; then
-        break
+## check at which batch the previous job halts (by finding the maximum file index)
+max=0
+for file in events_delphes_*.root; do
+    num=${file#events_delphes_}
+    num=${num%.root}
+    if (( num > max )); then
+        max=$num
     fi
 done
-istart=$i
+
+max_merged=0
+for file in merged_events_delphes_*.root; do
+    num=${file#merged_events_delphes_}
+    num=${num%.root}
+    if (( num > max_merged )); then
+        max_merged=$num
+    fi
+done
+if [ "$max" -eq 0 ] && [ "$max_merged" -ne 0 ]; then
+    max=$((max_merged + 1))
+fi
+echo "Job will continue from $max"
+
+## (the old version of index matching)
+# nbatch=$((NEVENT / NSUBDIVEVENT))
+# for ((i=0; i<nbatch; i++)); do
+#     if [[ ! -f $WORKDIR/events_delphes_$i.root ]]; then
+#         break
+#     fi
+# done
+istart=$max
+rm -rf events_delphes_$istart.root
 
 ##### now starts normal routine #####
 
@@ -118,6 +142,7 @@ for ((i=istart; i<nbatch; i++)); do
 
     # intermediate file merging for every 100 batches
     if [ $(((i+1) % 100)) -eq 0 ]; then
+        rm -f $WORKDIR/merged_events_delphes_$i.root
         hadd -f $WORKDIR/merged_events_delphes_$i.root $WORKDIR/events_delphes_*.root
         if [ $? -eq 0 ]; then
             rm -f $WORKDIR/events_delphes_*.root

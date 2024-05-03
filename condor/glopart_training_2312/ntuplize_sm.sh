@@ -4,6 +4,10 @@ JOBNUM=$1
 JOBBEGIN=$2
 FILELIST=$3 #samples/sm_all_filelist.txt
 MACHINE=$4
+SCRIPT_NAME=$5
+if [[ -z $SCRIPT_NAME ]]; then
+    SCRIPT_NAME=makeJetRepNtuples.C
+fi
 
 JOBNUM=$((JOBNUM+JOBBEGIN))
 
@@ -21,7 +25,7 @@ if [[ $MACHINE == "ihep" ]]; then
     OUTPUT_PATH=/publicfs/cms/user/$USER/condor_output
     DELPHES_PATH=/scratchfs/cms/licq/utils/Delphes-3.5.0
     LOAD_ENV_PATH=/scratchfs/cms/licq/utils/load_standalonemg_env.sh
-    NTUPLIZER_FILE_PATH=/publicfs/cms/user/licq/pheno/anomdet/gen/delphes_ana/makeJetRepNtuples.C
+    NTUPLIZER_FILE_PATH=/publicfs/cms/user/licq/pheno/anomdet/gen/delphes_ana/$SCRIPT_NAME
     MODEL_PATH=/publicfs/cms/user/licq/pheno/anomdet/gen/delphes_ana/model/JetClassII_ak8puppi_full_scale/model_embed.onnx
 fi
 DELPHES_CARD=delphes_card_CMS_JetClassII_lite.tcl
@@ -35,7 +39,7 @@ echo "Load env"
 source $LOAD_ENV_PATH
 
 RANDSTR=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 10; echo)
-WORKDIR=$OUTPUT_PATH/workdir_$(date +%y%m%d-%H%M%S)_${RANDSTR}_$JOBNUM
+WORKDIR=$OUTPUT_PATH/workdir_$(date +%y%m%d-%H%M%S)_${RANDSTR}_$(echo "$PROC" | sed 's/\//_/g')_$JOBNUM
 mkdir -p $WORKDIR
 
 cd $WORKDIR

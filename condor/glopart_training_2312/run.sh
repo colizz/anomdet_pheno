@@ -31,7 +31,7 @@ echo "Load env"
 source $LOAD_ENV_PATH
 
 RANDSTR=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 10; echo)
-WORKDIR=$OUTPUT_PATH/workdir_$(date +%y%m%d-%H%M%S)_${RANDSTR}_$JOBNUM
+WORKDIR=$OUTPUT_PATH/workdir_$(date +%y%m%d-%H%M%S)_${RANDSTR}_$(echo "$PROC" | sed 's/\//_/g')_$JOBNUM
 mkdir -p $WORKDIR
 
 cd $WORKDIR

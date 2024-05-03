@@ -1,15 +1,50 @@
 {
-    "class_0": {
-        "nevents_target": 300,
-        "filelist": [
-            "/home/pku/licq/pheno/anomdet/gen/delphes_ana/testroot/ntuples_1000.root"
+    "branches": {
+        "float": [
+            "jet_label",
+            "jet_pt",
+            "jet_eta",
+            "jet_phi",
+            "jet_energy",
+            "jet_nparticles",
+            "jet_sdmass",
+            "jet_trmass",
+            "jet_tau1",
+            "jet_tau2",
+            "jet_tau3",
+            "jet_tau4"
+        ],
+        "array": [
+            "part_px",
+            "part_py",
+            "part_pz",
+            "part_energy",
+            "part_pt",
+            "part_deta",
+            "part_dphi",
+            "part_charge",
+            "part_pid",
+            "part_d0val",
+            "part_d0err",
+            "part_dzval",
+            "part_dzerr",
+            "jet_probs",
+            "jet_hidneurons"
         ]
     },
-    "class_1": {
-        "nevents_target": 120,
-        "filelist": [
-            "/home/pku/licq/pheno/anomdet/gen/delphes_ana/testroot/ntuples_2000.root",
-            "/home/pku/licq/pheno/anomdet/gen/delphes_ana/testroot/ntuples_3000.root"
-        ]
+    "samples": {
+        "class_0": {
+            "nevents_target": 300,
+            "filelist": [
+                "/home/pku/licq/pheno/anomdet/gen/delphes_ana/testroot/ntuples_1000.root"
+            ]
+        },
+        "class_1": {
+            "nevents_target": 120,
+            "filelist": [
+                "/home/pku/licq/pheno/anomdet/gen/delphes_ana/testroot/ntuples_2000.root",
+                "/home/pku/licq/pheno/anomdet/gen/delphes_ana/testroot/ntuples_3000.root"
+            ]
+        }
     }
 }

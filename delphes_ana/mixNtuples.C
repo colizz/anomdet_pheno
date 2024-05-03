@@ -17,35 +17,13 @@ struct EventData {
     int event_no = 0; // new file branch
     int event_class = 0; // new file branch
 
-    EventData() {
-        floatVars["jet_label"] = 0;
-        floatVars["jet_pt"] = 0;
-        floatVars["jet_eta"] = 0;
-        floatVars["jet_phi"] = 0;
-        floatVars["jet_energy"] = 0;
-        floatVars["jet_nparticles"] = 0;
-        floatVars["jet_sdmass"] = 0;
-        floatVars["jet_trmass"] = 0;
-        floatVars["jet_tau1"] = 0;
-        floatVars["jet_tau2"] = 0;
-        floatVars["jet_tau3"] = 0;
-        floatVars["jet_tau4"] = 0;
-
-        arrayVars["part_px"] = nullptr;
-        arrayVars["part_py"] = nullptr;
-        arrayVars["part_pz"] = nullptr;
-        arrayVars["part_energy"] = nullptr;
-        arrayVars["part_pt"] = nullptr;
-        arrayVars["part_deta"] = nullptr;
-        arrayVars["part_dphi"] = nullptr;
-        arrayVars["part_charge"] = nullptr;
-        arrayVars["part_pid"] = nullptr;
-        arrayVars["part_d0val"] = nullptr;
-        arrayVars["part_d0err"] = nullptr;
-        arrayVars["part_dzval"] = nullptr;
-        arrayVars["part_dzerr"] = nullptr;
-        arrayVars["jet_probs"] = nullptr;
-        arrayVars["jet_hidneurons"] = nullptr;
+    EventData(std::map<std::string, std::vector<std::string>>& branchMap) {
+        for (const auto& branch : branchMap["float"]) {
+            floatVars[branch] = 0;
+        }
+        for (const auto& branch : branchMap["array"]) {
+            arrayVars[branch] = nullptr;
+        }
     }
     ~EventData() {
         for (auto& pair : arrayVars) {
@@ -132,22 +110,33 @@ void writeOutputFile(TFile*& file) {
 bool passSection(const EventData& data, const std::string& selectionMode) {
     if (selectionMode == "all") {
         return true;
-    } else if (selectionMode == "msdgt130") {
+    }
+    else if (selectionMode == "pass_selection") {
+        return data.floatVars.at("pass_selection") > 0;
+    }
+    else if (selectionMode == "msdgt130") {
         return data.floatVars.at("jet_sdmass") > 130;
-    } else if (selectionMode == "qcdlt0p1") {
+    }
+    else if (selectionMode == "qcdlt0p1") {
         float probs = 0;
         for (int i=161; i<188; i++) {
             probs += data.arrayVars.at("jet_probs")->at(i);
         }
+        // probs = data.arrayVars.at("jet_probs")->at(161); // for mergeQCD model
         return probs < 0.1;
-    } else {
+    }
+    else {
         throw std::runtime_error("Invalid selection mode: " + selectionMode);
     }
 }
 
-void mergeROOTFiles(const std::vector<std::vector<std::string>>& filePaths, const std::vector<short>& index, const std::vector<short>& order, const std::string& inputDirPrefix, const std::string& outputDirPath, const std::string& selectionMode) {
+void mergeROOTFiles(
+    const std::vector<std::vector<std::string>>& filePaths, const std::vector<short>& index, const std::vector<short>& order,
+    std::map<std::string, std::vector<std::string>>& branchMap,
+    const std::string& inputDirPrefix, const std::string& outputDirPath, const std::string& selectionMode
+    ) {
 
-    EventData data;
+    EventData data(branchMap);
     int output_file_idx = 0;
     int store_per_event = 500000;
     bool debug = false;
@@ -234,7 +223,7 @@ void mixNtuples(std::string inputJson, std::string inputDirPrefix, std::string o
     nlohmann::json j;
     infile >> j;
 
-    for (auto& element : j.items()) {
+    for (auto& element : j["samples"].items()) {
         std::cout << element.key() << " : nevents_target = " << element.value()["nevents_target"] << std::endl;
         index.push_back(element.value()["index"]);
         nevents_target.push_back(element.value()["nevents_target"]);
@@ -255,6 +244,13 @@ void mixNtuples(std::string inputJson, std::string inputDirPrefix, std::string o
     std::default_random_engine engine(seed);
     std::shuffle(order.begin(), order.end(), engine);
 
+    // Read the branches
+    std::map<std::string, std::vector<std::string>> branchMap;
+    for (auto& element : j["branches"].items()) {
+        std::vector<std::string> branches = element.value().get<std::vector<std::string>>();
+        branchMap[element.key()] = branches;
+    }
+
     // Merge the ROOT files
-    mergeROOTFiles(filelist, index, order, inputDirPrefix, outputDirPath, selectionMode);
+    mergeROOTFiles(filelist, index, order, branchMap, inputDirPrefix, outputDirPath, selectionMode);
 }
