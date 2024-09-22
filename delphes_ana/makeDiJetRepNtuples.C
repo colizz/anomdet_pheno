@@ -28,6 +28,7 @@ void makeDiJetRepNtuples(TString inputFile, TString outputFile, TString modelPat
   std::map<std::string, float> floatVars;
 
   floatVars["pass_selection"] = 0;
+  floatVars["dijet_mass"] = 0;
 
   floatVars["jet_1_label"] = 0;
   floatVars["jet_1_pt"] = 0;
@@ -56,6 +57,34 @@ void makeDiJetRepNtuples(TString inputFile, TString outputFile, TString modelPat
   floatVars["jet_2_tau4"] = 0;
 
   std::map<std::string, std::vector<float>> arrayVars;
+
+  arrayVars["jet_1_part_px"];
+  arrayVars["jet_1_part_py"];
+  arrayVars["jet_1_part_pz"];
+  arrayVars["jet_1_part_energy"];
+  arrayVars["jet_1_part_pt"];
+  arrayVars["jet_1_part_deta"];
+  arrayVars["jet_1_part_dphi"];
+  arrayVars["jet_1_part_charge"];
+  arrayVars["jet_1_part_pid"];
+  arrayVars["jet_1_part_d0val"];
+  arrayVars["jet_1_part_d0err"];
+  arrayVars["jet_1_part_dzval"];
+  arrayVars["jet_1_part_dzerr"];
+
+  arrayVars["jet_2_part_px"];
+  arrayVars["jet_2_part_py"];
+  arrayVars["jet_2_part_pz"];
+  arrayVars["jet_2_part_energy"];
+  arrayVars["jet_2_part_pt"];
+  arrayVars["jet_2_part_deta"];
+  arrayVars["jet_2_part_dphi"];
+  arrayVars["jet_2_part_charge"];
+  arrayVars["jet_2_part_pid"];
+  arrayVars["jet_2_part_d0val"];
+  arrayVars["jet_2_part_d0err"];
+  arrayVars["jet_2_part_dzval"];
+  arrayVars["jet_2_part_dzerr"];
 
   arrayVars["jet_1_probs"];
   arrayVars["jet_1_hidneurons"];
@@ -132,8 +161,11 @@ void makeDiJetRepNtuples(TString inputFile, TString outputFile, TString modelPat
     if (branchJet->GetEntriesFast() >= 2) {
       const Jet *jet1 = (Jet *)branchJet->At(0);
       const Jet *jet2 = (Jet *)branchJet->At(1);
-      if ((jet1->PT > 200 && std::abs(jet1->Eta) < 2.5) && (jet2->PT > 200 && std::abs(jet2->Eta) < 2.5) && ((jet1->P4() + jet2->P4()).M() > 2000)) {
+      float dijet_mass = (jet1->P4() + jet2->P4()).M();
+      if ((jet1->PT > 200 && std::abs(jet1->Eta) < 2.5) && (jet2->PT > 200 && std::abs(jet2->Eta) < 2.5) && (dijet_mass > 2000)) {
         pass_selection = true;
+        floatVars["pass_selection"] = 1;
+        floatVars["dijet_mass"] = dijet_mass;
       }
     }
     if (!pass_selection) {
@@ -142,8 +174,7 @@ void makeDiJetRepNtuples(TString inputFile, TString outputFile, TString modelPat
       continue;
     }
 
-    floatVars["pass_selection"] = 1;
-
+    // fill branches for events passing the selection
     for (Int_t i = 0; i < 2; ++i) {
       const Jet *jet = (Jet *)branchJet->At(i);
       std::string jet_suffix = "jet_" + std::to_string(i + 1);
@@ -187,6 +218,21 @@ void makeDiJetRepNtuples(TString inputFile, TString outputFile, TString modelPat
       const Vertex *pv = (branchVertex != nullptr) ? ((Vertex *)branchVertex->At(0)) : nullptr;
 
       floatVars[jet_suffix + "_nparticles"] = particles.size();
+      for (const auto &p : particles) {
+        arrayVars[jet_suffix + "_part_px"].push_back(p.px);
+        arrayVars[jet_suffix + "_part_py"].push_back(p.py);
+        arrayVars[jet_suffix + "_part_pz"].push_back(p.pz);
+        arrayVars[jet_suffix + "_part_energy"].push_back(p.energy);
+        arrayVars[jet_suffix + "_part_pt"].push_back(p.pt);
+        arrayVars[jet_suffix + "_part_deta"].push_back((jet->Eta > 0 ? 1 : -1) * (p.eta - jet->Eta));
+        arrayVars[jet_suffix + "_part_dphi"].push_back(deltaPhi(p.phi, jet->Phi));
+        arrayVars[jet_suffix + "_part_charge"].push_back(p.charge);
+        arrayVars[jet_suffix + "_part_pid"].push_back(p.pid);
+        arrayVars[jet_suffix + "_part_d0val"].push_back(p.d0);
+        arrayVars[jet_suffix + "_part_d0err"].push_back(p.d0err);
+        arrayVars[jet_suffix + "_part_dzval"].push_back((pv && p.dz != 0) ? (p.dz - pv->Z) : p.dz);
+        arrayVars[jet_suffix + "_part_dzerr"].push_back(p.dzerr);
+      }
 
       // initialize input to be sent to the inference engine
       std::map<std::string, float> jetVars = {
@@ -196,20 +242,10 @@ void makeDiJetRepNtuples(TString inputFile, TString outputFile, TString modelPat
           {"jet_energy", jet->P4().Energy()},
       };
       std::map<std::string, std::vector<float>> particleVars;
-      for (const auto &p : particles) {
-        particleVars["part_px"].push_back(p.px);
-        particleVars["part_py"].push_back(p.py);
-        particleVars["part_pz"].push_back(p.pz);
-        particleVars["part_energy"].push_back(p.energy);
-        particleVars["part_pt"].push_back(p.pt);
-        particleVars["part_deta"].push_back((jet->Eta > 0 ? 1 : -1) * (p.eta - jet->Eta));
-        particleVars["part_dphi"].push_back(deltaPhi(p.phi, jet->Phi));
-        particleVars["part_charge"].push_back(p.charge);
-        particleVars["part_pid"].push_back(p.pid);
-        particleVars["part_d0val"].push_back(p.d0);
-        particleVars["part_d0err"].push_back(p.d0err);
-        particleVars["part_dzval"].push_back((pv && p.dz != 0) ? (p.dz - pv->Z) : p.dz);
-        particleVars["part_dzerr"].push_back(p.dzerr);
+      for (const auto &v : arrayVars) {
+        if (v.first.find(jet_suffix + "_part_") == 0) {
+          particleVars[v.first.substr(jet_suffix.size() + 1)] = v.second;
+        }
       }
 
       // infer the ParT model

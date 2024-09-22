@@ -23,6 +23,18 @@ hep_sub run.sh -argu tagger/train_hbb 100000 100 "%{ProcId}" 0 ihep -n 200
 hep_sub run.sh -argu tagger/train_hbb 100000 100 "%{ProcId}" 200 ihep -n 13
 hep_sub run.sh -argu tagger/train_hbs 100000 100 "%{ProcId}" 200 ihep -n 11
 
+// more, when finalizing
+hep_sub run.sh -argu tagger/train_higgs4p 100000 100 "%{ProcId}" 1200 ihep -n 240
+hep_sub run.sh -argu tagger/train_higgs2p 100000 100 "%{ProcId}" 160 ihep -n 32
+hep_sub run.sh -argu tagger/train_higgspm2p 100000 100 "%{ProcId}" 120 ihep -n 24
+hep_sub run.sh -argu tagger/train_qcd 100000 100 "%{ProcId}" 200 ihep -n 40
+
+hep_sub run_recover.sh -argu tagger/train_higgs4p 100000 100 "%{ProcId}" 1200 ihep -n 240
+hep_sub run_recover.sh -argu tagger/train_higgs2p 100000 100 "%{ProcId}" 160 ihep -n 32
+hep_sub run_recover.sh -argu tagger/train_higgspm2p 100000 100 "%{ProcId}" 120 ihep -n 24
+
+./run.sh tagger/train_higgs2p 10 10 0 0 farm
+
 # submit ntuplizer (note: REDO_DELPHES has been removed!)
 
 hep_sub ntuplize.sh -argu "%{ProcId}" 0 samples/train_all_filelist.txt 1 ihep -n 600
@@ -184,9 +196,16 @@ i=DiHiggsTo4BVarMass; N=150; start=50; hep_sub run_sm.sh -argu sm_ext/$i 100000 
 i=SingleHiggsToBBVarMass; N=200; start=50; hep_sub run_sm_recover.sh -argu sm_ext/$i 100000 200 "%{ProcId}" $start ihep -n $N -o logs_240201_run_sm/$i.%{ProcId}.out -e logs_240201_run_sm/$i.%{ProcId}.ext.err
 i=DiHiggsTo4BVarMass; N=150; start=50; hep_sub run_sm_recover.sh -argu sm_ext/$i 100000 200 "%{ProcId}" $start ihep -n $N -o logs_240201_run_sm/$i.%{ProcId}.out -e logs_240201_run_sm/$i.%{ProcId}.ext.err
 
+// 24.07 add SingleHiggsToCC
+i=SingleHiggsToCC; N=50; start=0; hep_sub run_sm.sh -argu sm_ext/$i 100000 10000 "%{ProcId}" $start ihep -n $N -o logs_240201_run_sm/$i.%{ProcId}.out -e logs_240201_run_sm/$i.%{ProcId}.err
+
 ## WkkTo3W
 i=WkkTo3WTo6Q; N=50; start=0; hep_sub run_sm.sh -argu sm_ext/$i 100000 10000 "%{ProcId}" $start ihep -n $N -o logs_240201_run_sm/$i.%{ProcId}.out -e logs_240201_run_sm/$i.%{ProcId}.err
 ./run_sm.sh sm_ext/WkkTo3WTo6Q 1000 1000 0 8888 ihep
+
+## hh datasets
+./run_sm.sh hh/qqHH_CV_1_C2V_2_kl_1 10000 10000 0 8888 farm
+
 
 ## 24.04.17 resubmit for Leyun's training
 // store to sm_evtcls dir -> need to make a soft link for accessing genpacks
@@ -233,3 +252,134 @@ for i in SingleHiggs WH ZH SingleTop WJetsToQQ ZZ ZJetsToQQ TZ ZJetsToLL ZW TTba
 
 hep_sub ntuplize_sm.sh -argu "%{ProcId}" 0 samples/sm_dijet_all_filelist.txt ihep makeDiJetRepNtuples.C -n 6801 -o logs_240421_ntuplize_sm/%{ProcId}.out -e logs_240421_ntuplize_sm/%{ProcId}.err
 hep_sub mix_sm.sh -argu samples/sm_dijet_all_ntuple_filelist.json sm_dijet/mixed_passsel_ntuple ihep pass_selection -o logs_240421_ntuplize_sm/mix.passsel.out -e logs_240421_ntuplize_sm/mix.passsel.err
+hep_sub mix_sm.sh -argu samples/sm_dijet_wkk_ntuple_filelist.json sm_dijet/mixed_wkk_passsel_ntuple ihep pass_selection -o logs_240421_ntuplize_sm/mix.wkk_passsel.out -e logs_240421_ntuplize_sm/mix.wkk_passsel.err
+
+## 24.06.13 process JetClassII
+root -b -q 'mixNtuples_JetClassII.C++("/publicfs/cms/user/licq/pheno/anomdet/gen/condor/glopart_training_2312/samples/reorg_JetClassII_2p.json", "/publicfs/cms/user/licq/condor_output/tagger", "/publicfs/cms/user/licq/condor_output/JetClassII/Res2P", "Res2P", "all")'
+hep_sub reorg_JetClass.sh -argu ihep
+
+// farm
+root -b -q 'mixNtuples_JetClassII.C++("/home/pku/licq/pheno/anomdet/gen/condor/glopart_training_2312/samples/reorg_JetClassII_2p.json", "/data/bond/licq/datasets/JetClassII", "/data/bond/licq/datasets/JetClassII/Res2P", "Res2P", "all")'
+
+## 24.07 for Yuzhe to test H->bb/cc vs QCD
+
+root -b -q 'makeJetRepNtuplesForHqq.C++("/data/bond/licq/delphes/glopart_training/sm_ext/SingleHiggsToBB/events_delphes_0.root", "out.root", "/home/pku/licq/pheno/anomdet/gen/delphes_ana/model/JetClassII_ak8puppi_full_scale/model_embed.onnx")'
+
+hep_sub ntuplize_sm.sh -argu "%{ProcId}" 0 samples/sm_hqq_yuzhe_filelist.txt ihep makeJetRepNtuplesForHqq.C -n 50
+hep_sub ntuplize_sm.sh -argu "%{ProcId}" 50 samples/sm_hqq_yuzhe_filelist.txt ihep makeJetRepNtuplesForHqq.C -n 50
+
+======================================================
+# testing HH
+samlist=(qqHH_CV_1_C2V_1_kl_1)
+for i in ${samlist[@]}; do for mHH in 0 300 400 500 600 700 800 900 1000; do rsync hh/$i/ hh_custom/${i}_mHH$mHH; sed -i "s|set mxx_min_pdg {25:0}|set mxx_min_pdg {25:$mHH}|g" hh_custom/${i}_mHH$mHH/mg5_step2_templ.dat; done; done
+
+for i in ${samlist[@]}; do for mHH in 0 300 400 500 600 700 800 900 1000; do hep_sub run_sm.sh -argu hh_custom/${i}_mHH$mHH 10000 10000 0 8888 ihep -o logs_240717_hh/${i}_mHH$mHH.out -e logs_240717_hh/${i}_mHH$mHH.err; done; done
+
+hep_sub run_sm.sh -argu hh_old/ggHH_kl_0_kt_1 2000 2000 0 8888 ihep DelphesHepMC2
+hep_sub run_sm.sh -argu hh_old/ggHH_kl_0_kt_1 10000 10000 0 8889 ihep
+
+./run_sm.sh hh_old/ggHH_kl_0_kt_1 10000 10000 0 8889 ihep
+./run_sm.sh hh_old/qqHH_CV_0p5_C2V_1_kl_1 1000 1000 0 8888 farm
+
+samlist=(qqHH_CV_1_C2V_1_kl_1)
+
+for i in ${samlist[@]}; do for pt in 0 200 250 300 350 400 450 500 550 600; do rsync hh/$i/ hh_custom/${i}_pt$pt; sed -i "s|set pt_min_pdg {25:0}|set pt_min_pdg {25:$pt}|g" hh_custom/${i}_pt$pt/mg5_step2_templ.dat; done; done
+
+for i in ${samlist[@]}; do for pt in 0 200 250 300 350 400 450 500 550 600; do hep_sub run_sm.sh -argu hh_custom/${i}_pt$pt 10000 10000 0 8888 ihep -o logs_240717_hh/${i}_pt$pt.out -e logs_240717_hh/${i}_pt$pt.err; done; done
+
+## submit
+i=qqHH_CV_1_C2V_1_kl_1; N=30; start=0; hep_sub run_sm.sh -argu hh/$i 100000 10000 "%{ProcId}" $start ihep -n $N -o logs_240717_hh/$i.%{ProcId}.out -e logs_240717_hh/$i.%{ProcId}.err
+i=qqHH_CV_1_C2V_2_kl_1; N=30; start=0; hep_sub run_sm.sh -argu hh/$i 100000 10000 "%{ProcId}" $start ihep -n $N -o logs_240717_hh/$i.%{ProcId}.out -e logs_240717_hh/$i.%{ProcId}.err
+i=qqHH_CV_1_C2V_1_kl_2; N=30; start=0; hep_sub run_sm.sh -argu hh/$i 100000 10000 "%{ProcId}" $start ihep -n $N -o logs_240717_hh/$i.%{ProcId}.out -e logs_240717_hh/$i.%{ProcId}.err
+i=qqHH_CV_1_C2V_1_kl_0; N=30; start=0; hep_sub run_sm.sh -argu hh/$i 100000 10000 "%{ProcId}" $start ihep -n $N -o logs_240717_hh/$i.%{ProcId}.out -e logs_240717_hh/$i.%{ProcId}.err
+i=qqHH_CV_0p5_C2V_1_kl_1; N=30; start=0; hep_sub run_sm.sh -argu hh/$i 100000 10000 "%{ProcId}" $start ihep -n $N -o logs_240717_hh/$i.%{ProcId}.out -e logs_240717_hh/$i.%{ProcId}.err
+i=qqHH_CV_1p5_C2V_1_kl_1; N=30; start=0; hep_sub run_sm.sh -argu hh/$i 100000 10000 "%{ProcId}" $start ihep -n $N -o logs_240717_hh/$i.%{ProcId}.out -e logs_240717_hh/$i.%{ProcId}.err
+
+i=ggHH_kl_1_kt_1; N=1000; start=0; hep_sub run_sm.sh -argu hh/$i 10000 10000 "%{ProcId}" $start ihep -n $N -o logs_240717_hh_tmp/$i.%{ProcId}.out -e logs_240717_hh_tmp/$i.%{ProcId}.err
+i=ggHH_kl_1_kt_1; N=1000; start=0; hep_sub run_sm_recover.sh -argu hh/$i 10000 10000 "%{ProcId}" $start ihep -n $N -o logs_240717_hh_tmp/$i.recover.%{ProcId}.out -e logs_240717_hh_tmp/$i.recover.%{ProcId}.err
+
+i=ggHH_kl_5_kt_1; N=500; start=0; hep_sub run_sm.sh -argu hh/$i 10000 10000 "%{ProcId}" $start ihep -n $N -o logs_240717_hh_tmp/$i.%{ProcId}.out -e logs_240717_hh_tmp/$i.%{ProcId}.err
+i=ggHH_kl_1_kt_1_tmp; N=11; start=1000; hep_sub run_sm.sh -argu hh/$i 10000 10000 "%{ProcId}" $start ihep -n $N -o logs_240717_hh_tmp/$i.%{ProcId}.out -e logs_240717_hh_tmp/$i.%{ProcId}.err
+
+# convert lhe (not used)
+
+341 345 349 339
+
+./convert.sh 0 0 ggHH_kl_0_kt_1 ihep
+
+hep_sub convert.sh -argu 0 "%{ProcId}" ggHH_kl_0_kt_1 ihep -n 341
+hep_sub convert.sh -argu 0 "%{ProcId}" ggHH_kl_1_kt_1 ihep -n 345
+hep_sub convert.sh -argu 0 "%{ProcId}" ggHH_kl_2p45_kt_1 ihep -n 349
+hep_sub convert.sh -argu 0 "%{ProcId}" ggHH_kl_5_kt_1 ihep -n 339
+
+hep_sub convert.sh -argu 1 "%{ProcId}" ggHH_kl_0_kt_1 ihep -n 1
+
+# 2307 finalize JetClassII
+hep_sub ntuplize.sh -argu "%{ProcId}" 0 samples/train_all_2407.txt ihep -n 2
+hep_sub ntuplize.sh -argu "%{ProcId}" 2 samples/train_all_2407.txt ihep -n 998
+hep_sub ntuplize.sh -argu "%{ProcId}" 1000 samples/train_all_2407.txt ihep -n 1015
+
+/// test command
+root -b -q 'makeNtuples.C++("/home/pku/licq/pheno/anomdet/events_delphes_qcd_0.root", "test_qcd.root", "JetPUPPIAK8", "GenJetAK8", true, true)'
+root -b -q 'mixNtuples.C++("/home/pku/licq/pheno/anomdet/gen/condor/jetclass2_2407/samples/mix_test.json", "/home/pku/licq/pheno/anomdet/jetclass2_generation/delphes_ana", "/home/pku/licq/pheno/anomdet/jetclass2_generation/delphes_ana", "mix", 0, {0, 0.8})'
+
+// example mix for official notebook
+root -b -q '/home/pku/licq/pheno/anomdet/jetclass2_generation/delphes_ana/mixNtuples.C+("/home/pku/licq/pheno/anomdet/gen/condor/jetclass2_2407/samples/mix_example.json", "/home/pku/licq/pheno/anomdet/jetclass2_generation/delphes_ana/data", "/home/pku/licq/pheno/anomdet/jetclass2_generation/delphes_ana/data", "Mix", 0, {0, 1})'
+
+## formal runs
+root -b -q '/publicfs/cms/user/licq/pheno/anomdet/jetclass2_generation/delphes_ana/mixNtuples.C+("samples/mix_res2p_trainval.json", "/publicfs/cms/user/licq/condor_output", "/publicfs/cms/user/licq/condor_output/tagger_jetclass2/final", "Res2P", 0, {0, 0.8})'
+
+hep_sub mix_simple.sh -argu res34p_train
+hep_sub mix_simple.sh -argu qcd_train
+
+hep_sub mix_simple.sh -argu res2p_val
+hep_sub mix_simple.sh -argu res34p_val
+hep_sub mix_simple.sh -argu qcd_val
+
+hep_sub mix_simple.sh -argu res2p_test
+hep_sub mix_simple.sh -argu res34p_test
+hep_sub mix_simple.sh -argu qcd_test
+
+# origanize
+sam=Res34P
+for i in `seq 0 859`; do ln -s ../final/${sam}_$(printf "%04d" $i).root ${sam}_$(printf "%04d" $i).root; done
+for i in `seq 860 1074`; do ln -s ../final/${sam}_$(printf "%04d" $((i+1000))).root ${sam}_$(printf "%04d" $i).root; done
+for i in `seq 1075 1289`; do ln -s ../final/${sam}_$(printf "%04d" $((i+2000))).root ${sam}_$(printf "%04d" $i).root; done
+sam=Res2P
+for i in `seq 0 199`; do ln -s ../final/${sam}_$(printf "%04d" $i).root ${sam}_$(printf "%04d" $i).root; done
+for i in `seq 200 249`; do ln -s ../final/${sam}_$(printf "%04d" $((i+1000))).root ${sam}_$(printf "%04d" $i).root; done
+for i in `seq 250 299`; do ln -s ../final/${sam}_$(printf "%04d" $((i+2000))).root ${sam}_$(printf "%04d" $i).root; done
+sam=QCD
+for i in `seq 0 279`; do ln -s ../final/${sam}_$(printf "%04d" $i).root ${sam}_$(printf "%04d" $i).root; done
+for i in `seq 280 349`; do ln -s ../final/${sam}_$(printf "%04d" $((i+1000))).root ${sam}_$(printf "%04d" $i).root; done
+for i in `seq 350 419`; do ln -s ../final/${sam}_$(printf "%04d" $((i+2000))).root ${sam}_$(printf "%04d" $i).root; done
+
+touch *
+
+sam=QCD; mode=train; i=0; echo tar -chvf ../tarball/JetClassII_Pythia_${mode}_${sam}_$(printf "%04d" $((i+0)))_$(printf "%04d" $((i+9))).tar $(for j in {0..9}; do echo -n "${sam}_$(printf "%04d" $((i+j))).root "; done)
+
+sam=Res34P; mode=train; for i in `seq 0 85`; do tar -chvf ../tarball/JetClassII_Pythia_${mode}_${sam}_$(printf "%04d" $((i*10+0)))_$(printf "%04d" $((i*10+9)))_1M.tar $(for j in {0..9}; do echo -n "${sam}_$(printf "%04d" $((i*10+j))).root "; done); done
+sam=Res34P; mode=val; for i in `seq 86 106`; do tar -chvf ../tarball/JetClassII_Pythia_${mode}_${sam}_$(printf "%04d" $((i*10+0)))_$(printf "%04d" $((i*10+9)))_1M.tar $(for j in {0..9}; do echo -n "${sam}_$(printf "%04d" $((i*10+j))).root "; done); done
+sam=Res34P; mode=val; for i in `seq 107 107`; do tar -chvf ../tarball/JetClassII_Pythia_${mode}_${sam}_$(printf "%04d" $((i*10+0)))_$(printf "%04d" $((i*10+4)))_500k.tar $(for j in {0..4}; do echo -n "${sam}_$(printf "%04d" $((i*10+j))).root "; done); done
+sam=Res34P; mode=test; for i in `seq 107 127`; do tar -chvf ../tarball/JetClassII_Pythia_${mode}_${sam}_$(printf "%04d" $((i*10+5)))_$(printf "%04d" $((i*10+14)))_1M.tar $(for j in {5..14}; do echo -n "${sam}_$(printf "%04d" $((i*10+j))).root "; done); done
+sam=Res34P; mode=test; for i in `seq 128 128`; do tar -chvf ../tarball/JetClassII_Pythia_${mode}_${sam}_$(printf "%04d" $((i*10+5)))_$(printf "%04d" $((i*10+9)))_500k.tar $(for j in {5..9}; do echo -n "${sam}_$(printf "%04d" $((i*10+j))).root "; done); done
+
+sam=Res2P; mode=train; for i in `seq 0 19`; do tar -chvf ../tarball/JetClassII_Pythia_${mode}_${sam}_$(printf "%04d" $((i*10+0)))_$(printf "%04d" $((i*10+9)))_1M.tar $(for j in {0..9}; do echo -n "${sam}_$(printf "%04d" $((i*10+j))).root "; done); done
+sam=Res2P; mode=val; for i in `seq 20 24`; do tar -chvf ../tarball/JetClassII_Pythia_${mode}_${sam}_$(printf "%04d" $((i*10+0)))_$(printf "%04d" $((i*10+9)))_1M.tar $(for j in {0..9}; do echo -n "${sam}_$(printf "%04d" $((i*10+j))).root "; done); done
+sam=Res2P; mode=test; for i in `seq 25 29`; do tar -chvf ../tarball/JetClassII_Pythia_${mode}_${sam}_$(printf "%04d" $((i*10+0)))_$(printf "%04d" $((i*10+9)))_1M.tar $(for j in {0..9}; do echo -n "${sam}_$(printf "%04d" $((i*10+j))).root "; done); done
+
+sam=QCD; mode=train; for i in `seq 0 27`; do tar -chvf ../tarball/JetClassII_Pythia_${mode}_${sam}_$(printf "%04d" $((i*10+0)))_$(printf "%04d" $((i*10+9)))_1M.tar $(for j in {0..9}; do echo -n "${sam}_$(printf "%04d" $((i*10+j))).root "; done); done
+sam=QCD; mode=val; for i in `seq 28 34`; do tar -chvf ../tarball/JetClassII_Pythia_${mode}_${sam}_$(printf "%04d" $((i*10+0)))_$(printf "%04d" $((i*10+9)))_1M.tar $(for j in {0..9}; do echo -n "${sam}_$(printf "%04d" $((i*10+j))).root "; done); done
+sam=QCD; mode=test; for i in `seq 35 41`; do tar -chvf ../tarball/JetClassII_Pythia_${mode}_${sam}_$(printf "%04d" $((i*10+0)))_$(printf "%04d" $((i*10+9)))_1M.tar $(for j in {0..9}; do echo -n "${sam}_$(printf "%04d" $((i*10+j))).root "; done); done
+
+========================================================================================
+# test photon
+
+./run_sm.sh sm_ext/photon 100 100 0 8888 farm
+
+
+========================================================================================
+# mix CMS GloParT QCD samples
+
+
+root -b -q '/publicfs/cms/user/licq/pheno/anomdet/jetclass2_generation/delphes_ana/mixNtuples.C+("samples/mix_qcd_cms.json", "/publicfs/cms/user/licq/samples/deepjetak8/20230504_ak8_UL17_v8", "/publicfs/cms/user/licq/samples/deepjetak8/20230504_ak8_UL17_v8/QCD_Pt_170toInf_ptBinned_TuneCP5_13TeV_pythia8_remix", "dnnTuples_remix", 0, {0, 1})'

@@ -59,6 +59,8 @@ if [ $(echo $WORKDIRS | wc -w) -ne 1 ]; then
 fi
 WORKDIR=$(echo $WORKDIRS)
 
+THISDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
 cd $WORKDIR
 
 ## check at which batch the previous job halts (by finding the maximum file index)
@@ -137,6 +139,9 @@ for ((i=istart; i<nbatch; i++)); do
     if [ $? -eq 0 ]; then
         # successful
         mv events_delphes.root $WORKDIR/events_delphes_$i.root
+        if [ -f events_lhe.lhe ]; then
+            mv events_lhe.lhe $WORKDIR/events_lhe_$i.lhe
+        fi
     fi
     cd $WORKDIR
 
@@ -159,6 +164,12 @@ else
     hadd -f events_delphes.root $WORKDIR/*.root
 fi
 mkdir -p $OUTPUT_PATH/$PROC
+
+# if events_lhe.lhe exists
+if [ -f $WORKDIR/events_lhe_0.lhe ]; then
+    $THISDIR/scripts/mergeLHE.py -i $WORKDIR'/events_lhe_*.lhe' -o events_lhe.lhe
+    mv events_lhe.lhe $OUTPUT_PATH/$PROC/events_lhe_$JOBNUM.lhe
+fi
 
 # transfer the file
 mv -f events_delphes.root $OUTPUT_PATH/$PROC/events_delphes_$JOBNUM.root

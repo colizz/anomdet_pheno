@@ -1,0 +1,7 @@
+set run_mode 0
+
+import model 2HDM
+
+generate p p > h3, (h3 > h2 h2, (h2 > z h1, (z > b b~), (h1 > b b~)), (h2 > z h1, (z > b b~), (h1 > b b~)))
+
+output proc

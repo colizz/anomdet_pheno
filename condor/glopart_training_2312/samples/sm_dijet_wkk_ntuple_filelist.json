@@ -1,0 +1,79 @@
+{
+    "branches": {
+        "float": [
+            "pass_selection",
+            "dijet_mass",
+            "jet_1_label",
+            "jet_1_pt",
+            "jet_1_eta",
+            "jet_1_phi",
+            "jet_1_energy",
+            "jet_1_nparticles",
+            "jet_1_sdmass",
+            "jet_1_trmass",
+            "jet_1_tau1",
+            "jet_1_tau2",
+            "jet_1_tau3",
+            "jet_1_tau4",
+            "jet_1_label",
+            "jet_2_pt",
+            "jet_2_eta",
+            "jet_2_phi",
+            "jet_2_energy",
+            "jet_2_nparticles",
+            "jet_2_sdmass",
+            "jet_2_trmass",
+            "jet_2_tau1",
+            "jet_2_tau2",
+            "jet_2_tau3",
+            "jet_2_tau4"
+        ],
+        "array": [
+            "jet_1_part_px",
+            "jet_1_part_py",
+            "jet_1_part_pz",
+            "jet_1_part_energy",
+            "jet_1_part_pt",
+            "jet_1_part_deta",
+            "jet_1_part_dphi",
+            "jet_1_part_charge",
+            "jet_1_part_pid",
+            "jet_1_part_d0val",
+            "jet_1_part_d0err",
+            "jet_1_part_dzval",
+            "jet_1_part_dzerr",
+            "jet_2_part_px",
+            "jet_2_part_py",
+            "jet_2_part_pz",
+            "jet_2_part_energy",
+            "jet_2_part_pt",
+            "jet_2_part_deta",
+            "jet_2_part_dphi",
+            "jet_2_part_charge",
+            "jet_2_part_pid",
+            "jet_2_part_d0val",
+            "jet_2_part_d0err",
+            "jet_2_part_dzval",
+            "jet_2_part_dzerr",
+            "jet_1_probs",
+            "jet_1_hidneurons",
+            "jet_2_probs",
+            "jet_2_hidneurons"
+        ]
+    },
+    "samples": {
+        "WkkTo3WTo6Q": {
+            "index": 21,
+            "nevents_target": 500000,
+            "filelist": [
+                "sm_dijet/WkkTo3WTo6Q_ntuple/ntuples_1.root",
+                "sm_dijet/WkkTo3WTo6Q_ntuple/ntuples_2.root",
+                "sm_dijet/WkkTo3WTo6Q_ntuple/ntuples_3.root",
+                "sm_dijet/WkkTo3WTo6Q_ntuple/ntuples_4.root",
+                "sm_dijet/WkkTo3WTo6Q_ntuple/ntuples_5.root",
+                "sm_dijet/WkkTo3WTo6Q_ntuple/ntuples_6.root",
+                "sm_dijet/WkkTo3WTo6Q_ntuple/ntuples_7.root"
+            ]
+        }
+    }
+}
