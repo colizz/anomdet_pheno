@@ -1,0 +1,18 @@
+set run_mode 0
+
+import model sm-ckm_no_b_mass
+
+define ferm = j e+ e- mu+ mu- ta+ ta- ve vm vt ve~ vm~ vt~
+define tq = t t~
+define bq = b b~
+define cq = c c~
+define w = w+ w-
+define ell = e+ e- mu+ mu- ta+ ta-
+define vl = ve ve~ vm vm~ vt vt~
+
+generate p p > tq w $$ t t~, (tq > bq w, w > cq bq), w > ell vl
+add process p p > tq w $$ t t~, (tq > bq w, w > ell vl), w > cq bq
+add process p p > tq w j $$ t t~, (tq > bq w, w > cq bq), w > ell vl
+add process p p > tq w j $$ t t~, (tq > bq w, w > ell vl), w > cq bq
+
+output proc

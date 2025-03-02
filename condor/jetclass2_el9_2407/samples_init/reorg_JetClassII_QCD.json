@@ -1,0 +1,1467 @@
+{
+    "input_branch_list": [
+        ["part_px", "vector<float>"],
+        ["part_py", "vector<float>"],
+        ["part_pz", "vector<float>"],
+        ["part_energy", "vector<float>"],
+        ["part_deta", "vector<float>"],
+        ["part_dphi", "vector<float>"],
+        ["part_d0val", "vector<float>"],
+        ["part_d0err", "vector<float>"],
+        ["part_dzval", "vector<float>"],
+        ["part_dzerr", "vector<float>"],
+        ["part_pid", "vector<float>"],
+        ["part_charge", "vector<float>"],
+        ["jet_pt", "float"],
+        ["jet_eta", "float"],
+        ["jet_phi", "float"],
+        ["jet_energy", "float"],
+        ["jet_nparticles", "float"],
+        ["jet_sdmass", "float"],
+        ["jet_tau1", "float"],
+        ["jet_tau2", "float"],
+        ["jet_tau3", "float"],
+        ["jet_tau4", "float"],
+        ["jet_label", "float"],
+        ["genres_pt", "vector<float>"],
+        ["genres_eta", "vector<float>"],
+        ["genres_phi", "vector<float>"],
+        ["genres_mass", "vector<float>"],
+        ["genres_pid", "vector<float>"],
+        ["genpart_pt", "vector<float>"],
+        ["genpart_eta", "vector<float>"],
+        ["genpart_phi", "vector<float>"],
+        ["genpart_mass", "vector<float>"],
+        ["genpart_pid", "vector<float>"]
+    ],
+    "output_branch_list": [
+        ["part_px", "vector<float>"],
+        ["part_py", "vector<float>"],
+        ["part_pz", "vector<float>"],
+        ["part_energy", "vector<float>"],
+        ["part_deta", "vector<float>"],
+        ["part_dphi", "vector<float>"],
+        ["part_d0val", "vector<float>"],
+        ["part_d0err", "vector<float>"],
+        ["part_dzval", "vector<float>"],
+        ["part_dzerr", "vector<float>"],
+        ["part_pid", "vector<int>"],
+        ["part_charge", "vector<int>"],
+        ["part_isElectron", "vector<bool>"],
+        ["part_isMuon", "vector<bool>"],
+        ["part_isPhoton", "vector<bool>"],
+        ["part_isChargedHadron", "vector<bool>"],
+        ["part_isNeutralHadron", "vector<bool>"],
+        ["jet_pt", "float"],
+        ["jet_eta", "float"],
+        ["jet_phi", "float"],
+        ["jet_energy", "float"],
+        ["jet_nparticles", "int"],
+        ["jet_sdmass", "float"],
+        ["jet_tau1", "float"],
+        ["jet_tau2", "float"],
+        ["jet_tau3", "float"],
+        ["jet_tau4", "float"],
+        ["jet_label", "int"],
+        ["aux_genpart_pt", "vector<float>"],
+        ["aux_genpart_eta", "vector<float>"],
+        ["aux_genpart_phi", "vector<float>"],
+        ["aux_genpart_mass", "vector<float>"],
+        ["aux_genpart_pid", "vector<int>"]
+    ],
+    "samples": {
+        "train_qcd_ntuple/ntuples_0.root": {
+            "index": 0,
+            "nevents_target": 178742,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_0.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_1.root": {
+            "index": 1,
+            "nevents_target": 179933,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_1.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_2.root": {
+            "index": 2,
+            "nevents_target": 181962,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_2.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_3.root": {
+            "index": 3,
+            "nevents_target": 180232,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_3.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_4.root": {
+            "index": 4,
+            "nevents_target": 177445,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_4.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_5.root": {
+            "index": 5,
+            "nevents_target": 176975,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_5.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_6.root": {
+            "index": 6,
+            "nevents_target": 181361,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_6.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_7.root": {
+            "index": 7,
+            "nevents_target": 176877,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_7.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_8.root": {
+            "index": 8,
+            "nevents_target": 178732,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_8.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_9.root": {
+            "index": 9,
+            "nevents_target": 180309,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_9.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_10.root": {
+            "index": 10,
+            "nevents_target": 178190,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_10.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_11.root": {
+            "index": 11,
+            "nevents_target": 174782,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_11.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_12.root": {
+            "index": 12,
+            "nevents_target": 180451,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_12.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_13.root": {
+            "index": 13,
+            "nevents_target": 176877,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_13.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_14.root": {
+            "index": 14,
+            "nevents_target": 180712,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_14.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_15.root": {
+            "index": 15,
+            "nevents_target": 180014,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_15.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_16.root": {
+            "index": 16,
+            "nevents_target": 178283,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_16.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_17.root": {
+            "index": 17,
+            "nevents_target": 173813,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_17.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_18.root": {
+            "index": 18,
+            "nevents_target": 177528,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_18.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_19.root": {
+            "index": 19,
+            "nevents_target": 182511,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_19.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_20.root": {
+            "index": 20,
+            "nevents_target": 177776,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_20.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_21.root": {
+            "index": 21,
+            "nevents_target": 175951,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_21.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_22.root": {
+            "index": 22,
+            "nevents_target": 178753,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_22.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_23.root": {
+            "index": 23,
+            "nevents_target": 174612,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_23.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_24.root": {
+            "index": 24,
+            "nevents_target": 175711,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_24.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_25.root": {
+            "index": 25,
+            "nevents_target": 182605,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_25.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_26.root": {
+            "index": 26,
+            "nevents_target": 176053,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_26.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_27.root": {
+            "index": 27,
+            "nevents_target": 180389,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_27.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_28.root": {
+            "index": 28,
+            "nevents_target": 178644,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_28.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_29.root": {
+            "index": 29,
+            "nevents_target": 175594,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_29.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_30.root": {
+            "index": 30,
+            "nevents_target": 179674,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_30.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_31.root": {
+            "index": 31,
+            "nevents_target": 180582,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_31.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_32.root": {
+            "index": 32,
+            "nevents_target": 178283,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_32.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_33.root": {
+            "index": 33,
+            "nevents_target": 178586,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_33.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_34.root": {
+            "index": 34,
+            "nevents_target": 181264,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_34.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_35.root": {
+            "index": 35,
+            "nevents_target": 180694,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_35.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_36.root": {
+            "index": 36,
+            "nevents_target": 179816,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_36.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_37.root": {
+            "index": 37,
+            "nevents_target": 177695,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_37.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_38.root": {
+            "index": 38,
+            "nevents_target": 175631,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_38.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_39.root": {
+            "index": 39,
+            "nevents_target": 173580,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_39.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_40.root": {
+            "index": 40,
+            "nevents_target": 179831,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_40.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_41.root": {
+            "index": 41,
+            "nevents_target": 178680,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_41.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_42.root": {
+            "index": 42,
+            "nevents_target": 181629,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_42.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_43.root": {
+            "index": 43,
+            "nevents_target": 178013,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_43.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_44.root": {
+            "index": 44,
+            "nevents_target": 182554,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_44.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_45.root": {
+            "index": 45,
+            "nevents_target": 179099,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_45.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_46.root": {
+            "index": 46,
+            "nevents_target": 176675,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_46.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_47.root": {
+            "index": 47,
+            "nevents_target": 176632,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_47.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_48.root": {
+            "index": 48,
+            "nevents_target": 179336,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_48.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_49.root": {
+            "index": 49,
+            "nevents_target": 176759,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_49.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_50.root": {
+            "index": 50,
+            "nevents_target": 179158,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_50.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_51.root": {
+            "index": 51,
+            "nevents_target": 179285,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_51.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_52.root": {
+            "index": 52,
+            "nevents_target": 177589,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_52.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_53.root": {
+            "index": 53,
+            "nevents_target": 178955,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_53.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_54.root": {
+            "index": 54,
+            "nevents_target": 179939,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_54.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_55.root": {
+            "index": 55,
+            "nevents_target": 177725,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_55.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_56.root": {
+            "index": 56,
+            "nevents_target": 180225,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_56.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_57.root": {
+            "index": 57,
+            "nevents_target": 177867,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_57.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_58.root": {
+            "index": 58,
+            "nevents_target": 182083,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_58.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_59.root": {
+            "index": 59,
+            "nevents_target": 175332,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_59.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_60.root": {
+            "index": 60,
+            "nevents_target": 179191,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_60.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_61.root": {
+            "index": 61,
+            "nevents_target": 177624,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_61.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_62.root": {
+            "index": 62,
+            "nevents_target": 180127,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_62.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_63.root": {
+            "index": 63,
+            "nevents_target": 177759,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_63.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_64.root": {
+            "index": 64,
+            "nevents_target": 175865,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_64.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_65.root": {
+            "index": 65,
+            "nevents_target": 179673,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_65.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_66.root": {
+            "index": 66,
+            "nevents_target": 181234,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_66.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_67.root": {
+            "index": 67,
+            "nevents_target": 177080,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_67.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_68.root": {
+            "index": 68,
+            "nevents_target": 181672,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_68.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_69.root": {
+            "index": 69,
+            "nevents_target": 177284,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_69.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_70.root": {
+            "index": 70,
+            "nevents_target": 180655,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_70.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_71.root": {
+            "index": 71,
+            "nevents_target": 180315,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_71.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_72.root": {
+            "index": 72,
+            "nevents_target": 176218,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_72.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_73.root": {
+            "index": 73,
+            "nevents_target": 177540,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_73.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_74.root": {
+            "index": 74,
+            "nevents_target": 179908,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_74.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_75.root": {
+            "index": 75,
+            "nevents_target": 179986,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_75.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_76.root": {
+            "index": 76,
+            "nevents_target": 178182,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_76.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_77.root": {
+            "index": 77,
+            "nevents_target": 178517,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_77.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_78.root": {
+            "index": 78,
+            "nevents_target": 180682,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_78.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_79.root": {
+            "index": 79,
+            "nevents_target": 178089,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_79.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_80.root": {
+            "index": 80,
+            "nevents_target": 177987,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_80.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_81.root": {
+            "index": 81,
+            "nevents_target": 174535,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_81.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_82.root": {
+            "index": 82,
+            "nevents_target": 180250,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_82.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_83.root": {
+            "index": 83,
+            "nevents_target": 176378,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_83.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_84.root": {
+            "index": 84,
+            "nevents_target": 179288,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_84.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_85.root": {
+            "index": 85,
+            "nevents_target": 176372,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_85.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_86.root": {
+            "index": 86,
+            "nevents_target": 176936,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_86.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_87.root": {
+            "index": 87,
+            "nevents_target": 178606,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_87.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_88.root": {
+            "index": 88,
+            "nevents_target": 175453,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_88.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_89.root": {
+            "index": 89,
+            "nevents_target": 178888,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_89.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_90.root": {
+            "index": 90,
+            "nevents_target": 177178,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_90.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_91.root": {
+            "index": 91,
+            "nevents_target": 178863,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_91.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_92.root": {
+            "index": 92,
+            "nevents_target": 174508,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_92.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_93.root": {
+            "index": 93,
+            "nevents_target": 179080,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_93.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_94.root": {
+            "index": 94,
+            "nevents_target": 175937,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_94.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_95.root": {
+            "index": 95,
+            "nevents_target": 174465,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_95.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_96.root": {
+            "index": 96,
+            "nevents_target": 177367,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_96.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_97.root": {
+            "index": 97,
+            "nevents_target": 177304,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_97.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_98.root": {
+            "index": 98,
+            "nevents_target": 181009,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_98.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_99.root": {
+            "index": 99,
+            "nevents_target": 176168,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_99.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_100.root": {
+            "index": 100,
+            "nevents_target": 180444,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_100.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_101.root": {
+            "index": 101,
+            "nevents_target": 177218,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_101.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_102.root": {
+            "index": 102,
+            "nevents_target": 178290,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_102.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_103.root": {
+            "index": 103,
+            "nevents_target": 179019,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_103.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_104.root": {
+            "index": 104,
+            "nevents_target": 181661,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_104.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_105.root": {
+            "index": 105,
+            "nevents_target": 177030,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_105.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_106.root": {
+            "index": 106,
+            "nevents_target": 178495,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_106.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_107.root": {
+            "index": 107,
+            "nevents_target": 183420,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_107.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_108.root": {
+            "index": 108,
+            "nevents_target": 176482,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_108.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_109.root": {
+            "index": 109,
+            "nevents_target": 177811,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_109.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_110.root": {
+            "index": 110,
+            "nevents_target": 179089,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_110.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_111.root": {
+            "index": 111,
+            "nevents_target": 179368,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_111.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_112.root": {
+            "index": 112,
+            "nevents_target": 177318,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_112.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_113.root": {
+            "index": 113,
+            "nevents_target": 178260,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_113.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_114.root": {
+            "index": 114,
+            "nevents_target": 175301,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_114.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_115.root": {
+            "index": 115,
+            "nevents_target": 174338,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_115.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_116.root": {
+            "index": 116,
+            "nevents_target": 177016,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_116.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_117.root": {
+            "index": 117,
+            "nevents_target": 177067,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_117.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_118.root": {
+            "index": 118,
+            "nevents_target": 176969,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_118.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_119.root": {
+            "index": 119,
+            "nevents_target": 176189,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_119.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_120.root": {
+            "index": 120,
+            "nevents_target": 177143,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_120.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_121.root": {
+            "index": 121,
+            "nevents_target": 182567,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_121.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_122.root": {
+            "index": 122,
+            "nevents_target": 177119,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_122.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_123.root": {
+            "index": 123,
+            "nevents_target": 176344,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_123.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_124.root": {
+            "index": 124,
+            "nevents_target": 178553,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_124.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_125.root": {
+            "index": 125,
+            "nevents_target": 178478,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_125.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_126.root": {
+            "index": 126,
+            "nevents_target": 179636,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_126.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_127.root": {
+            "index": 127,
+            "nevents_target": 180783,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_127.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_128.root": {
+            "index": 128,
+            "nevents_target": 179779,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_128.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_129.root": {
+            "index": 129,
+            "nevents_target": 179631,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_129.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_130.root": {
+            "index": 130,
+            "nevents_target": 176751,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_130.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_131.root": {
+            "index": 131,
+            "nevents_target": 174818,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_131.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_132.root": {
+            "index": 132,
+            "nevents_target": 176167,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_132.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_133.root": {
+            "index": 133,
+            "nevents_target": 179480,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_133.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_134.root": {
+            "index": 134,
+            "nevents_target": 179221,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_134.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_135.root": {
+            "index": 135,
+            "nevents_target": 177851,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_135.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_136.root": {
+            "index": 136,
+            "nevents_target": 178064,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_136.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_137.root": {
+            "index": 137,
+            "nevents_target": 179627,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_137.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_138.root": {
+            "index": 138,
+            "nevents_target": 178952,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_138.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_139.root": {
+            "index": 139,
+            "nevents_target": 176656,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_139.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_140.root": {
+            "index": 140,
+            "nevents_target": 178254,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_140.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_141.root": {
+            "index": 141,
+            "nevents_target": 181361,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_141.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_142.root": {
+            "index": 142,
+            "nevents_target": 179581,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_142.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_143.root": {
+            "index": 143,
+            "nevents_target": 181605,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_143.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_144.root": {
+            "index": 144,
+            "nevents_target": 178168,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_144.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_145.root": {
+            "index": 145,
+            "nevents_target": 179176,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_145.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_146.root": {
+            "index": 146,
+            "nevents_target": 178365,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_146.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_147.root": {
+            "index": 147,
+            "nevents_target": 179765,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_147.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_148.root": {
+            "index": 148,
+            "nevents_target": 180886,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_148.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_149.root": {
+            "index": 149,
+            "nevents_target": 178600,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_149.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_150.root": {
+            "index": 150,
+            "nevents_target": 183079,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_150.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_152.root": {
+            "index": 151,
+            "nevents_target": 179958,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_152.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_153.root": {
+            "index": 152,
+            "nevents_target": 181822,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_153.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_154.root": {
+            "index": 153,
+            "nevents_target": 176272,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_154.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_155.root": {
+            "index": 154,
+            "nevents_target": 178271,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_155.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_156.root": {
+            "index": 155,
+            "nevents_target": 176386,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_156.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_157.root": {
+            "index": 156,
+            "nevents_target": 178142,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_157.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_158.root": {
+            "index": 157,
+            "nevents_target": 178798,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_158.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_159.root": {
+            "index": 158,
+            "nevents_target": 176394,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_159.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_160.root": {
+            "index": 159,
+            "nevents_target": 179184,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_160.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_161.root": {
+            "index": 160,
+            "nevents_target": 179833,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_161.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_162.root": {
+            "index": 161,
+            "nevents_target": 177721,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_162.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_163.root": {
+            "index": 162,
+            "nevents_target": 181574,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_163.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_164.root": {
+            "index": 163,
+            "nevents_target": 177324,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_164.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_165.root": {
+            "index": 164,
+            "nevents_target": 179478,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_165.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_166.root": {
+            "index": 165,
+            "nevents_target": 179290,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_166.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_167.root": {
+            "index": 166,
+            "nevents_target": 175266,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_167.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_168.root": {
+            "index": 167,
+            "nevents_target": 179763,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_168.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_169.root": {
+            "index": 168,
+            "nevents_target": 178714,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_169.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_170.root": {
+            "index": 169,
+            "nevents_target": 177936,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_170.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_171.root": {
+            "index": 170,
+            "nevents_target": 177677,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_171.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_172.root": {
+            "index": 171,
+            "nevents_target": 179012,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_172.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_173.root": {
+            "index": 172,
+            "nevents_target": 178428,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_173.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_174.root": {
+            "index": 173,
+            "nevents_target": 180659,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_174.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_175.root": {
+            "index": 174,
+            "nevents_target": 178808,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_175.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_176.root": {
+            "index": 175,
+            "nevents_target": 181607,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_176.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_177.root": {
+            "index": 176,
+            "nevents_target": 177399,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_177.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_178.root": {
+            "index": 177,
+            "nevents_target": 176559,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_178.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_179.root": {
+            "index": 178,
+            "nevents_target": 176313,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_179.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_180.root": {
+            "index": 179,
+            "nevents_target": 182475,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_180.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_181.root": {
+            "index": 180,
+            "nevents_target": 181946,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_181.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_182.root": {
+            "index": 181,
+            "nevents_target": 178668,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_182.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_183.root": {
+            "index": 182,
+            "nevents_target": 174345,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_183.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_184.root": {
+            "index": 183,
+            "nevents_target": 179195,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_184.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_185.root": {
+            "index": 184,
+            "nevents_target": 178479,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_185.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_186.root": {
+            "index": 185,
+            "nevents_target": 179193,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_186.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_187.root": {
+            "index": 186,
+            "nevents_target": 178233,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_187.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_188.root": {
+            "index": 187,
+            "nevents_target": 178369,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_188.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_189.root": {
+            "index": 188,
+            "nevents_target": 178898,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_189.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_190.root": {
+            "index": 189,
+            "nevents_target": 181204,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_190.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_191.root": {
+            "index": 190,
+            "nevents_target": 175028,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_191.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_192.root": {
+            "index": 191,
+            "nevents_target": 182630,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_192.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_193.root": {
+            "index": 192,
+            "nevents_target": 178288,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_193.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_194.root": {
+            "index": 193,
+            "nevents_target": 177863,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_194.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_195.root": {
+            "index": 194,
+            "nevents_target": 177489,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_195.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_196.root": {
+            "index": 195,
+            "nevents_target": 179386,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_196.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_197.root": {
+            "index": 196,
+            "nevents_target": 181778,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_197.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_198.root": {
+            "index": 197,
+            "nevents_target": 180605,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_198.root"
+            ]
+        },
+        "train_qcd_ntuple/ntuples_199.root": {
+            "index": 198,
+            "nevents_target": 178026,
+            "filelist": [
+                "train_qcd_ntuple/ntuples_199.root"
+            ]
+        }
+    }
+}

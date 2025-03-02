@@ -1,0 +1,2484 @@
+{
+    "input_branch_list": [
+        [
+            "part_px",
+            "vector<float>"
+        ],
+        [
+            "part_py",
+            "vector<float>"
+        ],
+        [
+            "part_pz",
+            "vector<float>"
+        ],
+        [
+            "part_energy",
+            "vector<float>"
+        ],
+        [
+            "part_deta",
+            "vector<float>"
+        ],
+        [
+            "part_dphi",
+            "vector<float>"
+        ],
+        [
+            "part_d0val",
+            "vector<float>"
+        ],
+        [
+            "part_d0err",
+            "vector<float>"
+        ],
+        [
+            "part_dzval",
+            "vector<float>"
+        ],
+        [
+            "part_dzerr",
+            "vector<float>"
+        ],
+        [
+            "part_pid",
+            "vector<float>"
+        ],
+        [
+            "part_charge",
+            "vector<float>"
+        ],
+        [
+            "jet_pt",
+            "float"
+        ],
+        [
+            "jet_eta",
+            "float"
+        ],
+        [
+            "jet_phi",
+            "float"
+        ],
+        [
+            "jet_energy",
+            "float"
+        ],
+        [
+            "jet_nparticles",
+            "float"
+        ],
+        [
+            "jet_sdmass",
+            "float"
+        ],
+        [
+            "jet_tau1",
+            "float"
+        ],
+        [
+            "jet_tau2",
+            "float"
+        ],
+        [
+            "jet_tau3",
+            "float"
+        ],
+        [
+            "jet_tau4",
+            "float"
+        ],
+        [
+            "jet_label",
+            "float"
+        ],
+        [
+            "genres_pt",
+            "vector<float>"
+        ],
+        [
+            "genres_eta",
+            "vector<float>"
+        ],
+        [
+            "genres_phi",
+            "vector<float>"
+        ],
+        [
+            "genres_mass",
+            "vector<float>"
+        ],
+        [
+            "genres_pid",
+            "vector<float>"
+        ],
+        [
+            "genpart_pt",
+            "vector<float>"
+        ],
+        [
+            "genpart_eta",
+            "vector<float>"
+        ],
+        [
+            "genpart_phi",
+            "vector<float>"
+        ],
+        [
+            "genpart_mass",
+            "vector<float>"
+        ],
+        [
+            "genpart_pid",
+            "vector<float>"
+        ]
+    ],
+    "output_branch_list": [
+        [
+            "part_px",
+            "vector<float>"
+        ],
+        [
+            "part_py",
+            "vector<float>"
+        ],
+        [
+            "part_pz",
+            "vector<float>"
+        ],
+        [
+            "part_energy",
+            "vector<float>"
+        ],
+        [
+            "part_deta",
+            "vector<float>"
+        ],
+        [
+            "part_dphi",
+            "vector<float>"
+        ],
+        [
+            "part_d0val",
+            "vector<float>"
+        ],
+        [
+            "part_d0err",
+            "vector<float>"
+        ],
+        [
+            "part_dzval",
+            "vector<float>"
+        ],
+        [
+            "part_dzerr",
+            "vector<float>"
+        ],
+        [
+            "part_pid",
+            "vector<int>"
+        ],
+        [
+            "part_charge",
+            "vector<int>"
+        ],
+        [
+            "part_isElectron",
+            "vector<bool>"
+        ],
+        [
+            "part_isMuon",
+            "vector<bool>"
+        ],
+        [
+            "part_isPhoton",
+            "vector<bool>"
+        ],
+        [
+            "part_isChargedHadron",
+            "vector<bool>"
+        ],
+        [
+            "part_isNeutralHadron",
+            "vector<bool>"
+        ],
+        [
+            "jet_pt",
+            "float"
+        ],
+        [
+            "jet_eta",
+            "float"
+        ],
+        [
+            "jet_phi",
+            "float"
+        ],
+        [
+            "jet_energy",
+            "float"
+        ],
+        [
+            "jet_nparticles",
+            "int"
+        ],
+        [
+            "jet_sdmass",
+            "float"
+        ],
+        [
+            "jet_tau1",
+            "float"
+        ],
+        [
+            "jet_tau2",
+            "float"
+        ],
+        [
+            "jet_tau3",
+            "float"
+        ],
+        [
+            "jet_tau4",
+            "float"
+        ],
+        [
+            "jet_label",
+            "int"
+        ],
+        [
+            "aux_genpart_pt",
+            "vector<float>"
+        ],
+        [
+            "aux_genpart_eta",
+            "vector<float>"
+        ],
+        [
+            "aux_genpart_phi",
+            "vector<float>"
+        ],
+        [
+            "aux_genpart_mass",
+            "vector<float>"
+        ],
+        [
+            "aux_genpart_pid",
+            "vector<int>"
+        ]
+    ],
+    "samples": {
+        "train_higgs4p_ntuple/ntuples_884.root": {
+            "index": 884,
+            "nevents_target": 91528,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_884.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_885.root": {
+            "index": 885,
+            "nevents_target": 86087,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_885.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_886.root": {
+            "index": 886,
+            "nevents_target": 92240,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_886.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_887.root": {
+            "index": 887,
+            "nevents_target": 91930,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_887.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_888.root": {
+            "index": 888,
+            "nevents_target": 91793,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_888.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_889.root": {
+            "index": 889,
+            "nevents_target": 86602,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_889.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_890.root": {
+            "index": 890,
+            "nevents_target": 91951,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_890.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_891.root": {
+            "index": 891,
+            "nevents_target": 88713,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_891.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_892.root": {
+            "index": 892,
+            "nevents_target": 94029,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_892.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_893.root": {
+            "index": 893,
+            "nevents_target": 91500,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_893.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_894.root": {
+            "index": 894,
+            "nevents_target": 90458,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_894.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_895.root": {
+            "index": 895,
+            "nevents_target": 87537,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_895.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_896.root": {
+            "index": 896,
+            "nevents_target": 88037,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_896.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_897.root": {
+            "index": 897,
+            "nevents_target": 95997,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_897.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_898.root": {
+            "index": 898,
+            "nevents_target": 90318,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_898.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_899.root": {
+            "index": 899,
+            "nevents_target": 89340,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_899.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_900.root": {
+            "index": 900,
+            "nevents_target": 87798,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_900.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_901.root": {
+            "index": 901,
+            "nevents_target": 93536,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_901.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_902.root": {
+            "index": 902,
+            "nevents_target": 91874,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_902.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_903.root": {
+            "index": 903,
+            "nevents_target": 91862,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_903.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_904.root": {
+            "index": 904,
+            "nevents_target": 89445,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_904.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_905.root": {
+            "index": 905,
+            "nevents_target": 91825,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_905.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_906.root": {
+            "index": 906,
+            "nevents_target": 93042,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_906.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_907.root": {
+            "index": 907,
+            "nevents_target": 89958,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_907.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_908.root": {
+            "index": 908,
+            "nevents_target": 94243,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_908.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_909.root": {
+            "index": 909,
+            "nevents_target": 91003,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_909.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_910.root": {
+            "index": 910,
+            "nevents_target": 87508,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_910.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_911.root": {
+            "index": 911,
+            "nevents_target": 88709,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_911.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_912.root": {
+            "index": 912,
+            "nevents_target": 87282,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_912.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_913.root": {
+            "index": 913,
+            "nevents_target": 88341,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_913.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_914.root": {
+            "index": 914,
+            "nevents_target": 89852,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_914.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_915.root": {
+            "index": 915,
+            "nevents_target": 87587,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_915.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_916.root": {
+            "index": 916,
+            "nevents_target": 93889,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_916.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_917.root": {
+            "index": 917,
+            "nevents_target": 90791,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_917.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_918.root": {
+            "index": 918,
+            "nevents_target": 91471,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_918.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_919.root": {
+            "index": 919,
+            "nevents_target": 88156,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_919.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_920.root": {
+            "index": 920,
+            "nevents_target": 89457,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_920.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_921.root": {
+            "index": 921,
+            "nevents_target": 92419,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_921.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_922.root": {
+            "index": 922,
+            "nevents_target": 89381,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_922.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_923.root": {
+            "index": 923,
+            "nevents_target": 94771,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_923.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_924.root": {
+            "index": 924,
+            "nevents_target": 89868,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_924.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_925.root": {
+            "index": 925,
+            "nevents_target": 91451,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_925.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_926.root": {
+            "index": 926,
+            "nevents_target": 89057,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_926.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_927.root": {
+            "index": 927,
+            "nevents_target": 89395,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_927.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_928.root": {
+            "index": 928,
+            "nevents_target": 91359,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_928.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_929.root": {
+            "index": 929,
+            "nevents_target": 87787,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_929.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_930.root": {
+            "index": 930,
+            "nevents_target": 95301,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_930.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_931.root": {
+            "index": 931,
+            "nevents_target": 90877,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_931.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_932.root": {
+            "index": 932,
+            "nevents_target": 93169,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_932.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_933.root": {
+            "index": 933,
+            "nevents_target": 93942,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_933.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_934.root": {
+            "index": 934,
+            "nevents_target": 89125,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_934.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_935.root": {
+            "index": 935,
+            "nevents_target": 92047,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_935.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_936.root": {
+            "index": 936,
+            "nevents_target": 89415,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_936.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_937.root": {
+            "index": 937,
+            "nevents_target": 90122,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_937.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_938.root": {
+            "index": 938,
+            "nevents_target": 88815,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_938.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_939.root": {
+            "index": 939,
+            "nevents_target": 92002,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_939.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_940.root": {
+            "index": 940,
+            "nevents_target": 91063,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_940.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_941.root": {
+            "index": 941,
+            "nevents_target": 89635,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_941.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_942.root": {
+            "index": 942,
+            "nevents_target": 90618,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_942.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_943.root": {
+            "index": 943,
+            "nevents_target": 93151,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_943.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_944.root": {
+            "index": 944,
+            "nevents_target": 91073,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_944.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_945.root": {
+            "index": 945,
+            "nevents_target": 93973,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_945.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_946.root": {
+            "index": 946,
+            "nevents_target": 91098,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_946.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_947.root": {
+            "index": 947,
+            "nevents_target": 93208,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_947.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_948.root": {
+            "index": 948,
+            "nevents_target": 90130,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_948.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_949.root": {
+            "index": 949,
+            "nevents_target": 89118,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_949.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_950.root": {
+            "index": 950,
+            "nevents_target": 94010,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_950.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_951.root": {
+            "index": 951,
+            "nevents_target": 89201,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_951.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_952.root": {
+            "index": 952,
+            "nevents_target": 88021,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_952.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_953.root": {
+            "index": 953,
+            "nevents_target": 91674,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_953.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_954.root": {
+            "index": 954,
+            "nevents_target": 92547,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_954.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_955.root": {
+            "index": 955,
+            "nevents_target": 86851,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_955.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_956.root": {
+            "index": 956,
+            "nevents_target": 92895,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_956.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_957.root": {
+            "index": 957,
+            "nevents_target": 91900,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_957.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_958.root": {
+            "index": 958,
+            "nevents_target": 87337,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_958.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_959.root": {
+            "index": 959,
+            "nevents_target": 90753,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_959.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_960.root": {
+            "index": 960,
+            "nevents_target": 93076,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_960.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_961.root": {
+            "index": 961,
+            "nevents_target": 88463,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_961.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_962.root": {
+            "index": 962,
+            "nevents_target": 90986,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_962.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_963.root": {
+            "index": 963,
+            "nevents_target": 90527,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_963.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_964.root": {
+            "index": 964,
+            "nevents_target": 88612,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_964.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_965.root": {
+            "index": 965,
+            "nevents_target": 90570,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_965.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_966.root": {
+            "index": 966,
+            "nevents_target": 89066,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_966.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_967.root": {
+            "index": 967,
+            "nevents_target": 88998,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_967.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_968.root": {
+            "index": 968,
+            "nevents_target": 91069,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_968.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_969.root": {
+            "index": 969,
+            "nevents_target": 88411,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_969.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_970.root": {
+            "index": 970,
+            "nevents_target": 89169,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_970.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_971.root": {
+            "index": 971,
+            "nevents_target": 88703,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_971.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_972.root": {
+            "index": 972,
+            "nevents_target": 87034,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_972.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_973.root": {
+            "index": 973,
+            "nevents_target": 93535,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_973.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_974.root": {
+            "index": 974,
+            "nevents_target": 91377,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_974.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_975.root": {
+            "index": 975,
+            "nevents_target": 90172,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_975.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_976.root": {
+            "index": 976,
+            "nevents_target": 90540,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_976.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_977.root": {
+            "index": 977,
+            "nevents_target": 88973,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_977.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_978.root": {
+            "index": 978,
+            "nevents_target": 92028,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_978.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_979.root": {
+            "index": 979,
+            "nevents_target": 89547,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_979.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_980.root": {
+            "index": 980,
+            "nevents_target": 90102,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_980.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_981.root": {
+            "index": 981,
+            "nevents_target": 93204,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_981.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_982.root": {
+            "index": 982,
+            "nevents_target": 88698,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_982.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_983.root": {
+            "index": 983,
+            "nevents_target": 87893,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_983.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_984.root": {
+            "index": 984,
+            "nevents_target": 92420,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_984.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_985.root": {
+            "index": 985,
+            "nevents_target": 88471,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_985.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_986.root": {
+            "index": 986,
+            "nevents_target": 89539,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_986.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_987.root": {
+            "index": 987,
+            "nevents_target": 87376,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_987.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_988.root": {
+            "index": 988,
+            "nevents_target": 86847,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_988.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_989.root": {
+            "index": 989,
+            "nevents_target": 89784,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_989.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_990.root": {
+            "index": 990,
+            "nevents_target": 86933,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_990.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_991.root": {
+            "index": 991,
+            "nevents_target": 89820,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_991.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_992.root": {
+            "index": 992,
+            "nevents_target": 88216,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_992.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_993.root": {
+            "index": 993,
+            "nevents_target": 93435,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_993.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_994.root": {
+            "index": 994,
+            "nevents_target": 91272,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_994.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_995.root": {
+            "index": 995,
+            "nevents_target": 89928,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_995.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_996.root": {
+            "index": 996,
+            "nevents_target": 87336,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_996.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_997.root": {
+            "index": 997,
+            "nevents_target": 92117,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_997.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_998.root": {
+            "index": 998,
+            "nevents_target": 90575,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_998.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_999.root": {
+            "index": 999,
+            "nevents_target": 94491,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_999.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1000.root": {
+            "index": 1000,
+            "nevents_target": 90835,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1000.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1001.root": {
+            "index": 1001,
+            "nevents_target": 89335,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1001.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1002.root": {
+            "index": 1002,
+            "nevents_target": 90835,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1002.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1003.root": {
+            "index": 1003,
+            "nevents_target": 88235,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1003.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1004.root": {
+            "index": 1004,
+            "nevents_target": 93666,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1004.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1005.root": {
+            "index": 1005,
+            "nevents_target": 91359,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1005.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1006.root": {
+            "index": 1006,
+            "nevents_target": 88028,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1006.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1007.root": {
+            "index": 1007,
+            "nevents_target": 94892,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1007.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1008.root": {
+            "index": 1008,
+            "nevents_target": 89604,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1008.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1009.root": {
+            "index": 1009,
+            "nevents_target": 90094,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1009.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1010.root": {
+            "index": 1010,
+            "nevents_target": 88359,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1010.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1011.root": {
+            "index": 1011,
+            "nevents_target": 94545,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1011.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1012.root": {
+            "index": 1012,
+            "nevents_target": 85723,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1012.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1013.root": {
+            "index": 1013,
+            "nevents_target": 95447,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1013.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1014.root": {
+            "index": 1014,
+            "nevents_target": 93462,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1014.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1015.root": {
+            "index": 1015,
+            "nevents_target": 90324,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1015.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1016.root": {
+            "index": 1016,
+            "nevents_target": 89093,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1016.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1017.root": {
+            "index": 1017,
+            "nevents_target": 90870,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1017.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1018.root": {
+            "index": 1018,
+            "nevents_target": 89793,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1018.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1019.root": {
+            "index": 1019,
+            "nevents_target": 91558,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1019.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1020.root": {
+            "index": 1020,
+            "nevents_target": 90180,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1020.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1021.root": {
+            "index": 1021,
+            "nevents_target": 92308,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1021.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1022.root": {
+            "index": 1022,
+            "nevents_target": 93030,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1022.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1023.root": {
+            "index": 1023,
+            "nevents_target": 91189,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1023.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1024.root": {
+            "index": 1024,
+            "nevents_target": 87378,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1024.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1025.root": {
+            "index": 1025,
+            "nevents_target": 92202,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1025.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1026.root": {
+            "index": 1026,
+            "nevents_target": 93484,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1026.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1027.root": {
+            "index": 1027,
+            "nevents_target": 89578,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1027.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1028.root": {
+            "index": 1028,
+            "nevents_target": 90187,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1028.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1029.root": {
+            "index": 1029,
+            "nevents_target": 92042,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1029.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1030.root": {
+            "index": 1030,
+            "nevents_target": 95876,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1030.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1031.root": {
+            "index": 1031,
+            "nevents_target": 90265,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1031.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1032.root": {
+            "index": 1032,
+            "nevents_target": 93618,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1032.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1033.root": {
+            "index": 1033,
+            "nevents_target": 91343,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1033.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1034.root": {
+            "index": 1034,
+            "nevents_target": 91120,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1034.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1035.root": {
+            "index": 1035,
+            "nevents_target": 88564,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1035.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1036.root": {
+            "index": 1036,
+            "nevents_target": 92921,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1036.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1037.root": {
+            "index": 1037,
+            "nevents_target": 91386,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1037.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1038.root": {
+            "index": 1038,
+            "nevents_target": 92931,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1038.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1039.root": {
+            "index": 1039,
+            "nevents_target": 91006,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1039.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1040.root": {
+            "index": 1040,
+            "nevents_target": 89739,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1040.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1041.root": {
+            "index": 1041,
+            "nevents_target": 89703,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1041.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1042.root": {
+            "index": 1042,
+            "nevents_target": 91105,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1042.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1043.root": {
+            "index": 1043,
+            "nevents_target": 93589,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1043.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1044.root": {
+            "index": 1044,
+            "nevents_target": 89813,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1044.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1045.root": {
+            "index": 1045,
+            "nevents_target": 88297,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1045.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1046.root": {
+            "index": 1046,
+            "nevents_target": 90782,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1046.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1047.root": {
+            "index": 1047,
+            "nevents_target": 89578,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1047.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1048.root": {
+            "index": 1048,
+            "nevents_target": 93432,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1048.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1049.root": {
+            "index": 1049,
+            "nevents_target": 94072,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1049.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1050.root": {
+            "index": 1050,
+            "nevents_target": 91205,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1050.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1051.root": {
+            "index": 1051,
+            "nevents_target": 88728,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1051.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1052.root": {
+            "index": 1052,
+            "nevents_target": 90565,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1052.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1053.root": {
+            "index": 1053,
+            "nevents_target": 95324,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1053.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1054.root": {
+            "index": 1054,
+            "nevents_target": 88928,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1054.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1055.root": {
+            "index": 1055,
+            "nevents_target": 90045,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1055.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1056.root": {
+            "index": 1056,
+            "nevents_target": 91080,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1056.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1057.root": {
+            "index": 1057,
+            "nevents_target": 88781,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1057.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1058.root": {
+            "index": 1058,
+            "nevents_target": 93533,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1058.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1059.root": {
+            "index": 1059,
+            "nevents_target": 93384,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1059.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1060.root": {
+            "index": 1060,
+            "nevents_target": 88930,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1060.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1061.root": {
+            "index": 1061,
+            "nevents_target": 89623,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1061.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1062.root": {
+            "index": 1062,
+            "nevents_target": 89605,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1062.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1063.root": {
+            "index": 1063,
+            "nevents_target": 89568,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1063.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1064.root": {
+            "index": 1064,
+            "nevents_target": 90229,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1064.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1065.root": {
+            "index": 1065,
+            "nevents_target": 90556,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1065.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1066.root": {
+            "index": 1066,
+            "nevents_target": 91329,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1066.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1067.root": {
+            "index": 1067,
+            "nevents_target": 92822,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1067.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1068.root": {
+            "index": 1068,
+            "nevents_target": 94851,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1068.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1069.root": {
+            "index": 1069,
+            "nevents_target": 91512,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1069.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1070.root": {
+            "index": 1070,
+            "nevents_target": 92286,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1070.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1071.root": {
+            "index": 1071,
+            "nevents_target": 91168,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1071.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1072.root": {
+            "index": 1072,
+            "nevents_target": 92865,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1072.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1073.root": {
+            "index": 1073,
+            "nevents_target": 90231,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1073.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1074.root": {
+            "index": 1074,
+            "nevents_target": 91817,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1074.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1075.root": {
+            "index": 1075,
+            "nevents_target": 89127,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1075.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1076.root": {
+            "index": 1076,
+            "nevents_target": 91259,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1076.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1077.root": {
+            "index": 1077,
+            "nevents_target": 90966,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1077.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1078.root": {
+            "index": 1078,
+            "nevents_target": 89133,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1078.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1079.root": {
+            "index": 1079,
+            "nevents_target": 86723,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1079.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1080.root": {
+            "index": 1080,
+            "nevents_target": 89243,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1080.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1081.root": {
+            "index": 1081,
+            "nevents_target": 92443,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1081.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1082.root": {
+            "index": 1082,
+            "nevents_target": 90488,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1082.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1083.root": {
+            "index": 1083,
+            "nevents_target": 93069,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1083.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1084.root": {
+            "index": 1084,
+            "nevents_target": 92140,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1084.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1085.root": {
+            "index": 1085,
+            "nevents_target": 91955,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1085.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1086.root": {
+            "index": 1086,
+            "nevents_target": 88938,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1086.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1087.root": {
+            "index": 1087,
+            "nevents_target": 92058,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1087.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1088.root": {
+            "index": 1088,
+            "nevents_target": 90663,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1088.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1089.root": {
+            "index": 1089,
+            "nevents_target": 88785,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1089.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1090.root": {
+            "index": 1090,
+            "nevents_target": 92993,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1090.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1091.root": {
+            "index": 1091,
+            "nevents_target": 90042,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1091.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1092.root": {
+            "index": 1092,
+            "nevents_target": 92884,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1092.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1093.root": {
+            "index": 1093,
+            "nevents_target": 91879,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1093.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1094.root": {
+            "index": 1094,
+            "nevents_target": 91912,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1094.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1095.root": {
+            "index": 1095,
+            "nevents_target": 93299,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1095.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1096.root": {
+            "index": 1096,
+            "nevents_target": 89068,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1096.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1097.root": {
+            "index": 1097,
+            "nevents_target": 93341,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1097.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1098.root": {
+            "index": 1098,
+            "nevents_target": 92226,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1098.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1099.root": {
+            "index": 1099,
+            "nevents_target": 90436,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1099.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1100.root": {
+            "index": 1100,
+            "nevents_target": 91267,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1100.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1101.root": {
+            "index": 1101,
+            "nevents_target": 87985,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1101.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1102.root": {
+            "index": 1102,
+            "nevents_target": 90942,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1102.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1103.root": {
+            "index": 1103,
+            "nevents_target": 91205,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1103.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1104.root": {
+            "index": 1104,
+            "nevents_target": 87392,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1104.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1105.root": {
+            "index": 1105,
+            "nevents_target": 93891,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1105.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1106.root": {
+            "index": 1106,
+            "nevents_target": 90200,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1106.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1107.root": {
+            "index": 1107,
+            "nevents_target": 90214,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1107.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1108.root": {
+            "index": 1108,
+            "nevents_target": 93455,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1108.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1109.root": {
+            "index": 1109,
+            "nevents_target": 89872,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1109.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1110.root": {
+            "index": 1110,
+            "nevents_target": 90166,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1110.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1111.root": {
+            "index": 1111,
+            "nevents_target": 87891,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1111.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1112.root": {
+            "index": 1112,
+            "nevents_target": 93363,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1112.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1113.root": {
+            "index": 1113,
+            "nevents_target": 94664,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1113.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1114.root": {
+            "index": 1114,
+            "nevents_target": 90123,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1114.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1115.root": {
+            "index": 1115,
+            "nevents_target": 93659,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1115.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1116.root": {
+            "index": 1116,
+            "nevents_target": 94442,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1116.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1117.root": {
+            "index": 1117,
+            "nevents_target": 87911,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1117.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1118.root": {
+            "index": 1118,
+            "nevents_target": 91288,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1118.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1119.root": {
+            "index": 1119,
+            "nevents_target": 96582,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1119.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1120.root": {
+            "index": 1120,
+            "nevents_target": 91678,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1120.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1121.root": {
+            "index": 1121,
+            "nevents_target": 92079,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1121.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1122.root": {
+            "index": 1122,
+            "nevents_target": 90920,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1122.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1123.root": {
+            "index": 1123,
+            "nevents_target": 90589,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1123.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1124.root": {
+            "index": 1124,
+            "nevents_target": 89845,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1124.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1125.root": {
+            "index": 1125,
+            "nevents_target": 90568,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1125.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1126.root": {
+            "index": 1126,
+            "nevents_target": 88099,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1126.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1127.root": {
+            "index": 1127,
+            "nevents_target": 92411,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1127.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1128.root": {
+            "index": 1128,
+            "nevents_target": 89747,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1128.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1129.root": {
+            "index": 1129,
+            "nevents_target": 88041,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1129.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1130.root": {
+            "index": 1130,
+            "nevents_target": 91253,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1130.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1131.root": {
+            "index": 1131,
+            "nevents_target": 89427,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1131.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1132.root": {
+            "index": 1132,
+            "nevents_target": 90385,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1132.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1133.root": {
+            "index": 1133,
+            "nevents_target": 90269,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1133.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1134.root": {
+            "index": 1134,
+            "nevents_target": 92786,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1134.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1135.root": {
+            "index": 1135,
+            "nevents_target": 92442,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1135.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1136.root": {
+            "index": 1136,
+            "nevents_target": 94546,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1136.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1137.root": {
+            "index": 1137,
+            "nevents_target": 92712,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1137.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1138.root": {
+            "index": 1138,
+            "nevents_target": 89256,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1138.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1139.root": {
+            "index": 1139,
+            "nevents_target": 90643,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1139.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1140.root": {
+            "index": 1140,
+            "nevents_target": 88643,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1140.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1141.root": {
+            "index": 1141,
+            "nevents_target": 88526,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1141.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1142.root": {
+            "index": 1142,
+            "nevents_target": 91087,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1142.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1143.root": {
+            "index": 1143,
+            "nevents_target": 88800,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1143.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1144.root": {
+            "index": 1144,
+            "nevents_target": 89937,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1144.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1145.root": {
+            "index": 1145,
+            "nevents_target": 91299,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1145.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1146.root": {
+            "index": 1146,
+            "nevents_target": 92831,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1146.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1147.root": {
+            "index": 1147,
+            "nevents_target": 92383,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1147.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1148.root": {
+            "index": 1148,
+            "nevents_target": 91615,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1148.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1149.root": {
+            "index": 1149,
+            "nevents_target": 91072,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1149.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1150.root": {
+            "index": 1150,
+            "nevents_target": 86612,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1150.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1151.root": {
+            "index": 1151,
+            "nevents_target": 90586,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1151.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1152.root": {
+            "index": 1152,
+            "nevents_target": 91145,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1152.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1153.root": {
+            "index": 1153,
+            "nevents_target": 94811,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1153.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1154.root": {
+            "index": 1154,
+            "nevents_target": 90749,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1154.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1155.root": {
+            "index": 1155,
+            "nevents_target": 92194,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1155.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1156.root": {
+            "index": 1156,
+            "nevents_target": 90650,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1156.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1157.root": {
+            "index": 1157,
+            "nevents_target": 92834,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1157.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1158.root": {
+            "index": 1158,
+            "nevents_target": 90491,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1158.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1159.root": {
+            "index": 1159,
+            "nevents_target": 91874,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1159.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1160.root": {
+            "index": 1160,
+            "nevents_target": 88400,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1160.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1161.root": {
+            "index": 1161,
+            "nevents_target": 91544,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1161.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1162.root": {
+            "index": 1162,
+            "nevents_target": 89493,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1162.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1163.root": {
+            "index": 1163,
+            "nevents_target": 91819,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1163.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1164.root": {
+            "index": 1164,
+            "nevents_target": 89648,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1164.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1165.root": {
+            "index": 1165,
+            "nevents_target": 87365,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1165.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1166.root": {
+            "index": 1166,
+            "nevents_target": 91438,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1166.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1167.root": {
+            "index": 1167,
+            "nevents_target": 93431,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1167.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1168.root": {
+            "index": 1168,
+            "nevents_target": 92030,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1168.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1169.root": {
+            "index": 1169,
+            "nevents_target": 90355,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1169.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1170.root": {
+            "index": 1170,
+            "nevents_target": 88852,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1170.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1171.root": {
+            "index": 1171,
+            "nevents_target": 85884,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1171.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1172.root": {
+            "index": 1172,
+            "nevents_target": 87623,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1172.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1173.root": {
+            "index": 1173,
+            "nevents_target": 95507,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1173.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1174.root": {
+            "index": 1174,
+            "nevents_target": 93357,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1174.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1175.root": {
+            "index": 1175,
+            "nevents_target": 92258,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1175.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1176.root": {
+            "index": 1176,
+            "nevents_target": 90795,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1176.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1177.root": {
+            "index": 1177,
+            "nevents_target": 93304,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1177.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1178.root": {
+            "index": 1178,
+            "nevents_target": 89783,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1178.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1179.root": {
+            "index": 1179,
+            "nevents_target": 90597,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1179.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1180.root": {
+            "index": 1180,
+            "nevents_target": 90489,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1180.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1181.root": {
+            "index": 1181,
+            "nevents_target": 91123,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1181.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1182.root": {
+            "index": 1182,
+            "nevents_target": 92540,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1182.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1183.root": {
+            "index": 1183,
+            "nevents_target": 90491,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1183.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1184.root": {
+            "index": 1184,
+            "nevents_target": 92550,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1184.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1185.root": {
+            "index": 1185,
+            "nevents_target": 92395,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1185.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1186.root": {
+            "index": 1186,
+            "nevents_target": 91620,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1186.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1187.root": {
+            "index": 1187,
+            "nevents_target": 91105,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1187.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1188.root": {
+            "index": 1188,
+            "nevents_target": 92620,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1188.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1189.root": {
+            "index": 1189,
+            "nevents_target": 89405,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1189.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1190.root": {
+            "index": 1190,
+            "nevents_target": 92927,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1190.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1191.root": {
+            "index": 1191,
+            "nevents_target": 90623,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1191.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1192.root": {
+            "index": 1192,
+            "nevents_target": 95526,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1192.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1193.root": {
+            "index": 1193,
+            "nevents_target": 88620,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1193.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1194.root": {
+            "index": 1194,
+            "nevents_target": 88041,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1194.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1195.root": {
+            "index": 1195,
+            "nevents_target": 88356,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1195.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1196.root": {
+            "index": 1196,
+            "nevents_target": 89112,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1196.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1197.root": {
+            "index": 1197,
+            "nevents_target": 92900,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1197.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1198.root": {
+            "index": 1198,
+            "nevents_target": 89711,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1198.root"
+            ]
+        },
+        "train_higgs4p_ntuple/ntuples_1199.root": {
+            "index": 1199,
+            "nevents_target": 93050,
+            "filelist": [
+                "train_higgs4p_ntuple/ntuples_1199.root"
+            ]
+        }
+    }
+}

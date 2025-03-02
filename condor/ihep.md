@@ -199,6 +199,7 @@ i=DiHiggsTo4BVarMass; N=150; start=50; hep_sub run_sm_recover.sh -argu sm_ext/$i
 // 24.07 add SingleHiggsToCC
 i=SingleHiggsToCC; N=50; start=0; hep_sub run_sm.sh -argu sm_ext/$i 100000 10000 "%{ProcId}" $start ihep -n $N -o logs_240201_run_sm/$i.%{ProcId}.out -e logs_240201_run_sm/$i.%{ProcId}.err
 
+
 ## WkkTo3W
 i=WkkTo3WTo6Q; N=50; start=0; hep_sub run_sm.sh -argu sm_ext/$i 100000 10000 "%{ProcId}" $start ihep -n $N -o logs_240201_run_sm/$i.%{ProcId}.out -e logs_240201_run_sm/$i.%{ProcId}.err
 ./run_sm.sh sm_ext/WkkTo3WTo6Q 1000 1000 0 8888 ihep
@@ -268,6 +269,13 @@ root -b -q 'makeJetRepNtuplesForHqq.C++("/data/bond/licq/delphes/glopart_trainin
 hep_sub ntuplize_sm.sh -argu "%{ProcId}" 0 samples/sm_hqq_yuzhe_filelist.txt ihep makeJetRepNtuplesForHqq.C -n 50
 hep_sub ntuplize_sm.sh -argu "%{ProcId}" 50 samples/sm_hqq_yuzhe_filelist.txt ihep makeJetRepNtuplesForHqq.C -n 50
 
+// added 25.02: new 2HDM bb and cc samples, as well as bc
+
+
+## 25.01 process HH di-jet Rep samples
+
+
+
 ======================================================
 # testing HH
 samlist=(qqHH_CV_1_C2V_1_kl_1)
@@ -280,6 +288,7 @@ hep_sub run_sm.sh -argu hh_old/ggHH_kl_0_kt_1 10000 10000 0 8889 ihep
 
 ./run_sm.sh hh_old/ggHH_kl_0_kt_1 10000 10000 0 8889 ihep
 ./run_sm.sh hh_old/qqHH_CV_0p5_C2V_1_kl_1 1000 1000 0 8888 farm
+./run_sm.sh hh/ggHH_kl_1_kt_1_el9 100 100 0 8888 ihepel9
 
 samlist=(qqHH_CV_1_C2V_1_kl_1)
 
@@ -383,3 +392,242 @@ sam=QCD; mode=test; for i in `seq 35 41`; do tar -chvf ../tarball/JetClassII_Pyt
 
 
 root -b -q '/publicfs/cms/user/licq/pheno/anomdet/jetclass2_generation/delphes_ana/mixNtuples.C+("samples/mix_qcd_cms.json", "/publicfs/cms/user/licq/samples/deepjetak8/20230504_ak8_UL17_v8", "/publicfs/cms/user/licq/samples/deepjetak8/20230504_ak8_UL17_v8/QCD_Pt_170toInf_ptBinned_TuneCP5_13TeV_pythia8_remix", "dnnTuples_remix", 0, {0, 1})'
+
+========================================================================================
+# Sophon AK4
+## generation
+// changed to ihep el9 env => in run_ak4.sh env setup
+// additional:
+//  - change WORKDIR to /tmp
+//  - as we use new pythia8 version (8311), use Main:numberOfEvents = 0
+
+./run_ak4.sh taggerak4/train_higgs2p 100 100 0 8888 ihepel9
+hep_sub run_ak4.sh -argu taggerak4/train_higgs2p 100 100 "%{ProcId}" 0 ihepel9 -n 1
+hep_sub run_ak4.sh -argu taggerak4/train_higgs2p 100000 100 "%{ProcId}" 0 ihepel9 -n 200
+
+## ntuplizer
+./ntuplize_ak4.sh 0 0 samples_ak4/train_all_filelist.txt ihepel9
+
+hep_sub ntuplize_ak4.sh -argu "%{ProcId}" 0 samples_ak4/train_all_filelist.txt ihepel9 -n 200 -o logs_2501_ntuplize_ak4/ext.%{ProcId}.out -e logs_2501_ntuplize_ak4/ext.%{ProcId}.err
+
+## generate ttbarFH test samples
+// shouldn't add a Delphes filter. keep all events
+./run_ak4.sh taggerak4/TTbarSL 100 100 0 8888 ihepel9
+
+i=TTbarSL; hep_sub run_ak4.sh -argu taggerak4/$i 100000 10000 "%{ProcId}" 0 ihepel9 -n 20 -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+
+## ntuplizer for SophonAK4 inference
+root -b -q 'makeNtuplesEvalSophonAK4.C+("/publicfs/cms/user/licq/condor_output/taggerak4/train_higgs2p/events_delphes_0.root", "test_ak4.root", "/publicfs/cms/user/licq/pheno/anomdet/gen/delphes_ana_el9/model/JetClassII_full_nonscale_ak4.ddp2-bs512-lr1e-3/model.onnx", "JetPUPPI", false)'
+
+./ntuplize_evalsophonak4.sh 0 0 samples_ak4/train_ttbar_filelist.txt ihepel9 makeNtuplesEvalSophonAK4.C
+
+hep_sub ntuplize_evalsophonak4.sh -argu "%{ProcId}" 0 samples_ak4/train_ttbar_filelist.txt ihepel9 makeNtuplesEvalSophonAK4.C -n 20 -o logs_2501_ntuplize_ak4/ext.%{ProcId}.out -e logs_2501_ntuplize_ak4/ext.%{ProcId}.err
+
+========================================================================================
+# Sophon AK8 new inference
+
+// 25.02: new 2HDM bb and cc samples, as well as bc
+
+./run_sm.sh sm_ext/SingleHpmToBC_2HDM 1000 1000 0 8888 ihepel9 DelphesHepMC2WithFilter
+
+i=SingleH0ToBB_2HDM_PT400; N=100; start=0; hep_sub run_sm.sh -argu sm_ext/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2WithFilter -n $N -o logs_240201_run_sm/$i.%{ProcId}.out -e logs_240201_run_sm/$i.%{ProcId}.err
+i=SingleH0ToCC_2HDM_PT400; N=100; start=0; hep_sub run_sm.sh -argu sm_ext/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2WithFilter -n $N -o logs_240201_run_sm/$i.%{ProcId}.out -e logs_240201_run_sm/$i.%{ProcId}.err
+i=SingleHpmToBC_2HDM_PT400; N=100; start=0; hep_sub run_sm.sh -argu sm_ext/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2WithFilter -n $N -o logs_240201_run_sm/$i.%{ProcId}.out -e logs_240201_run_sm/$i.%{ProcId}.err
+
+// ntuplize
+root -b -q 'makeNtuplesEvalSophonFatJet.C++("/publicfs/cms/user/licq/condor_output/sm_ext/SingleH0ToBB_2HDM_PT400/events_delphes_0.root", "test_ak4.root", "/publicfs/cms/user/licq/pheno/anomdet/gen/delphes_ana_el9/model/JetClassII_ak8puppi_full_scale/model_embed.onnx", "JetPUPPIAK8", false)'
+
+hep_sub ntuplize_evalsophon.sh -argu "%{ProcId}" 0 samples/eval_higgs_filelist.txt ihepel9 makeNtuplesEvalSophonFatJet.C -n 150 -o logs_2501_ntuplize/ext.%{ProcId}.out -e logs_2501_ntuplize/ext.%{ProcId}.err
+./ntuplize_evalsophon.sh 0 0 samples/eval_higgs_filelist.txt ihepel9 makeNtuplesEvalSophonFatJet.C
+
+========================================================================================
+# Sophon AK15
+
+// ntuplize_ak15.sh from ntuplize.sh
+
+./ntuplize_ak15.sh 0 0 samples/train_ak15_all_filelist.txt ihepel9
+
+hep_sub ntuplize_ak15.sh -argu "%{ProcId}" 0 samples/train_ak15_all_filelist.txt ihepel9 -n 2015 -o logs_2501_sophon_ak15/$i.%{ProcId}.out -e logs_2501_sophon_ak15/$i.%{ProcId}.err
+
+========================================================================================
+
+# SM 1l trigger
+
+## ./run_sm.sh sample production
+
+./run_sm.sh sm_1l/WJetsToLNuPlus12J 100 100 0 8888 ihepel9
+./run_sm.sh sm_1l/WJetsToLNuPlus12J 10000 10000 0 8888 farm DelphesHepMC2
+
+./run_sm.sh sm_1l/WJetsToLNuPlus12J 10000 10000 0 8888 farm DelphesHepMC2
+
+// test on ihep
+./run_sm.sh sm_1l_fj/WJetsToLNu_ht50 100 100 0 8888 ihepel9 DelphesHepMC2
+
+i=WJetsToLNu_ht50; N=1; start=0; hep_sub run_sm.sh -argu sm_1l_fj/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2 -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+i=WJetsToLNu_ht100; N=1; start=0; hep_sub run_sm.sh -argu sm_1l_fj/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2 -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+i=WJetsToLNu_ht150; N=1; start=0; hep_sub run_sm.sh -argu sm_1l_fj/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2 -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+i=WJetsToLNu_ht200; N=1; start=0; hep_sub run_sm.sh -argu sm_1l_fj/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2 -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+i=WJetsToLNu_ht250; N=1; start=0; hep_sub run_sm.sh -argu sm_1l_fj/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2 -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+i=WJetsToLNu_ht300; N=1; start=0; hep_sub run_sm.sh -argu sm_1l_fj/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2 -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+
+i=WJetsToLNu_ht100; N=1; start=0; hep_sub run_sm.sh -argu sm_1l_fj/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2 -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+i=WJetsToLNu_ht110; N=1; start=0; hep_sub run_sm.sh -argu sm_1l_fj/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2 -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+i=WJetsToLNu_ht120; N=1; start=0; hep_sub run_sm.sh -argu sm_1l_fj/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2 -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+i=WJetsToLNu_ht130; N=1; start=0; hep_sub run_sm.sh -argu sm_1l_fj/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2 -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+i=WJetsToLNu_ht140; N=1; start=0; hep_sub run_sm.sh -argu sm_1l_fj/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2 -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+
+// test more (for AK15 study)
+for i in WJetsToLNu; do for ht in 30 40 60 70 80 90; do rsync sm_1l_custom/${i}_ht50/ sm_1l_custom/${i}_ht$ht; sed -i "s|set htjmin 50|set htjmin $ht|g" sm_1l_custom/${i}_ht${ht}/mg5_step2_templ.dat; done; done
+
+i=WJetsToLNu_ht30; N=1; start=0; hep_sub run_sm.sh -argu sm_1l_custom/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2 -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+i=WJetsToLNu_ht40; N=1; start=0; hep_sub run_sm.sh -argu sm_1l_custom/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2 -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+i=WJetsToLNu_ht60; N=1; start=0; hep_sub run_sm.sh -argu sm_1l_custom/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2 -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+i=WJetsToLNu_ht70; N=1; start=0; hep_sub run_sm.sh -argu sm_1l_custom/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2 -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+i=WJetsToLNu_ht80; N=1; start=0; hep_sub run_sm.sh -argu sm_1l_custom/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2 -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+i=WJetsToLNu_ht90; N=1; start=0; hep_sub run_sm.sh -argu sm_1l_custom/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2 -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+
+
+for i in TTbarSL; do for ht in 90 100 110 120 130 140 150; do rsync sm_1l_fj/${i}_ht80/ sm_1l_fj/${i}_ht$ht; sed -i "s|set htjmin 80|set htjmin $ht|g" sm_1l_fj/${i}_ht${ht}/mg5_step2_templ.dat; done; done
+
+i=TTbarSL_ht80; N=1; start=0; hep_sub run_sm.sh -argu sm_1l_custom/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2 -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+i=TTbarSL_ht90; N=1; start=0; hep_sub run_sm.sh -argu sm_1l_custom/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2 -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+i=TTbarSL_ht100; N=1; start=0; hep_sub run_sm.sh -argu sm_1l_custom/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2 -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+i=TTbarSL_ht110; N=1; start=0; hep_sub run_sm.sh -argu sm_1l_custom/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2 -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+i=TTbarSL_ht120; N=1; start=0; hep_sub run_sm.sh -argu sm_1l_custom/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2 -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+i=TTbarSL_ht130; N=1; start=0; hep_sub run_sm.sh -argu sm_1l_custom/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2 -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+i=TTbarSL_ht140; N=1; start=0; hep_sub run_sm.sh -argu sm_1l_custom/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2 -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+i=TTbarSL_ht150; N=1; start=0; hep_sub run_sm.sh -argu sm_1l_custom/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2 -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+
+// production
+//// for fatjet: use DelphesHepMC2WithSingleLeptonAndFatJetFilter!!
+i=WJetsToLNu_HT150; N=750; start=0; hep_sub run_sm.sh -argu sm_1l_fj/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2WithSingleLeptonAndFatJetFilter -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+i=WJetsToLNu_HT150; N=250; start=750; hep_sub run_sm.sh -argu sm_1l_fj/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2WithSingleLeptonAndFatJetFilter -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+
+// for lep trigger w/o fatjet req (to compute incl xsec)
+i=WJetsToLNu; N=100; start=0; hep_sub run_sm.sh -argu sm_1l/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2WithSingleLeptonFilter -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+i=TTbarSL; N=100; start=0; hep_sub run_sm.sh -argu sm_1l/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2WithSingleLeptonFilter -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+i=TW; N=100; start=0; hep_sub run_sm.sh -argu sm_1l/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2WithSingleLeptonFilter -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+i=TWSL; N=100; start=0; hep_sub run_sm.sh -argu sm_1l/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2WithSingleLeptonFilter -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+i=WW; N=100; start=0; hep_sub run_sm.sh -argu sm_1l/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2WithSingleLeptonFilter -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+i=WWSL; N=100; start=0; hep_sub run_sm.sh -argu sm_1l/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2WithSingleLeptonFilter -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+// added TTbarSL
+i=TTbarSL; N=400; start=100; hep_sub run_sm.sh -argu sm_1l/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2WithSingleLeptonFilter -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+i=TTbarSL; N=500; start=500; hep_sub run_sm.sh -argu sm_1l/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2WithSingleLeptonFilter -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+
+i=TTbarSL_FJ; N=100; start=0; hep_sub run_sm.sh -argu sm_1l_fj/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2WithSingleLeptonAndFatJetFilter -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+i=TTbarSL_FJ; N=400; start=100; hep_sub run_sm.sh -argu sm_1l_fj/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2WithSingleLeptonAndFatJetFilter -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+
+// dedicated W->cb samples
+i=TTbarSL_WToCB_FJ; N=100; start=0; hep_sub run_sm.sh -argu sm_1l_fj/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2WithSingleLeptonAndFatJetFilter -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+i=TWSL_WToCB; N=25; start=0; hep_sub run_sm.sh -argu sm_1l/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2WithSingleLeptonFilter -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+i=WWSL_WToCB; N=25; start=0; hep_sub run_sm.sh -argu sm_1l/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2WithSingleLeptonFilter -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+i=TTbarSL_WToCB; N=25; start=0; hep_sub run_sm.sh -argu sm_1l/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2WithSingleLeptonFilter -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+
+./run_sm.sh sm_1l/TTbarSL_WToCB_FJ 100 100 0 8888 ihepel9 DelphesHepMC2WithSingleLeptonFilter
+
+// w/ 4jets selection
+i=WJetsToLNuPlus2J_Delphes4J; N=200; start=0; hep_sub run_sm.sh -argu sm_1l/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2WithSingleLeptonAnd4JetFilter -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+i=WJetsToLNuPlus2J_Delphes4J; N=800; start=200; hep_sub run_sm.sh -argu sm_1l/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2WithSingleLeptonAnd4JetFilter -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+
+./run_sm.sh sm_1l/WJetsToLNuPlus2J_Delphes4J 100 100 0 8888 ihepel9 DelphesHepMC2WithSingleLeptonAnd4JetFilter
+
+// samples for AK15 trigger
+
+./run_sm.sh sm_1l_fjak15/TTbarSL_FJAK15 10000 10000 0 8888 ihepel9 DelphesHepMC2WithSingleLeptonAndFatJetAK15Filter
+
+i=TTbarSL_FJAK15; N=500; start=0; hep_sub run_sm.sh -argu sm_1l_fjak15/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2WithSingleLeptonAndFatJetAK15Filter -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+i=WJetsToLNu_HT50; N=500; start=0; hep_sub run_sm.sh -argu sm_1l_fjak15/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2WithSingleLeptonAndFatJetAK15Filter -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+i=WJetsToLNu_HT50; N=1500; start=500; hep_sub run_sm.sh -argu sm_1l_fjak15/$i 100000 10000 "%{ProcId}" $start ihepel9 DelphesHepMC2WithSingleLeptonAndFatJetAK15Filter -n $N -o logs_241124_sm_1l/$i.%{ProcId}.out -e logs_241124_sm_1l/$i.%{ProcId}.err
+
+// for pythia-vincia-herwig study
+
+./run_sm.sh sm_1l/TTbar0JSL_Vincia_FJ 1000 1000 0 8888 ihepel9 DelphesHepMC2WithSingleLeptonAndFatJetFilter
+
+## ntuplizer (WcbAna)
+
+root -b -q 'makeNtuplesWcbAna.C++("/publicfs/cms/user/licq/condor_output/sm_1l_fj/WJetsToLNu_HT150/events_delphes_0.root", "test_ak4.root", "JetPUPPIAK8", "/publicfs/cms/user/licq/pheno/anomdet/gen/delphes_ana_el9/model/JetClassII_full_nonscale_ak4.ddp2-bs512-lr1e-3/model.onnx", "/publicfs/cms/user/licq/pheno/anomdet/gen/delphes_ana_el9/model/JetClassII_ak8puppi_full_scale/model_embed.onnx", false)'
+
+./ntuplize_wcbana.sh 0 0 samples_wcb/sm_1l_fj_wjets.txt ihepel9 makeNtuplesWcbAna.C
+./ntuplize_wcbana.sh 0 0 samples_wcb/sm_1l_fj_ttbarsl.txt ihepel9 makeNtuplesWcbAna.C
+
+proc=wjets; N=1000;    hep_sub ntuplize_wcbana.sh -argu "%{ProcId}" 0 samples_wcb/sm_1l_fj_${proc}.txt ihepel9 makeNtuplesWcbAna.C -n $N -o logs_2501_ntuplize/$proc.%{ProcId}.out -e logs_2501_ntuplize/$proc.%{ProcId}.err
+proc=ttbarsl_YZ; N=1950; hep_sub ntuplize_wcbana.sh -argu "%{ProcId}" 0 samples_wcb/sm_1l_fj_${proc}.txt ihepel9 makeNtuplesWcbAna.C -n $N -o logs_2501_ntuplize/$proc.%{ProcId}.out -e logs_2501_ntuplize/$proc.%{ProcId}.err
+proc=ttbarsl; N=500; hep_sub ntuplize_wcbana.sh -argu "%{ProcId}" 0 samples_wcb/sm_1l_fj_${proc}.txt ihepel9 makeNtuplesWcbAna.C -n $N -o logs_2501_ntuplize/$proc.%{ProcId}.out -e logs_2501_ntuplize/$proc.%{ProcId}.err
+proc=wwsl; N=100; hep_sub ntuplize_wcbana.sh -argu "%{ProcId}" 0 samples_wcb/sm_1l_${proc}.txt ihepel9 makeNtuplesWcbAna.C -n $N -o logs_2501_ntuplize/$proc.%{ProcId}.out -e logs_2501_ntuplize/$proc.%{ProcId}.err
+proc=twsl; N=100; hep_sub ntuplize_wcbana.sh -argu "%{ProcId}" 0 samples_wcb/sm_1l_${proc}.txt ihepel9 makeNtuplesWcbAna.C -n $N -o logs_2501_ntuplize/$proc.%{ProcId}.out -e logs_2501_ntuplize/$proc.%{ProcId}.err
+proc=wjets_nocut; N=100;   hep_sub ntuplize_wcbana.sh -argu "%{ProcId}" 0 samples_wcb/sm_1l_${proc}.txt ihepel9 makeNtuplesWcbAna.C -n $N -o logs_2501_ntuplize/$proc.%{ProcId}.out -e logs_2501_ntuplize/$proc.%{ProcId}.err
+proc=wcbsignals; N=100;   hep_sub ntuplize_wcbana.sh -argu "%{ProcId}" 0 samples_wcb/sm_1l_${proc}.txt ihepel9 makeNtuplesWcbAna.C -n $N -o logs_2501_ntuplize/$proc.%{ProcId}.out -e logs_2501_ntuplize/$proc.%{ProcId}.err
+
+// resolved Wcb analyzer
+proc=ttbarsl; N=100; hep_sub ntuplize_wcbana.sh -argu "%{ProcId}" 0 samples_wcb/sm_1l_rsv_${proc}.txt ihepel9 makeNtuplesWcbResolvedAna.C -n $N -o logs_2501_ntuplize/$proc.%{ProcId}.out -e logs_2501_ntuplize/$proc.%{ProcId}.err
+proc=wjets; N=200; hep_sub ntuplize_wcbana.sh -argu "%{ProcId}" 0 samples_wcb/sm_1l_rsv_${proc}.txt ihepel9 makeNtuplesWcbResolvedAna.C -n $N -o logs_2501_ntuplize/$proc.%{ProcId}.out -e logs_2501_ntuplize/$proc.%{ProcId}.err
+proc=wwsl; N=100; hep_sub ntuplize_wcbana.sh -argu "%{ProcId}" 0 samples_wcb/sm_1l_rsv_${proc}.txt ihepel9 makeNtuplesWcbResolvedAna.C -n $N -o logs_2501_ntuplize/$proc.%{ProcId}.out -e logs_2501_ntuplize/$proc.%{ProcId}.err
+proc=twsl; N=100; hep_sub ntuplize_wcbana.sh -argu "%{ProcId}" 0 samples_wcb/sm_1l_rsv_${proc}.txt ihepel9 makeNtuplesWcbResolvedAna.C -n $N -o logs_2501_ntuplize/$proc.%{ProcId}.out -e logs_2501_ntuplize/$proc.%{ProcId}.err
+proc=wcbsignals; N=75;   hep_sub ntuplize_wcbana.sh -argu "%{ProcId}" 0 samples_wcb/sm_1l_rsv_${proc}.txt ihepel9 makeNtuplesWcbResolvedAna.C -n $N -o logs_2501_ntuplize/$proc.%{ProcId}.out -e logs_2501_ntuplize/$proc.%{ProcId}.err
+
+// fatjet: move to AK15
+//!! remember to add JetPUPPIAK15 to script argument!!
+root -b -q 'makeNtuplesWcbAna.C++("/publicfs/cms/user/licq/condor_output/sm_1l_fjak15/TTbarSL_FJAK15/events_delphes_0.root", "out.root", "JetPUPPIAK15", "/publicfs/cms/user/licq/pheno/anomdet/gen/delphes_ana_el9/model/JetClassII_full_nonscale_ak4.ddp2-bs512-lr1e-3/model.onnx", "/publicfs/cms/user/licq/pheno/anomdet/gen/delphes_ana_el9/model/JetClassII_full_ak15_manual.ddp4-bs512-lr2e-3/model.onnx")'
+
+./ntuplize_wcbana.sh 0 0 samples_wcb/sm_1l_fj_wjets.txt ihepel9 makeNtuplesWcbAna.C JetPUPPIAK15
+
+proc=wjets; N=1998;  hep_sub ntuplize_wcbana.sh -argu "%{ProcId}" 0 samples_wcb/sm_1l_fjak15_${proc}.txt ihepel9 makeNtuplesWcbAna.C JetPUPPIAK15 -n $N -o logs_2501_ntuplize/$proc.%{ProcId}.out -e logs_2501_ntuplize/$proc.%{ProcId}.err
+proc=ttbarsl; N=500; hep_sub ntuplize_wcbana.sh -argu "%{ProcId}" 0 samples_wcb/sm_1l_fjak15_${proc}.txt ihepel9 makeNtuplesWcbAna.C JetPUPPIAK15 -n $N -o logs_2501_ntuplize/$proc.%{ProcId}.out -e logs_2501_ntuplize/$proc.%{ProcId}.err
+proc=twww; N=200; hep_sub ntuplize_wcbana.sh -argu "%{ProcId}" 0 samples_wcb/sm_1l_fjak15_${proc}.txt ihepel9 makeNtuplesWcbAna.C JetPUPPIAK15 -n $N -o logs_2501_ntuplize/$proc.%{ProcId}.out -e logs_2501_ntuplize/$proc.%{ProcId}.err
+proc=wcbsignals; N=75; hep_sub ntuplize_wcbana.sh -argu "%{ProcId}" 0 samples_wcb/sm_1l_fjak15_${proc}.txt ihepel9 makeNtuplesWcbAna.C JetPUPPIAK15 -n $N -o logs_2501_ntuplize/$proc.%{ProcId}.out -e logs_2501_ntuplize/$proc.%{ProcId}.err
+
+// final ntuplizer: 
+/// 1) new fj ntuplizer for ttbar, from wofj events (use ntuplize_wcbana_require_fj!)
+
+./ntuplize_wcbana_require_fj.sh 0 0 samples_wcb/sm_1l_fj_ttbarsl_wofj.txt ihepel9 makeNtuplesWcbAna.C
+
+proc=ttbarsl_wofj; N=1000; hep_sub ntuplize_wcbana_require_fj.sh -argu "%{ProcId}" 0 samples_wcb/sm_1l_fj_${proc}.txt ihepel9 makeNtuplesWcbAna.C -n $N -o logs_2501_ntuplize/$proc.%{ProcId}.out -e logs_2501_ntuplize/$proc.%{ProcId}.err
+
+/// 2) ext samples for rsv
+proc=ttbarsl; N=900; hep_sub ntuplize_wcbana.sh -argu "%{ProcId}" 100 samples_wcb/sm_1l_rsv_${proc}.txt ihepel9 makeNtuplesWcbResolvedAna.C -n $N -o logs_2501_ntuplize/$proc.%{ProcId}.out -e logs_2501_ntuplize/$proc.%{ProcId}.err
+proc=wjets; N=800; hep_sub ntuplize_wcbana.sh -argu "%{ProcId}" 200 samples_wcb/sm_1l_rsv_${proc}.txt ihepel9 makeNtuplesWcbResolvedAna.C -n $N -o logs_2501_ntuplize/$proc.%{ProcId}.out -e logs_2501_ntuplize/$proc.%{ProcId}.err
+
+
+## merge
+hadd sm_1l_fj/merged_ntuple/WJetsToLNu_HT150_ntuple_id0-999.root sm_1l_fj/WJetsToLNu_HT150_ntuple/*.root
+hadd sm_1l_fj/merged_ntuple/TTbarSL_YZ_ntuple.root sm_1l_fj/TTbarSL_YZ_*_ntuple/*.root
+hadd sm_1l_fj/merged_ntuple/TTbarSL_FJ_ntuple_id0-499.root sm_1l_fj/TTbarSL_FJ_ntuple/*.root
+hadd sm_1l/merged_ntuple/WWSL_ntuple_id0-99.root sm_1l/WWSL_ntuple/*.root
+hadd sm_1l/merged_ntuple/TWSL_ntuple_id0-99.root sm_1l/TWSL_ntuple/*.root
+hadd sm_1l/merged_ntuple/WJetsToLNu_ntuple_id0-99.root sm_1l/WJetsToLNu_ntuple/*.root
+
+hadd sm_1l_fj/merged_ntuple/TTbarSL_woFJ_ntuple_id0-999.root sm_1l_fj/TTbarSL_woFJ_ntuple/*.root
+
+// signals
+hadd sm_1l/merged_ntuple/WWSL_WToCB_ntuple_id0-24.root sm_1l/WWSL_WToCB_ntuple/*.root
+hadd sm_1l/merged_ntuple/TWSL_WToCB_ntuple_id0-24.root sm_1l/TWSL_WToCB_ntuple/*.root
+hadd sm_1l/merged_ntuple/TTbarSL_WToCB_ntuple_id0-24.root sm_1l/TTbarSL_WToCB_ntuple/*.root
+hadd sm_1l_fj/merged_ntuple/TTbarSL_WToCB_FJ_ntuple_id0-24.root sm_1l_fj/TTbarSL_WToCB_FJ_ntuple/*.root
+
+// resolved samples
+hadd sm_1l_rsv/merged_ntuple/WJetsToLNuPlus2J_Delphes4J_ntuple_id0-199.root sm_1l_rsv/WJetsToLNuPlus2J_Delphes4J_ntuple/*.root
+hadd sm_1l_rsv/merged_ntuple/WWSL_ntuple_id0-99.root sm_1l_rsv/WWSL_ntuple/*.root
+hadd sm_1l_rsv/merged_ntuple/TWSL_ntuple_id0-99.root sm_1l_rsv/TWSL_ntuple/*.root
+hadd sm_1l_rsv/merged_ntuple/TTbarSL_ntuple_id0-99.root sm_1l_rsv/TTbarSL_ntuple/*.root
+hadd sm_1l_rsv/merged_ntuple/WWSL_WToCB_ntuple_id0-24.root sm_1l_rsv/WWSL_WToCB_ntuple/*.root
+hadd sm_1l_rsv/merged_ntuple/TWSL_WToCB_ntuple_id0-24.root sm_1l_rsv/TWSL_WToCB_ntuple/*.root
+hadd sm_1l_rsv/merged_ntuple/TTbarSL_WToCB_ntuple_id0-24.root sm_1l_rsv/TTbarSL_WToCB_ntuple/*.root
+/// new
+hadd sm_1l_rsv/merged_ntuple/WJetsToLNuPlus2J_Delphes4J_ntuple_id200-999.root `echo sm_1l_rsv/WJetsToLNuPlus2J_Delphes4J_ntuple/ntuples_{200..999}.root`
+hadd sm_1l_rsv/merged_ntuple/TTbarSL_ntuple_id100-999.root `echo sm_1l_rsv/TTbarSL_ntuple/ntuples_{100..999}.root`
+
+// AK15 jets
+hadd sm_1l_fjak15/merged_ntuple/WJetsToLNu_HT50_ntuple_id0-1997.root sm_1l_fjak15/WJetsToLNu_HT50_ntuple/*.root
+hadd sm_1l_fjak15/merged_ntuple/TTbarSL_FJAK15_ntuple_id0-499.root sm_1l_fjak15/TTbarSL_FJAK15_ntuple/*.root
+
+hadd sm_1l_fjak15/merged_ntuple/WWSL_ntuple_id0-99.root sm_1l_fjak15/WWSL_ntuple/*.root
+hadd sm_1l_fjak15/merged_ntuple/TWSL_ntuple_id0-99.root sm_1l_fjak15/TWSL_ntuple/*.root
+hadd sm_1l_fjak15/merged_ntuple/WWSL_WToCB_ntuple_id0-24.root sm_1l_fjak15/WWSL_WToCB_ntuple/*.root
+hadd sm_1l_fjak15/merged_ntuple/TWSL_WToCB_ntuple_id0-24.root sm_1l_fjak15/TWSL_WToCB_ntuple/*.root
+hadd sm_1l_fjak15/merged_ntuple/TTbarSL_WToCB_ntuple_id0-24.root sm_1l_fjak15/TTbarSL_WToCB_ntuple/*.root
+
+## merge QCD/Xbb/Xcc for evaluation
+hadd sm/merged_ntuple/QCD_ntuple_id2000-2499.root `echo sm/QCD_ntuple/ntuples_{2000..2499}.root`
+hadd sm_ext/merged_ntuple/SingleH0ToBB_2HDM_PT400_ntuple_id0-49.root `echo sm_ext/SingleH0ToBB_2HDM_PT400_ntuple/ntuples_{0..49}.root`
+hadd sm_ext/merged_ntuple/SingleH0ToCC_2HDM_PT400_ntuple_id0-49.root `echo sm_ext/SingleH0ToCC_2HDM_PT400_ntuple/ntuples_{0..49}.root`
+hadd sm_ext/merged_ntuple/SingleHpmToBC_2HDM_PT400_ntuple_id0-49.root `echo sm_ext/SingleHpmToBC_2HDM_PT400_ntuple/ntuples_{0..49}.root`

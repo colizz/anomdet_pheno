@@ -16,6 +16,9 @@ if [[ $MACHINE == "farm" ]]; then
 elif [[ $MACHINE == "ihep" ]]; then
     MG5_PATH=/scratchfs/cms/licq/utils/MG5_aMC_v2_9_18
     LOAD_ENV_PATH=/scratchfs/cms/licq/utils/load_standalonemg_env.sh
+elif [[ $MACHINE == "ihepel9" ]]; then
+    MG5_PATH=/publicfs/cms/user/licq/utils/MG5_aMC_v2_9_18
+    LOAD_ENV_PATH=/publicfs/cms/user/licq/pheno/anomdet/gen/condor/load_custom_el9_env.sh
 fi
 
 # the MG process dir
