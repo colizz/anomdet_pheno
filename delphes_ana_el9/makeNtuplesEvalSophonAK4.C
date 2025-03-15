@@ -2,6 +2,8 @@
 #include <unordered_set>
 #include <utility>
 #include "TClonesArray.h"
+#include "Math/LorentzVector.h"
+#include <Math/Vector4D.h>
 #include "classes/DelphesClasses.h"
 #include "ExRootAnalysis/ExRootTreeReader.h"
 
@@ -34,6 +36,7 @@ void makeNtuplesEvalSophonAK4(TString inputFile, TString outputFile, TString mod
         {"jet_mass", "float"},
         {"jet_nparticles", "int"},
         {"jet_flavor", "int"},
+        {"jet_flavor_dr04", "int"},
         {"jet_sophonAK4_probs", "vector<float>"}
     };
     EventData data(branchList);
@@ -55,7 +58,7 @@ void makeNtuplesEvalSophonAK4(TString inputFile, TString outputFile, TString mod
     TClonesArray *branchPFCand = treeReader->UseBranch("ParticleFlowCandidate");
     TClonesArray *branchJet = treeReader->UseBranch(jetBranch);
 
-    double jetR = 0.2;
+    double jetR = 0.4;
     std::cerr << "jetR = " << jetR << std::endl;
 
     // Initialize onnx helper
@@ -87,6 +90,21 @@ void makeNtuplesEvalSophonAK4(TString inputFile, TString outputFile, TString mod
             data.floatVars.at("jet_energy") = jet->P4().Energy();
             data.floatVars.at("jet_mass") = jet->Mass;
             data.intVars.at("jet_flavor") = jet->Flavor;
+
+            // Jet flavor (re-assign)
+            int pgdcode_max = -1;
+            for (Int_t i = 0; i < branchParticle->GetEntriesFast(); ++i) {
+                const GenParticle *gp = (GenParticle *)branchParticle->At(i);
+                int pdgid = std::abs(gp->PID);
+                if (((pdgid >= 1 && pdgid <= 5) || pdgid == 21) && gp->PT > 1.0 && std::abs(gp->Eta) < 2.5) {
+                    // same association requirement in JetFlavorAssociation
+                    int pgdcode = (pdgid == 21) ? 0 : pdgid;
+                    if (deltaR(gp, jet) < jetR && pgdcode > pgdcode_max) { // match with the jet
+                        pgdcode_max = pgdcode;
+                    }
+                }
+            }
+            data.intVars.at("jet_flavor_dr04") = (pgdcode_max == -1) ? 0 : ((pgdcode_max == 0) ? 21 : pgdcode_max);
 
             // Loop over all jet's constituents
             std::vector<ParticleInfo> particles;

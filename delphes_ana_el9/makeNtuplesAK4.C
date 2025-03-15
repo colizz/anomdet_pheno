@@ -75,7 +75,7 @@ void makeNtuplesAK4(TString inputFile, TString outputFile, TString jetBranch = "
     TClonesArray *branchPFCand = treeReader->UseBranch("ParticleFlowCandidate");
     TClonesArray *branchJet = treeReader->UseBranch(jetBranch);
 
-    double jetR = 0.2;
+    double jetR = 0.4;
     std::cerr << "jetR = " << jetR << std::endl;
 
     JetMatching ak4match(jetR, debug);

@@ -91,7 +91,7 @@ private:
             for (const auto & dau: daus){
                 auto dpid = std::abs(dau->PID);
                 if (dpid == ParticleID::p_b)  b = const_cast<GenParticle*>(dau);
-                if (dpid == ParticleID::p_Wplus)  w = const_cast<GenParticle*>(dau);
+                if (dpid == ParticleID::p_Wplus || dpid == ParticleID::p_Hplus)  w = const_cast<GenParticle*>(dau); // special treatment: also identify top->bH+ decay
             }
             storeGenParticle(b); // save the b quark
             storeGenParticle(w); // save the W boson
