@@ -26,7 +26,7 @@ namespace myOrt {
     ONNXRuntime(const std::string& model_path, const ::Ort::SessionOptions* session_options = nullptr);
     ONNXRuntime(const ONNXRuntime&) = delete;
     ONNXRuntime& operator=(const ONNXRuntime&) = delete;
-    ~ONNXRuntime();
+    ~ONNXRuntime() {};
 
     // Run inference and get outputs
     // input_names: list of the names of the input nodes.
