@@ -42,6 +42,10 @@ void createOutputFile(const std::string& filePath, TFile*& file, TTree*& tree, E
     if (!file || file->IsZombie()) {
         throw std::runtime_error("Failed to open file: " + filePath);
     }
+    // prepare the file with LZ4 compression for fast loading
+    file->SetCompressionAlgorithm(ROOT::kLZ4);
+    file->SetCompressionLevel(4);
+
     tree = new TTree("tree", "tree");
     data.setOutputBranch(tree);
 }
@@ -64,7 +68,7 @@ bool passSection(const EventData& data, const std::string& selectionMode) {
 
 void processEvent(const EventData& data_in, EventData& data_out) {
     data_out.reset();
-    data_out.copy(data_in);
+    data_out.copyFromOther(data_in);
 }
 
 
@@ -117,8 +121,8 @@ void mergeROOTFiles(
         // get entry
         inputTrees[i]->GetEntry(eventCount[i]);
         eventCount[i]++;
-        // data.event_no = num_processed;
-        // data.event_class = index[i];
+        // data_out.intVars.at("event_no") = num_processed;
+        // data_out.intVars.at("event_class") = index[i];
         processEvent(data_in, data_out);
 
         if (debug) {

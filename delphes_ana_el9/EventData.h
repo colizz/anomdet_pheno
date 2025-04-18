@@ -62,23 +62,26 @@ struct EventData {
     }
 
     // Copy from another EventData
-    void copy(const EventData& data) {
-        for (auto& pair : boolVars)   pair.second = data.boolVars.at(pair.first);
-        for (auto& pair : intVars)    pair.second = data.intVars.at(pair.first);
-        for (auto& pair : uintVars)   pair.second = data.uintVars.at(pair.first);
-        for (auto& pair : floatVars)  pair.second = data.floatVars.at(pair.first);
-        for (auto& pair : vboolVars) {
-            if (pair.second)  *pair.second = *data.vboolVars.at(pair.first);
-            else  vboolVars[pair.first] = new std::vector<bool>(*data.vboolVars.at(pair.first));
-        }
-        for (auto& pair : vintVars) {
-            if (pair.second)  *pair.second = *data.vintVars.at(pair.first);
-            else  vintVars[pair.first] = new std::vector<int>(*data.vintVars.at(pair.first));
-        }
-        for (auto& pair : vfloatVars) {
-            if (pair.second)  *pair.second = *data.vfloatVars.at(pair.first);
-            else  vfloatVars[pair.first] = new std::vector<float>(*data.vfloatVars.at(pair.first));
-        }
+    void copyFromOther(const EventData& data) {
+        for (auto& pair : boolVars)   if (data.boolVars.find(pair.first) != data.boolVars.end())    pair.second = data.boolVars.at(pair.first);
+        for (auto& pair : intVars)    if (data.intVars.find(pair.first) != data.intVars.end())      pair.second = data.intVars.at(pair.first);
+        for (auto& pair : uintVars)   if (data.uintVars.find(pair.first) != data.uintVars.end())    pair.second = data.uintVars.at(pair.first);
+        for (auto& pair : floatVars)  if (data.floatVars.find(pair.first) != data.floatVars.end())  pair.second = data.floatVars.at(pair.first);
+        for (auto& pair : vboolVars)
+            if (data.vboolVars.find(pair.first) != data.vboolVars.end()) {
+                if (pair.second)  *pair.second = *data.vboolVars.at(pair.first);
+                else  vboolVars[pair.first] = new std::vector<bool>(*data.vboolVars.at(pair.first));
+            }
+        for (auto& pair : vintVars)
+            if (data.vintVars.find(pair.first) != data.vintVars.end()) {
+                if (pair.second)  *pair.second = *data.vintVars.at(pair.first);
+                else  vintVars[pair.first] = new std::vector<int>(*data.vintVars.at(pair.first));
+            }
+        for (auto& pair : vfloatVars)
+            if (data.vfloatVars.find(pair.first) != data.vfloatVars.end()) {
+                if (pair.second)  *pair.second = *data.vfloatVars.at(pair.first);
+                else  vfloatVars[pair.first] = new std::vector<float>(*data.vfloatVars.at(pair.first));
+            }
     }
 
     // Set branch addresses for an input tree
