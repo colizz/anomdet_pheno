@@ -5,16 +5,26 @@
 #include "classes/DelphesClasses.h"
 #include "ExRootAnalysis/ExRootTreeReader.h"
 #include "EventData.h"
-#include "FatJetMatching.h"
+// #include "FatJetMatching.h"
 #include "OrtHelperSophonAK4.h"
+#include "JetMatching.h"
+#include "JetGhostMatching.h"
 
 // Function to process jet-related information
-void processJet(const Jet* jet, EventData& data, OrtHelperSophonAK4* sp4helper = nullptr, const Vertex* pv = nullptr) {
+void processJet(const Jet* jet, EventData& data, OrtHelperSophonAK4* sp4helper = nullptr, const Vertex* pv = nullptr, const JetGhostMatching::JetGhostContent* ghostContent = nullptr) {
     data.vfloatVars["jet_pt"]->push_back(jet->PT);
     data.vfloatVars["jet_eta"]->push_back(jet->Eta);
     data.vfloatVars["jet_phi"]->push_back(jet->Phi);
     data.vfloatVars["jet_energy"]->push_back(jet->P4().Energy());
-    data.vintVars["jet_flavor"]->push_back(jet->Flavor);
+    
+    if (ghostContent) {
+        data.vintVars["jet_hadronFlavor"]->push_back(ghostContent->hadronFlavor);
+        data.vintVars["jet_partonFlavor"]->push_back(ghostContent->partonFlavor);
+    } else {
+        data.vintVars["jet_hadronFlavor"]->push_back(jet->Flavor);
+        data.vintVars["jet_partonFlavor"]->push_back(jet->Flavor);
+    }
+    
     data.vfloatVars["jet_sdmass"]->push_back(jet->SoftDroppedP4[0].M());
     data.vfloatVars["jet_trmass"]->push_back(jet->TrimmedP4[0].M());
     data.vfloatVars["jet_tau1"]->push_back(jet->Tau[0]);
@@ -75,12 +85,16 @@ void processJet(const Jet* jet, EventData& data, OrtHelperSophonAK4* sp4helper =
         const auto &sp4output = sp4helper->get_output();
         
         // Fill SophonAK4 scores
-        data.vfloatVars["jet_sophonAK4_probB"]->push_back(sp4output[0] + sp4output[1] + sp4output[17]);
-        data.vfloatVars["jet_sophonAK4_probC"]->push_back(sp4output[2] + sp4output[3] + sp4output[18]);
-        data.vfloatVars["jet_sophonAK4_probL"]->push_back(
-            std::accumulate(sp4output.begin() + 4, sp4output.begin() + 11, 0.0) + 
-            std::accumulate(sp4output.begin() + 19, sp4output.begin() + 23, 0.0)
+        data.vfloatVars["jet_sophonAK4_probB"]->push_back(
+            std::accumulate(sp4output.begin() + 0, sp4output.begin() + 5, 0.0)
         );
+        data.vfloatVars["jet_sophonAK4_probC"]->push_back(
+            std::accumulate(sp4output.begin() + 5, sp4output.begin() + 10, 0.0)
+        );
+        data.vfloatVars["jet_sophonAK4_probL"]->push_back(
+            std::accumulate(sp4output.begin() + 10, sp4output.begin() + 32, 0.0)
+        );
+
     } else {
         // If no SophonAK4 model, fill with default values
         data.vfloatVars["jet_sophonAK4_probB"]->push_back(-1.0);
@@ -90,12 +104,18 @@ void processJet(const Jet* jet, EventData& data, OrtHelperSophonAK4* sp4helper =
 }
 
 // Function to process particle information
-void processParticle(const ParticleFlowCandidate* pfcand, EventData& data, const Vertex* pv, int part_label) {
+void processParticle(const ParticleFlowCandidate* pfcand, EventData& data, const Vertex* pv, int part_label, 
+                    const TLorentzVector& pfcand_sum) {
     if (std::abs(pfcand->Eta) > 5 || pfcand->PT <= 0) {
         return;
     }
 
     TLorentzVector p4 = pfcand->P4();
+
+    // Calculate delta values with pfcand_sum
+    float deta = p4.Eta() - pfcand_sum.Eta();
+    float dphi = deltaPhi(p4.Phi(), pfcand_sum.Phi());
+    float dr = std::sqrt(deta*deta + dphi*dphi);
 
     data.vintVars["part_label"]->push_back(part_label);
     data.vfloatVars["part_px"]->push_back(p4.Px());  
@@ -112,7 +132,13 @@ void processParticle(const ParticleFlowCandidate* pfcand, EventData& data, const
     data.vfloatVars["part_d0err"]->push_back(pfcand->ErrorD0);
     data.vfloatVars["part_dzval"]->push_back((pv && pfcand->DZ != 0) ? (pfcand->DZ - pv->Z) : pfcand->DZ);
     data.vfloatVars["part_dzerr"]->push_back(pfcand->ErrorDZ);
+    
+    // Add new delta variables
+    data.vfloatVars["part_dr"]->push_back(dr);
+    data.vfloatVars["part_deta"]->push_back(deta);
+    data.vfloatVars["part_dphi"]->push_back(dphi);
 }
+
 
 // Function to process GenParticle information
 void processGenParticle(const GenParticle* genparticle, EventData& data, TClonesArray* branchParticle, int& higgs_count, TLorentzVector& higgs1_p4, TLorentzVector& higgs2_p4) {
@@ -143,31 +169,52 @@ void processGenParticle(const GenParticle* genparticle, EventData& data, TClones
         }
         // Ignore additional Higgs bosons if there are more than 2
     }
-    else if(genparticle->PT > 0 && ((std::abs(genparticle->PID)>=ParticleID::p_d && std::abs(genparticle->PID)<=ParticleID::p_b) || std::abs(genparticle->PID)==21) && genparticle->Status == 71) {
-        bool isFromHiggsDecay = false;
-        int motherIndex = genparticle->M1;
-        while(motherIndex != -1) {
-            const GenParticle *motherParticle = (GenParticle*) branchParticle->At(motherIndex);
-            if(std::abs(motherParticle->PID) == 25 || std::abs(motherParticle->PID) == 35) {
-                isFromHiggsDecay = true;
-                break;
+    else if (genparticle->PT > 0) {
+        int absPID = std::abs(genparticle->PID);
+        int code1 = (absPID / 100) % 10;
+        int code2 = (absPID / 1000) % 10;
+        bool isBHadron = (code1 == 5 || code2 == 5);
+    
+        if (isBHadron) {
+            bool hasBHadronDaughter = false;
+            for (int i = genparticle->D1; i <= genparticle->D2; ++i) {
+                if (i >= 0 && i < branchParticle->GetEntriesFast()) {
+                    const GenParticle* daughter = (GenParticle*)branchParticle->At(i);
+                    int absDauPID = std::abs(daughter->PID);
+                    int dau_code1 = (absDauPID / 100) % 10;
+                    int dau_code2 = (absDauPID / 1000) % 10;
+                    if (dau_code1 == 5 || dau_code2 == 5) {
+                        hasBHadronDaughter = true;
+                        break;
+                    }
+                }
             }
-            motherIndex = motherParticle->M1;
+            if (!hasBHadronDaughter) {
+                bool isFromHiggsDecay = false;
+                int motherIndex = genparticle->M1;
+                while (motherIndex != -1) {
+                    const GenParticle *motherParticle = (GenParticle*) branchParticle->At(motherIndex);
+                    if (std::abs(motherParticle->PID) == 25 || std::abs(motherParticle->PID) == 35) {
+                        isFromHiggsDecay = true;
+                        break;
+                    }
+                    motherIndex = motherParticle->M1;
+                }
+    
+                TLorentzVector p4 = genparticle->P4();
+                data.vintVars["gen_bhadron_fromhh"]->push_back(isFromHiggsDecay ? 1 : 0);
+                data.vfloatVars["gen_bhadron_px"]->push_back(p4.Px());
+                data.vfloatVars["gen_bhadron_py"]->push_back(p4.Py());
+                data.vfloatVars["gen_bhadron_pz"]->push_back(p4.Pz());
+                data.vfloatVars["gen_bhadron_energy"]->push_back(p4.E());
+                data.vfloatVars["gen_bhadron_mass"]->push_back(genparticle->Mass);
+                data.vfloatVars["gen_bhadron_pt"]->push_back(genparticle->PT);
+                data.vfloatVars["gen_bhadron_eta"]->push_back(genparticle->Eta);
+                data.vfloatVars["gen_bhadron_phi"]->push_back(genparticle->Phi);
+                data.vintVars["gen_bhadron_charge"]->push_back(genparticle->Charge);
+                data.vintVars["gen_bhadron_pid"]->push_back(genparticle->PID);
+            }
         }
-
-        TLorentzVector p4 = genparticle->P4();
-        
-        data.vintVars["gen_parton_fromhh"]->push_back(isFromHiggsDecay ? 1 : 0);
-        data.vfloatVars["gen_parton_px"]->push_back(p4.Px());
-        data.vfloatVars["gen_parton_py"]->push_back(p4.Py());
-        data.vfloatVars["gen_parton_pz"]->push_back(p4.Pz());
-        data.vfloatVars["gen_parton_energy"]->push_back(p4.E());
-        data.vfloatVars["gen_parton_mass"]->push_back(genparticle->Mass);
-        data.vfloatVars["gen_parton_pt"]->push_back(genparticle->PT);
-        data.vfloatVars["gen_parton_eta"]->push_back(genparticle->Eta);
-        data.vfloatVars["gen_parton_phi"]->push_back(genparticle->Phi);
-        data.vintVars["gen_parton_charge"]->push_back(genparticle->Charge);
-        data.vintVars["gen_parton_pid"]->push_back(genparticle->PID);
     }
 }
 
@@ -181,6 +228,10 @@ void makeNtuplesHH4bResolved(TString inputFile, TString outputFile, TString mode
         {"HT", "float"},
         {"pfcand_sum_mass", "float"},
         {"pfcand_sum_HT", "float"},
+        {"pfcand_sum_pt", "float"},
+        {"pfcand_sum_eta", "float"},
+        {"pfcand_sum_phi", "float"},
+        {"pfcand_sum_energy", "float"},
         
         // Higgs variables
         {"gen_higgs1_pt", "float"},
@@ -199,7 +250,8 @@ void makeNtuplesHH4bResolved(TString inputFile, TString outputFile, TString mode
         {"jet_eta", "vector<float>"},
         {"jet_phi", "vector<float>"},
         {"jet_energy", "vector<float>"},
-        {"jet_flavor", "vector<int>"},
+        {"jet_hadronFlavor", "vector<int>"},
+        {"jet_partonFlavor", "vector<int>"},
         {"jet_sdmass", "vector<float>"},
         {"jet_trmass", "vector<float>"},
         {"jet_tau1", "vector<float>"},
@@ -227,19 +279,24 @@ void makeNtuplesHH4bResolved(TString inputFile, TString outputFile, TString mode
         {"part_d0err", "vector<float>"},
         {"part_dzval", "vector<float>"},
         {"part_dzerr", "vector<float>"},
+        {"part_dr", "vector<float>"},
+        {"part_deta", "vector<float>"},
+        {"part_dphi", "vector<float>"},
         
         // GenParticle variables
-        {"gen_parton_fromhh", "vector<int>"},
-        {"gen_parton_px", "vector<float>"},
-        {"gen_parton_py", "vector<float>"},
-        {"gen_parton_pz", "vector<float>"},
-        {"gen_parton_energy", "vector<float>"},
-        {"gen_parton_mass", "vector<float>"},
-        {"gen_parton_pt", "vector<float>"},
-        {"gen_parton_eta", "vector<float>"},
-        {"gen_parton_phi", "vector<float>"},
-        {"gen_parton_charge", "vector<int>"},
-        {"gen_parton_pid", "vector<int>"}
+        {"gen_bhadron_fromhh", "vector<int>"},
+        {"gen_bhadron_px", "vector<float>"},
+        {"gen_bhadron_py", "vector<float>"},
+        {"gen_bhadron_pz", "vector<float>"},
+        {"gen_bhadron_energy", "vector<float>"},
+        {"gen_bhadron_mass", "vector<float>"},
+        {"gen_bhadron_pt", "vector<float>"},
+        {"gen_bhadron_eta", "vector<float>"},
+        {"gen_bhadron_phi", "vector<float>"},
+        {"gen_bhadron_charge", "vector<int>"},
+        {"gen_bhadron_pid", "vector<int>"},
+
+        {"gen_weight", "vector<float>"},
     };
 
     // Initialize EventData
@@ -263,9 +320,13 @@ void makeNtuplesHH4bResolved(TString inputFile, TString outputFile, TString mode
     TClonesArray *branchParticle = treeReader->UseBranch("Particle");
     TClonesArray *branchPFCand = treeReader->UseBranch("ParticleFlowCandidate");
     TClonesArray *branchJet = treeReader->UseBranch(jetBranch);
+    TClonesArray *branchWeight = treeReader->UseBranch("Weight");
 
     double jetR = 0.4;
     std::cerr << "jetR = " << jetR << std::endl;
+    
+    // Initialize JetGhostMatching
+    JetGhostMatching ghostMatch(treeReader, jetR, 1e-18);
     
     // Initialize SophonAK4 helper
     OrtHelperSophonAK4 *sp4helper = nullptr;
@@ -340,10 +401,27 @@ void makeNtuplesHH4bResolved(TString inputFile, TString outputFile, TString mode
         // Get primary vertex for SophonAK4
         const Vertex *pv = (branchVertex != nullptr) ? ((Vertex *)branchVertex->At(0)) : nullptr;
         
+        // Collect jets
+        std::vector<Jet*> eventJets;
+        for (Int_t i = 0; i < branchJet->GetEntriesFast(); ++i) {
+            eventJets.push_back((Jet *)branchJet->At(i));
+        }
+
+        // Get GenParticle
+        std::vector<GenParticle*> genParticles;
+        for (Int_t j = 0; j < branchParticle->GetEntriesFast(); ++j) {
+            genParticles.push_back((GenParticle *)branchParticle->At(j));
+        }
+
+        // Ghost Matching
+        std::vector<JetGhostMatching::JetGhostContent> ghostContents = 
+            ghostMatch.getDetailedGhostContent(eventJets, genParticles);
+        
         // Process ALL jets, regardless of selection
         for(Int_t idx_jet = 0; idx_jet < branchJet->GetEntriesFast(); ++idx_jet) {
             const Jet *jet = (Jet*) branchJet->At(idx_jet);
-            processJet(jet, data, sp4helper, pv);
+            const auto& ghostContent = ghostContents[idx_jet];
+            processJet(jet, data, sp4helper, pv, &ghostContent);
             
             // Record jet components for particle labeling
             for (Int_t j = 0; j < jet->Constituents.GetEntriesFast(); ++j) {
@@ -371,24 +449,35 @@ void makeNtuplesHH4bResolved(TString inputFile, TString outputFile, TString mode
         TLorentzVector pfcand_sum(0, 0, 0, 0);
         double pfcand_sum_HT = 0.0;
         
+        // First loop to calculate the sum
         for(int i = 0; i < branchPFCand->GetEntriesFast(); ++i) {
             const ParticleFlowCandidate *pfcand = (ParticleFlowCandidate*)branchPFCand->At(i);
-            int part_label = objectToIndexMap[pfcand] ? objectToIndexMap[pfcand] : -1;
             
             if (std::abs(pfcand->Eta) > 5 || pfcand->PT <= 0) {
                 continue;
             }
-
+        
             TLorentzVector pfcand_p4;
             pfcand_p4.SetPtEtaPhiM(pfcand->PT, pfcand->Eta, pfcand->Phi, pfcand->Mass);
             pfcand_sum += pfcand_p4;
             pfcand_sum_HT += pfcand->PT;
-
-            processParticle(pfcand, data, pv, part_label);
         }
-
+        
+        // Store pfcand_sum variables
         data.floatVars["pfcand_sum_mass"] = pfcand_sum.M();
         data.floatVars["pfcand_sum_HT"] = pfcand_sum_HT;
+        data.floatVars["pfcand_sum_pt"] = pfcand_sum.Pt();
+        data.floatVars["pfcand_sum_eta"] = pfcand_sum.Eta();
+        data.floatVars["pfcand_sum_phi"] = pfcand_sum.Phi();
+        data.floatVars["pfcand_sum_energy"] = pfcand_sum.E();
+        
+        // Second loop to process individual particles with the sum information
+        for(int i = 0; i < branchPFCand->GetEntriesFast(); ++i) {
+            const ParticleFlowCandidate *pfcand = (ParticleFlowCandidate*)branchPFCand->At(i);
+            int part_label = objectToIndexMap[pfcand] ? objectToIndexMap[pfcand] : -1;
+            
+            processParticle(pfcand, data, pv, part_label, pfcand_sum);
+        }
 
         // GenParticles
         int higgs_count = 0;
@@ -398,6 +487,15 @@ void makeNtuplesHH4bResolved(TString inputFile, TString outputFile, TString mode
             const GenParticle *genparticle = (GenParticle*)branchParticle->At(i);
             processGenParticle(genparticle, data, branchParticle, higgs_count, higgs1_p4, higgs2_p4);
         }
+
+        // Read generator weights
+        std::vector<float> gen_weight_vec;
+        int nWeights = branchWeight->GetEntriesFast();
+        for (int iw = 0; iw < nWeights; ++iw) {
+            const Weight* weight = (Weight*)branchWeight->At(iw);
+            gen_weight_vec.push_back(weight->Weight);
+        }
+        data.vfloatVars["gen_weight"]->insert(data.vfloatVars["gen_weight"]->end(), gen_weight_vec.begin(), gen_weight_vec.end());
 
         tree->Fill();
         ++num_pass_selection;
