@@ -16,7 +16,7 @@
 using namespace Pythia8;
 
 // This is the minimal interface needed to access FastJet.
-// // A more sophisticated interface is demonstrated in main72.cc.
+// A more sophisticated interface is demonstrated in main72.cc.
 #include "fastjet/PseudoJet.hh"
 #include "fastjet/ClusterSequence.hh"
 
@@ -116,32 +116,29 @@ int main() {
     for (unsigned int i = 0; i < sortedJets.size(); i++) {
       // Only count jets that have |eta| < 3.5
       if (abs(sortedJets[i].rap()) > 3.5) continue;
-      if (sortedJets[i].perp() > 20.0)
+      if (sortedJets[i].perp() > 20.0) {
           jetCount20++;
-          HT+=sortedJets[i].perp();
+          HT += sortedJets[i].perp();
           if (i <= 2)
-              HT_3jets+=sortedJets[i].perp();
+              HT_3jets += sortedJets[i].perp();
+      }
       if (sortedJets[i].perp() > 30.0)
           jetCount30++;
       if (sortedJets[i].perp() > 35.0)
           jetCount35++;
-          // HT+=sortedJets[i].perp();
+          // HT += sortedJets[i].perp();
       if (sortedJets[i].perp() > 50.0)
           jetCount50++;
       if (sortedJets[i].perp() > 70.0)
           jetCount70++;
     }
 
-
-      
-    // if (genHT > 350 && HT > 240 && HT_3jets > 180 && jetCount30 >= 4 && jetCount35 >= 3 && jetCount50 >= 2 && jetCount70 >= 1 ) pass = true;
-      // if (genHT > 350 && HT > 240 && HT_3jets > 180 && jetCount30 >= 4 && jetCount35 >= 4 && jetCount50 >= 2 && jetCount70 >= 1 ) pass = true;
-      if (genHT > 350 && HT > 240 && HT_3jets > 180 && jetCount35 >= 4 && jetCount50 >= 2 && jetCount70 >= 1 ) pass = true;
+    if (genHT > 350 && HT > 240 && HT_3jets > 180 && jetCount35 >= 4 && jetCount50 >= 2 && jetCount70 >= 1) pass = true;
 
     // Write to HepMC
     if (pass) {
       ++nEventWrite;
-      toHepMC.writeNextEvent( pythia );
+      toHepMC.writeNextEvent(pythia);
     }
   // End of event loop.
   }

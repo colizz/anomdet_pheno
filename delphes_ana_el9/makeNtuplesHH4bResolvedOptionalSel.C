@@ -449,13 +449,21 @@ void processGenParticle(const GenParticle* genparticle, int particleIdx, EventDa
     }
 }
 
-void makeNtuplesHH4bResolved(TString inputFile, TString outputFile, TString modelPathAK4, TString modelPathFatJet, TString jetBranch = "JetPUPPI", TString fatJetBranch = "JetPUPPIAK8") {
+void makeNtuplesHH4bResolvedOptionalSel(TString inputFile, TString outputFile, TString modelPathAK4, TString modelPathFatJet, TString jetBranch = "JetPUPPI", TString fatJetBranch = "JetPUPPIAK8", TString selectionLevel = "4j") {
+    // Verify selection level
+    if (selectionLevel != "full" && selectionLevel != "4j" && selectionLevel != "4j3b" && selectionLevel != "4j3bor2b") {
+        std::cerr << "Invalid selection level: " << selectionLevel << std::endl;
+        return;
+    }
+
     TFile *fout = new TFile(outputFile, "RECREATE");
     TTree *tree = new TTree("tree", "tree");
 
     // Define all branches
     std::vector<std::pair<std::string, std::string>> branchList = {
         {"pass_selection", "int"},
+        {"pass_4j3b_selection", "int"},
+        {"pass_4j2b_selection", "int"},
         {"pass_boosted_trigger", "int"},
         {"HT", "float"},
         {"pfcand_sum_mass", "float"},
@@ -677,26 +685,28 @@ void makeNtuplesHH4bResolved(TString inputFile, TString outputFile, TString mode
         std::sort(selected_jets.begin(), selected_jets.end(), 
                  [](const auto& a, const auto& b) { return a.first > b.first; });
 
-        // check njets for event selection
-        if (selected_jets.size() < 4) {
-            tree->Fill();
-            continue;
-        }
-
         // Check if event passes selection criteria
-        const Jet *jet1 = (Jet*)branchJet->At(selected_jets[0].second);
-        const Jet *jet2 = (Jet*)branchJet->At(selected_jets[1].second);
-        const Jet *jet3 = (Jet*)branchJet->At(selected_jets[2].second);
-        const Jet *jet4 = (Jet*)branchJet->At(selected_jets[3].second);
+        int num_selected_jets = selected_jets.size();
+        const Jet *jet1 = num_selected_jets > 0 ? (Jet*)branchJet->At(selected_jets[0].second) : nullptr;
+        const Jet *jet2 = num_selected_jets > 1 ? (Jet*)branchJet->At(selected_jets[1].second) : nullptr;
+        const Jet *jet3 = num_selected_jets > 2 ? (Jet*)branchJet->At(selected_jets[2].second) : nullptr;
+        const Jet *jet4 = num_selected_jets > 3 ? (Jet*)branchJet->At(selected_jets[3].second) : nullptr;
 
-        if ((jet1->PT > 75 && std::abs(jet1->Eta) < 2.5) && 
-            (jet2->PT > 60 && std::abs(jet2->Eta) < 2.5) && 
-            (jet3->PT > 45 && std::abs(jet3->Eta) < 2.5) && 
-            (jet4->PT > 40 && std::abs(jet4->Eta) < 2.5) && 
+        if ((jet1 && jet1->PT > 75 && std::abs(jet1->Eta) < 2.5) && 
+            (jet2 && jet2->PT > 60 && std::abs(jet2->Eta) < 2.5) && 
+            (jet3 && jet3->PT > 45 && std::abs(jet3->Eta) < 2.5) && 
+            (jet4 && jet4->PT > 40 && std::abs(jet4->Eta) < 2.5) && 
             (HT > 330)) {
             pass_selection = true;
-            data.intVars["pass_selection"] = 1;
-            data.floatVars["HT"] = HT;
+        }
+        data.intVars["pass_selection"] = pass_selection;
+        data.floatVars["HT"] = HT;
+
+        if (!pass_selection) {
+            if (selectionLevel == "4j" || selectionLevel == "4j3b" || selectionLevel == "4j3bor2b") {
+                std::cerr << "Event failed selection 4j criteria. This shouldn't happen if the delphes events have passed this filter" << std::endl;
+                continue;
+            }
         }
 
         // Create mapping for particles to jets and fatjets
@@ -736,7 +746,28 @@ void makeNtuplesHH4bResolved(TString inputFile, TString outputFile, TString mode
                 }
             }
         }
-        
+        // require 4j3b trigger criteria
+        int num_loosebtagged_jet = 0;
+        int num_tightbtagged_jet = 0;
+        for (Int_t idx_seljet = 0; idx_seljet < std::min(4, (int)selected_jets.size()); ++idx_seljet) {
+            Int_t idx_jet = selected_jets[idx_seljet].second;
+            if (data.vfloatVars["jet_sophonAK4_probB"]->at(idx_jet) > 0.0243) {
+                ++num_loosebtagged_jet;
+            }
+            if (data.vfloatVars["jet_sophonAK4_probB"]->at(idx_jet) > 0.643) {
+                ++num_tightbtagged_jet;
+            }
+        }
+        data.intVars["pass_4j3b_selection"] = (num_loosebtagged_jet >= 3) ? 1 : 0;
+        data.intVars["pass_4j2b_selection"] = (num_tightbtagged_jet >= 2) ? 1 : 0;
+
+        if (selectionLevel == "4j3b" && data.intVars["pass_4j3b_selection"] == 0) {
+            continue;
+        }
+        if (selectionLevel == "4j3bor2b" && data.intVars["pass_4j3b_selection"] == 0 && data.intVars["pass_4j2b_selection"] == 0) {
+            continue;
+        }
+
         // Process ALL FatJets
         for(Int_t idx_fatjet = 0; idx_fatjet < branchFatJet->GetEntriesFast(); ++idx_fatjet) {
             const Jet *fatjet = (Jet*) branchFatJet->At(idx_fatjet);
@@ -749,11 +780,6 @@ void makeNtuplesHH4bResolved(TString inputFile, TString outputFile, TString mode
                     objectToFatJetMap[object] = idx_fatjet;
                 }
             }
-        }
-
-        if (!pass_selection) {
-            tree->Fill();
-            continue;
         }
 
         // PF candidates
