@@ -84,6 +84,31 @@ struct EventData {
             }
     }
 
+    // Copy a certain branch from another EventData
+    void copyBranchFromOther(const EventData& data, const std::string& branchName) {
+        if (boolVars.find(branchName) != boolVars.end()) {
+            boolVars[branchName] = data.boolVars.at(branchName);
+        }
+        else if (intVars.find(branchName) != intVars.end()) {
+            intVars[branchName] = data.intVars.at(branchName);
+        }
+        else if (uintVars.find(branchName) != uintVars.end()) {
+            uintVars[branchName] = data.uintVars.at(branchName);
+        }
+        else if (floatVars.find(branchName) != floatVars.end()) {
+            floatVars[branchName] = data.floatVars.at(branchName);
+        }
+        else if (vboolVars.find(branchName) != vboolVars.end()) {
+            *vboolVars[branchName] = *data.vboolVars.at(branchName);
+        }
+        else if (vintVars.find(branchName) != vintVars.end()) {
+            *vintVars[branchName] = *data.vintVars.at(branchName);
+        }
+        else if (vfloatVars.find(branchName) != vfloatVars.end()) {
+            *vfloatVars[branchName] = *data.vfloatVars.at(branchName);
+        }
+    }
+
     // Set branch addresses for an input tree
     void setBranchAddresses(TTree* tree) {
         for (auto& pair : boolVars)     tree->SetBranchAddress(pair.first.c_str(), &pair.second);
