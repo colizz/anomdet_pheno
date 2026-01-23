@@ -548,7 +548,7 @@ void makeNtuplesHmm(TString inputFile, TString outputFile, TString modelPathAK4,
     } // end event loop
 
     tree->Write();
-    std::cerr << TString::Format("** Written %d events to output %s; %d events passing single muon trigger", 
+    std::cerr << TString::Format("** Written %d events to output %s; %d events passing single muon trigger and dimuon selection", 
                                 num_processed, outputFile.Data(), num_pass_selection) << std::endl;
 
     // Clean up
