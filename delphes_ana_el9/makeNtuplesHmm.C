@@ -98,6 +98,15 @@ void processJet(const Jet* jet, EventData& data, OrtHelperSophonAK4* sp4helper =
         data.vfloatVars["jet_sophonAK4_probL"]->push_back(-1.0);
     }
 }
+void processElectron(const Electron* electron, EventData& data) {
+    data.vfloatVars["electron_pt"]->push_back(electron->PT);
+    data.vfloatVars["electron_eta"]->push_back(electron->Eta);
+    data.vfloatVars["electron_phi"]->push_back(electron->Phi);
+    data.vfloatVars["electron_energy"]->push_back(electron->P4().E());
+    data.vintVars["electron_charge"]->push_back(electron->Charge);
+    data.vintVars["electron_pid"]->push_back(-11 * electron->Charge);
+    data.vfloatVars["electron_iso"]->push_back(electron->IsolationVar);
+}
 
 // Function to process muon-related information
 void processMuon(const Muon* muon, EventData& data) {
@@ -257,6 +266,8 @@ void makeNtuplesHmm(TString inputFile, TString outputFile, TString modelPathAK4,
     std::vector<std::pair<std::string, std::string>> branchList = {
         {"pass_singlemu_trigger", "int"},
         {"pass_dimu_selection", "int"},
+        {"pass_vbf", "int"},
+        {"pass_ggH", "int"},
         {"pfcand_sum_mass", "float"},
         {"pfcand_sum_HT", "float"},
         {"pfcand_sum_pt", "float"},
@@ -288,6 +299,21 @@ void makeNtuplesHmm(TString inputFile, TString outputFile, TString modelPathAK4,
         {"jet_sophonAK4_probB", "vector<float>"},
         {"jet_sophonAK4_probC", "vector<float>"},
         {"jet_sophonAK4_probL", "vector<float>"},
+        {"njets", "int"},
+        {"nbjet_loose", "int"},
+        {"nbjet_medium", "int"},
+        {"jet1_pt", "float"},
+        {"jet1_eta", "float"},
+        {"jet1_phi", "float"},
+        {"jet1_mass", "float"},
+        {"jet2_pt", "float"},
+        {"jet2_eta", "float"},
+        {"jet2_phi", "float"},
+        {"jet2_mass", "float"},
+        {"dijet_pt", "float"},
+        {"dijet_eta", "float"},
+        {"dijet_phi", "float"},
+        {"dijet_mass", "float"},
         
         // Muon variables (as vectors)
         {"mu_pt", "vector<float>"},
@@ -297,6 +323,29 @@ void makeNtuplesHmm(TString inputFile, TString outputFile, TString modelPathAK4,
         {"mu_charge", "vector<int>"},
         {"mu_pid", "vector<int>"},
         {"mu_iso", "vector<float>"},
+        {"nmuons", "int"},
+        {"mu1_pt", "float"},
+        {"mu1_eta", "float"},
+        {"mu1_phi", "float"},
+        {"mu1_charge", "int"},
+        {"mu2_pt", "float"},
+        {"mu2_eta", "float"},
+        {"mu2_phi", "float"},
+        {"mu2_charge", "int"},
+        {"sum_charge", "int"},
+        {"dimu_pt", "float"},
+        {"dimu_eta", "float"},
+        {"dimu_phi", "float"},
+        {"dimu_mass", "float"},
+
+        {"electron_pt", "vector<float>"},
+        {"electron_eta", "vector<float>"},
+        {"electron_phi", "vector<float>"},
+        {"electron_energy", "vector<float>"},
+        {"electron_charge", "vector<int>"},
+        {"electron_pid", "vector<int>"},
+        {"electron_iso", "vector<float>"},
+        {"nelectrons", "int"},
 
         // MET variables
         {"met_pt", "float"},
@@ -355,6 +404,7 @@ void makeNtuplesHmm(TString inputFile, TString outputFile, TString modelPathAK4,
     TClonesArray *branchPFCand = treeReader->UseBranch("ParticleFlowCandidate");
     TClonesArray *branchJet = treeReader->UseBranch(jetBranch);
     TClonesArray *branchMuon = treeReader->UseBranch("Muon");
+    TClonesArray *branchElectron = treeReader->UseBranch("Electron");
     TClonesArray *branchMET = treeReader->UseBranch("PuppiMissingET");
     TClonesArray *branchWeight = treeReader->UseBranch("Weight");
 
@@ -383,7 +433,7 @@ void makeNtuplesHmm(TString inputFile, TString outputFile, TString modelPathAK4,
     int num_processed = 0;
     int num_pass_selection = 0;
     
-    for (Long64_t entry = 0; entry < allEntries; ++entry) {
+    for (Long64_t entry = 0; entry < 10000; ++entry) {
         if (entry % 100 == 0) {
             std::cerr << "processing " << entry << " of " << allEntries << " events." << std::endl;
         }
@@ -398,7 +448,7 @@ void makeNtuplesHmm(TString inputFile, TString outputFile, TString modelPathAK4,
         bool pass_singlemu_trigger = false;
         for (Int_t i = 0; i < branchMuon->GetEntries(); ++i) {
             const Muon *muon = (Muon *)branchMuon->At(i);
-            if (muon->PT > 24 && std::abs(muon->Eta) < 2.4 && muon->IsolationVar < 0.15) {
+            if (muon->PT > 26 && std::abs(muon->Eta) < 2.4 && muon->IsolationVar < 0.15) {
                 pass_singlemu_trigger = true;
                 break;
             }
@@ -411,23 +461,70 @@ void makeNtuplesHmm(TString inputFile, TString outputFile, TString modelPathAK4,
         }
 
         // Process muons that satisfy pT>20, |η|<2.4, IsolationVar<0.25
-        int num_selected_muons = 0;
+        int num_selected_muons = 0, sum_charge = 0;
+        std::vector<std::pair<float, int>> selected_muons;
         for (Int_t i = 0; i < branchMuon->GetEntries(); ++i) {
             const Muon *muon = (Muon *)branchMuon->At(i);
             if (muon->PT > 20 && std::abs(muon->Eta) < 2.4 && muon->IsolationVar < 0.25) {
+                selected_muons.emplace_back(muon->PT, i);
                 processMuon(muon, data);
                 ++num_selected_muons;
+                sum_charge += muon->Charge;
             }
         }
         
-        // Check dimuon selection: require at least 2 muons
-        bool pass_dimu_selection = (num_selected_muons >= 2);
+        // Check dimuon selection: require at least 2 muons 
+        // only consider VBF and ggH
+        bool pass_dimu_selection = ((num_selected_muons == 2) && (sum_charge == 0));
+        data.intVars["nmuons"] = num_selected_muons;
+        data.intVars["sum_charge"] = sum_charge;
         data.intVars["pass_dimu_selection"] = pass_dimu_selection ? 1 : 0;
         
         if (!pass_dimu_selection) {
+            std::cerr << "Event failed dimuon selection criteria. This shouldn't happen if the delphes events have passed this filter" << std::endl;
             continue;
         }
 
+        std::sort(selected_muons.begin(), selected_muons.end(), 
+        [](const auto& a, const auto& b) { return a.first > b.first; });
+
+        const Muon *muon1 = (Muon *)branchMuon->At(selected_muons[0].second);
+        const Muon *muon2 = (Muon *)branchMuon->At(selected_muons[1].second);
+
+        float mu1_pt = -10, mu1_eta = -10, mu1_phi = -10;
+        float mu2_pt = -10, mu2_eta = -10, mu2_phi = -10;
+        float dimu_mass = -10, dimu_eta = -10, dimu_pt = -10, dimu_phi = -10;
+
+        data.floatVars["mu1_pt"] = muon1->PT; 
+        data.floatVars["mu1_eta"] = muon1->Eta;
+        data.floatVars["mu1_phi"] = muon1->Phi;
+        data.floatVars["mu1_charge"] = muon1->Charge;
+        data.floatVars["mu2_pt"] = muon2->PT; 
+        data.floatVars["mu2_eta"] = muon2->Eta;
+        data.floatVars["mu2_phi"] = muon2->Phi;
+        data.floatVars["mu2_charge"] = muon2->Charge;
+        TLorentzVector p4_muon1 = muon1->P4();
+        TLorentzVector p4_muon2 = muon2->P4();
+        TLorentzVector p4_dimu = p4_muon1 + p4_muon2;
+        dimu_mass = p4_dimu.M();
+        dimu_pt = p4_dimu.Pt();
+        dimu_eta = p4_dimu.Eta();
+        dimu_phi = p4_dimu.Phi();
+        data.floatVars["dimu_mass"] = dimu_mass;
+        data.floatVars["dimu_eta"] = dimu_eta;
+        data.floatVars["dimu_phi"] = dimu_phi;
+        data.floatVars["dimu_pt"] = dimu_pt;
+
+
+        int num_selected_electrons = 0;
+        for (Int_t i = 0; i < branchElectron->GetEntries(); ++i) {
+            const Electron *electron = (Electron *)branchElectron->At(i);
+            if (electron->PT > 20 && std::abs(electron->Eta) < 2.5) {
+                processElectron(electron, data);
+                ++num_selected_electrons;
+            }
+        }
+        data.intVars["nelectrons"] = num_selected_electrons;
         // Create mapping for particles to jets
         std::map<const TObject*, int> objectToIndexMap;
         
@@ -452,11 +549,13 @@ void makeNtuplesHmm(TString inputFile, TString outputFile, TString modelPathAK4,
         
         // Process jets that satisfy pT>25, |η|<4.7
         int stored_jet_idx = 0;
+        std::vector<std::pair<float, int>> selected_jets;
         for(Int_t idx_jet = 0; idx_jet < branchJet->GetEntriesFast(); ++idx_jet) {
             const Jet *jet = (Jet*) branchJet->At(idx_jet);
             
             // Apply jet selection
             if (jet->PT > 25 && std::abs(jet->Eta) < 4.7) {
+                selected_jets.emplace_back(jet->PT, idx_jet);
                 const auto& ghostContent = ghostContents[idx_jet];
                 processJet(jet, data, sp4helper, pv, &ghostContent);
                 
@@ -467,9 +566,80 @@ void makeNtuplesHmm(TString inputFile, TString outputFile, TString modelPathAK4,
                         objectToIndexMap[object] = stored_jet_idx;
                     }
                 }
-                ++stored_jet_idx;
+                ++stored_jet_idx; 
             }
         }
+
+        std::sort(selected_jets.begin(), selected_jets.end(), 
+            [](const auto& a, const auto& b) { return a.first > b.first; });
+        
+        int num_selected_jets = selected_jets.size();
+        data.intVars["njets"] = num_selected_jets;
+        const Jet *jet1 = num_selected_jets > 0 ? (Jet*)branchJet->At(selected_jets[0].second) : nullptr;
+        const Jet *jet2 = num_selected_jets > 1 ? (Jet*)branchJet->At(selected_jets[1].second) : nullptr;
+
+        int nbjet_loose = 0;
+        int nbjet_medium = 0;        
+        for (Int_t idx_seljet = 0; idx_seljet < std::min(2, num_selected_jets); ++idx_seljet) {
+            Int_t idx_jet = selected_jets[idx_seljet].second;
+            if (data.vfloatVars["jet_eta"]->at(idx_jet) > 2.5) continue;
+            if (data.vfloatVars["jet_sophonAK4_probB"]->at(idx_jet) > 0.0243) {//bjet loose: 0.0243, medium: 0.192, tight : 0.643
+                ++nbjet_loose;
+            }
+            if (data.vfloatVars["jet_sophonAK4_probB"]->at(idx_jet) > 0.192) {
+                ++nbjet_medium;
+            }
+        }
+        data.intVars["nbjet_loose"] = nbjet_loose;
+        data.intVars["nbjet_medium"] = nbjet_medium;
+
+        //select VBF and ggH
+       // if ((nbjet_loose >=2) || (nbjet_medium > 0)) continue;
+       // if (num_selected_electrons != 0) continue;
+
+        //record jet1 , jet2, dijet
+        float jet1_pt = -10, jet1_eta = -10, jet1_phi = -10, jet1_mass = -10;
+        float jet2_pt = -10, jet2_eta = -10, jet2_phi = -10, jet2_mass = -10;
+        float dijet_mass = -10, dijet_eta = -10, dijet_pt = -10;
+
+        if (num_selected_jets >= 1) {
+            jet1_pt = jet1->PT; 
+            jet1_eta = jet1->Eta;
+            jet1_phi = jet1->Phi;
+            jet1_mass = jet1->Mass;
+            if (num_selected_jets >= 2){
+                jet2_pt = jet2->PT; 
+                jet2_eta = jet2->Eta;
+                jet2_phi = jet2->Phi;
+                jet2_mass = jet2->Mass;
+                TLorentzVector p4_jet1 = jet1->P4();
+                TLorentzVector p4_jet2 = jet2->P4();
+                TLorentzVector p4_dijet = p4_jet1 + p4_jet2;
+                dijet_mass = p4_dijet.M();
+                dijet_pt = p4_dijet.Pt();
+                dijet_eta = std::abs(jet1_eta - jet2_eta);
+            }
+        } 
+
+        data.floatVars["jet1_pt"] = jet1_pt;
+        data.floatVars["jet1_eta"] = jet1_eta;
+        data.floatVars["jet1_phi"] = jet1_phi;
+        data.floatVars["jet1_mass"] = jet1_mass;
+        data.floatVars["jet2_pt"] = jet2_pt;
+        data.floatVars["jet2_eta"] = jet2_eta;
+        data.floatVars["jet2_phi"] = jet2_phi;
+        data.floatVars["jet2_mass"] = jet2_mass;
+        data.floatVars["dijet_mass"] = dijet_mass;
+        data.floatVars["dijet_eta"] = dijet_eta;
+        data.floatVars["dijet_pt"] = dijet_pt;
+
+        //tag VBF and ggH
+        int pass_vbf = 0, pass_ggH = 0;
+        if (dijet_mass >= 400 && dijet_eta > 2.5 && jet1_pt > 35) pass_vbf = 1;
+            else pass_ggH = 1;
+        
+        data.intVars["pass_vbf"] = pass_vbf;
+        data.intVars["pass_ggH"] = pass_ggH;
 
         // Process MET
         const MissingET *met = (MissingET *)branchMET->At(0);
@@ -548,7 +718,7 @@ void makeNtuplesHmm(TString inputFile, TString outputFile, TString modelPathAK4,
     } // end event loop
 
     tree->Write();
-    std::cerr << TString::Format("** Written %d events to output %s; %d events passing single muon trigger and dimuon selection", 
+    std::cerr << TString::Format("** Written %d events to output %s; %d events passing single muon trigger", 
                                 num_processed, outputFile.Data(), num_pass_selection) << std::endl;
 
     // Clean up
