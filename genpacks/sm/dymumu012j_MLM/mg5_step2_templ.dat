@@ -1,0 +1,12 @@
+shower=OFF
+done
+set run_card mmll 105
+set run_card mmllmax 160
+set run_card ebeam1 6800.0
+set run_card ebeam2 6800.0
+set pdlabel lhapdf
+set lhaid 325300
+set use_syst False
+set nevents $NEVENT
+set iseed $SEED
+done
